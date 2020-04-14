@@ -1,0 +1,89 @@
+body {
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Merriweather', serif;
+    height: 100%;
+}
+
+.logo{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    width: 50%;
+}
+
+.logo-1{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    width: 50%;
+}
+
+html, body, .container {
+    height: 100%;
+}
+.container {
+    padding: 25px;
+    position: center;
+}
+
+.form-login {
+    background-color:#FFFFFF;
+    padding-top: 70px;
+    padding-bottom: 80px;
+    padding-left: 60px;
+    padding-right: 60px;
+    border-radius: 50px;
+    border-style: solid;
+    border-color:#BBF8FC;
+    border-width: 5px;
+}
+
+.form-login-1{
+    background-color:#FFFFFF;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 150px;
+    padding-right: 150px;
+    border-radius: 50px;
+    border-style: solid;
+    border-color:#BBF8FC;
+    border-width: 5px;
+
+}
+
+h4 {
+    font-family: 'Oleo Script', cursive;
+    font-size:30px;
+    color: #89c9cf;
+    border:0 solid #fff;
+    padding-bottom:30px;
+    text-align: center;
+}
+
+.form-control{
+    border-radius: 15px;
+    margin-left: 20px;
+
+}
+
+.wrapper {
+    text-align: center;
+    padding-top: 40px;
+}
+
+.btn{
+    margin-right: 50px;
+    margin-left: 50px;
+    width: 120px;
+}
+
+label {
+    display: inline-block;
+    width: 170px;
+    text-align: left;
+    float: left;
+}​
+
+
