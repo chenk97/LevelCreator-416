@@ -9,31 +9,36 @@
 
     <!-- Theme CSS -->
     <link href="../static/css/freelancer.min.css" rel="stylesheet">
-    <link rel = "stylesheet" href = "../static/css/style_1.css">
+    <link rel="stylesheet" href="../static/css/style_1.css">
 
     <title>Login</title>
 </head>
 <body>
 <div class="h-100 d-flex justify-content-center align-items-center">
-    <div class="form-login">
-        <img src = "img/LogoMakr_9uhDkH.png" class = "logo">
+    <div class="form-login-1">
+        <form>
+            <img src="img/LogoMakr_9uhDkH.png" class="logo-1">
+            <h4>Login Now!</h4>
+            <div class="form-group form-inline">
+                <label for="Username" >Username:</label>
+                <input type="text" class="form-control input-sm chat-input" id="Username"
+                       placeholder="Enter Username">
+            </div>
+            <div class="form-group form-inline">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control input-sm chat-input" id="password"
+                       placeholder="Enter password">
+            </div>
 
-        <div class="form-group form-inline">
-            <label>Username:</label>
-            <input type="text" id="userName" class="form-control input-sm chat-input" placeholder="Email Address" />
-        </div>
-        <div class="form-group form-inline">
-            <label>Password:</label>
-            <input type="text" id="userPassword" class="form-control input-sm chat-input" placeholder="Password" />
-        </div>
-        <div class="wrapper">
+            <div class="wrapper">
                     <span class="group-btn">
-                        <a href="#" class="btn btn-primary btn-lg">Login <i class="fa fa-sign-in"></i></a>
+                         <button type="submit" class="btn btn-primary">Submit</button>
                     </span>
-            <span class="group-btn">
-                        <a href="#" class="btn btn-primary btn-lg">Register <i class="fa fa-sign-in"></i></a>
+                <span class="group-btn">
+                         <button type="submit" class="btn btn-primary">Register</button>
                     </span>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 </body>
