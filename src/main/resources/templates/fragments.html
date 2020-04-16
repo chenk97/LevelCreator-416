@@ -1,0 +1,92 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymleaf.org/extras/spring-security">
+
+<head th:fragment="headerfiles">
+    <!--icon kit-->
+    <script src="https://kit.fontawesome.com/ef8993b96a.js" crossorigin="anonymous"></script>
+
+    <!--comment-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>LevelCreator - A Collaborative Level Building Tool</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link th:href="@{/css/freelancer.min.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+<!--    <link th:href="@{/css/style_1.css}" rel="stylesheet">-->
+</head>
+
+<head th:fragment="headerfiles-form">
+    <!--icon kit-->
+    <script src="https://kit.fontawesome.com/ef8993b96a.js" crossorigin="anonymous"></script>
+
+    <!--comment-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>LevelCreator - A Collaborative Level Building Tool</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link th:href="@{/css/freelancer.min.css}" rel="stylesheet">
+<!--    <link th:href="@{/css/style.css}" rel="stylesheet">-->
+    <link th:href="@{/css/style_1.css}" rel="stylesheet">
+
+</head>
+
+<body>
+<div th:fragment="nav">
+    <!-- this is header -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#BBF8FC">
+        <a class="navbar-brand" href="/levelcreator">LevelCreator</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link" href="/home">My Work</a>
+                </li>
+
+                <li sec:authorize="isAuthenticated()"  class="nav-item">
+                    <a class="nav-link" href="#">Following<span class="badge badge-pill badge-info mx-1">12</span></a>
+                </li>
+            </ul>
+
+            <form class="form-inline mt-5 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+
+            <ul class="navbar-nav ml-5">
+                <li class="nav-item">
+                    <a sec:authorize ="isAuthenticated()" class="nav-link" href="#"><i class="fas fa-user mx-1"></i><span sec:authentication="name"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize ="isAuthenticated()" class="nav-link" href="/logout">Log out</a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize ="!isAuthenticated()" class="nav-link" href="/registration">Join us</a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize ="!isAuthenticated()" class="nav-link" href="/login">Has an Account</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+</body>
+</html>
