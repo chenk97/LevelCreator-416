@@ -3,8 +3,20 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymleaf.org/extras/spring-security">
 
+<head th:insert="fragments.html :: headerfiles">
 
-<head th:insert="fragments.html :: headerfiles"></head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{css/indexsub.css}"/>
+    <title>LevelCreator - A Collaborative Level Building Tool</title>
+
+</head>
 
 <body>
 
@@ -22,7 +34,7 @@
     <div class="row">
         <div class="col">
             <div class="card" style="width: 18rem; margin:auto;">
-                <img src="images/sample1.png" class="card-img-top" alt="...">
+                <img src="../images/sample1.png" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Tree Map</h5>
                     <h6 class="card-subtitle mb-2 text-muted">By: Will Lee</h6>
@@ -31,7 +43,7 @@
         </div>
         <div class="col">
             <div class="card" style="width: 18rem; margin:auto;">
-                <img src="images/sample2.png" class="card-img-top" alt="...">
+                <img src="../images/sample2.png" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Mario Maker</h5>
                     <h6 class="card-subtitle mb-2 text-muted">By: Bobby Lee</h6>
@@ -40,7 +52,7 @@
         </div>
         <div class="col">
             <div class="card" style="width: 18rem; margin:auto;">
-                <img src="images/sample3.png" class="card-img-top" alt="...">
+                <img src="../images/sample3.png" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Sand Biome</h5>
                     <h6 class="card-subtitle mb-2 text-muted">By: Teal Jin</h6>
@@ -49,7 +61,7 @@
         </div>
         <div class="col">
             <div class="card" style="width: 18rem;margin:auto;">
-                <img src="images/sample4.png" class="card-img-top" alt="...">
+                <img src="../images/sample4.png" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Jumping Course</h5>
                     <h6 class="card-subtitle mb-2 text-muted">By: Mike Johnson</h6>
@@ -61,7 +73,7 @@
     <div class="row">
         <div class="col">
             <div class="card" style="width: 18rem;margin:auto;">
-                <img src="images/sample5.png" class="card-img-top" alt="...">
+                <img src="../images/sample5.png" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Hamster Maze</h5>
                     <h6 class="card-subtitle mb-2 text-muted">By: Kelly Lorin</h6>
@@ -70,7 +82,7 @@
         </div>
         <div class="col">
             <div class="card" style="width: 18rem;margin:auto;">
-                <img src="images/sample6.png" class="card-img-top" alt="...">
+                <img src="../images/sample6.png" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Greenville</h5>
                     <h6 class="card-subtitle mb-2 text-muted">By: Jammi Lani</h6>
@@ -79,7 +91,7 @@
         </div>
         <div class="col">
             <div class="card" style="width: 18rem;margin:auto;">
-                <img src="images/sample7.png" class="card-img-top" alt="...">
+                <img src="../images/sample7.png" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Cactus Racecourse</h5>
                     <h6 class="card-subtitle mb-2 text-muted">By: Sven Tree</h6>
@@ -88,7 +100,7 @@
         </div>
         <div class="col">
             <div class="card" style="width: 18rem;margin:auto;">
-                <img src="images/sample8.png" class="card-img-top" alt="...">
+                <img src="../images/sample8.png" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Colorful Jump</h5>
                     <h6 class="card-subtitle mb-2 text-muted">By: Rdik Tomy</h6>

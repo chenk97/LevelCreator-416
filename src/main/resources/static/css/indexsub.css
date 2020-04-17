@@ -11,6 +11,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 :root {
+    --white: #fff;
     --blue: #007bff;
     --indigo: #6610f2;
     --purple: #6f42c1;
@@ -21,7 +22,6 @@
     --green: #28a745;
     --teal: #1abc9c;
     --cyan: #17a2b8;
-    --white: #fff;
     --gray: #6c757d;
     --gray-dark: #343a40;
     --primary: #1abc9c;
@@ -61,12 +61,12 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 body {
     margin: 0;
     font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    font-size: 1rem;
+    font-size: 1.5rem;
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
     text-align: left;
-    background-color: #fff;
+    background-color: #ffff;
 }
 
 [tabindex="-1"]:focus {
@@ -3959,7 +3959,7 @@ input[type="button"].btn-block {
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 2rem;
 }
 
 .navbar > .container,
@@ -3975,9 +3975,10 @@ input[type="button"].btn-block {
     padding-top: 0.3125rem;
     padding-bottom: 0.3125rem;
     margin-right: 1rem;
-    font-size: 1.25rem;
+    font-size: 2.0rem;
     line-height: inherit;
     white-space: nowrap;
+    font-family: 'Fjalla One', sans-serif;
 }
 
 .navbar-brand:hover, .navbar-brand:focus {
@@ -3990,11 +3991,19 @@ input[type="button"].btn-block {
     padding-left: 0;
     margin-bottom: 0;
     list-style: none;
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 1.8rem;
+
 }
 
 .navbar-nav .nav-link {
     padding-right: 0;
     padding-left: 0;
+}
+
+.navbar-nav .nav-item{
+    padding-left: 1rem;
+    paddring-right: 1rem;
 }
 
 .navbar-nav .dropdown-menu {
@@ -6204,8 +6213,12 @@ a.close.disabled {
     vertical-align: text-top !important;
 }
 
-.bg-primary {
-    background-color: #87c9cf !important;
+.bg-index{
+    background-image: url("../images/bg.jpg") !important;
+}
+
+.bg-primary{
+    background-color: white;
 }
 
 a.bg-primary:hover, a.bg-primary:focus,
@@ -9701,8 +9714,8 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .masthead {
-    height:51rem;
-    padding-top: calc(6rem + 74px);
+    height:45.0rem;
+    padding-top: calc(2rem + 74px);
     padding-bottom: 6rem;
 }
 
@@ -9716,7 +9729,7 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .masthead .masthead-avatar {
-    width: 15rem;
+    width: 30rem;
 }
 
 /*@media (min-width: 992px) {*/
