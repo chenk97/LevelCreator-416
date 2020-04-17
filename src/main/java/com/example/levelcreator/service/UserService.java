@@ -53,7 +53,7 @@ public class UserService{
             System.out.println("UserService: user validated: " + user);
             userRepo.save(user);
             //auto login
-            authWithAuthManager(request, user.getUsername(), password);
+            authWithAuthManager(request, user.getEmail(), password);
             return user;
         }
     }

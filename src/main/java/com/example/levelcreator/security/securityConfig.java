@@ -46,6 +46,7 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .usernameParameter("email")
                 //redirect to home after login
                 .defaultSuccessUrl("/home", true)
                 .and()
