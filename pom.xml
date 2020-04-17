@@ -50,6 +50,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+
         <!--Bootstrap and Jquery-->
         <dependency>
             <groupId>org.webjars</groupId>
@@ -103,5 +104,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>

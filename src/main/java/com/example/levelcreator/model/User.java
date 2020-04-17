@@ -1,9 +1,12 @@
 package com.example.levelcreator.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "User")
+@Table(name = "lc_user")
 public class User {
 
     @Id
@@ -17,18 +20,40 @@ public class User {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
+//    @Lob
+//    @NotBlank
+//    //image stored as base64 byte[] string
+//    private String avatar;
+
+    @OneToMany(mappedBy="id")
+    private Set<User> followingList;
+
+    @OneToMany(mappedBy = "user")
+    Set<UserProject> projectList;
+
+    public User(){
+        super();
+    }
+
+    public User(String username, String email, String password, Set<User> followingList, Set<UserProject> projectList) {
+        super();
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.followingList = followingList;
+        this.projectList = projectList;
+    }
 
     public Integer getId(){
         return id;
     }
 
-    public void setId(int id){
+    public void setId(Integer id) {
         this.id = id;
     }
-
     public String getEmail(){
         return email;
     }
@@ -53,5 +78,28 @@ public class User {
         this.password = password;
     }
 
+//    public String getAvatar() {
+//        return avatar;
+//    }
+//
+//    public void setAvatar(String avatar) {
+//        this.avatar = avatar;
+//    }
+
+    public Set<User> getFollowingList() {
+        return followingList;
+    }
+
+    public void setFollowingList(Set<User> followingList) {
+        this.followingList = followingList;
+    }
+
+    public Set<UserProject> getProjectList() {
+        return projectList;
+    }
+
+    public void setProjectList(Set<UserProject> projectList) {
+        this.projectList = projectList;
+    }
 
 }

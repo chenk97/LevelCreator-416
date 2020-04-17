@@ -40,10 +40,9 @@ public class UserService{
     }
 
     public User register(HttpServletRequest request, User user) {
+
         String password = user.getPassword();
-
         String encrptedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-
         user.setPassword(encrptedPassword);
 
         //check username and email uniqueness
