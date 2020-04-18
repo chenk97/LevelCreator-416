@@ -1,54 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Title</title>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymleaf.org/extras/spring-security">
+
+<head th:insert="fragments.html :: headerfiles-form">
+    <title>LevelCreator - Profile</title>
 </head>
+
 <body>
 
+    <header th:insert="fragments.html :: nav"></header>
 
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#BBF8FC">
-        <a class="navbar-brand" href="#">LevelCreator</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">My Work</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Following<span class="badge badge-pill badge-info mx-1">12</span></a>
-                </li>
-            </ul>
-
-            <form class="form-inline mt-5 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <div class="h-100 d-flex justify-content-center align-items-center">
+        <div class="form-login-1">
+            <div th:if="${passwordChanged}" class="alert alert-success text-center" role="alert">
+                <h5>Your password has been reset.</h5>
+            </div>
+<!--            <center><img src="https://bootdey.com/img/Content/user_2.jpg" alt="" class="img-circle" width="50%" height="50%"></center>-->
+<!--            <br>-->
+            <h4><span sec:authentication="name"></span></h4>
+            <div class="form-group form-inline">
+                <label>Email Address:</label>
+                <b th:text=${user.email}>User email will be rendered here</b>
+            </div>
+            <form th:action="@{/reset-password}" method="post">
+                <div class="form-group form-inline">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control input-sm chat-input" id="password" name="password"
+                           placeholder="New Password">
+                </div>
+                <div class="form-group form-inline">
+                    <label for="cfmpassword">Confirm Password:</label>
+                    <input type="password" class="form-control input-sm chat-input" id="cfmpassword" name="cfmpassword"
+                           placeholder="Confirm Password">
+                </div>
+                <div th:if="${passwordNotMatch}" class="alert alert-danger text-center" role="alert">
+                    <h5>Password does not match!</h5>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                </div>
             </form>
-
-            <ul class="navbar-nav ml-5">
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-user mx-1"></i>Username</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Log out</a>
-                </li>
-            </ul>
         </div>
-    </nav>
+    </div>
 
-    <!-- Optional JavaScript -->
+
+<!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

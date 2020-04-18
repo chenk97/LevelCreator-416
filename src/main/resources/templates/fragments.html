@@ -72,7 +72,7 @@
 
             <ul class="navbar-nav ml-5">
                 <li class="nav-item">
-                    <a sec:authorize ="isAuthenticated()" class="nav-link" href="#"><i class="fas fa-user mx-1"></i><span sec:authentication="name"></span></a>
+                    <a sec:authorize ="isAuthenticated()" class="nav-link" href="/profile"><i class="fas fa-user mx-1"></i><span sec:authentication="name"></span></a>
                 </li>
                 <li class="nav-item">
                     <a sec:authorize ="isAuthenticated()" class="nav-link" href="/logout">Log out</a>
