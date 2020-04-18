@@ -4,7 +4,9 @@ import com.example.levelcreator.model.User;
 import com.example.levelcreator.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AuthenticationService {
 
     @Autowired

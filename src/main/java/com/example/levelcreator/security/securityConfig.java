@@ -40,7 +40,10 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
 //        http.headers().contentTypeOptions().disable();
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/","/levelcreator", "/login","/home","/registration", "/css/**", "/images/**")
+                .antMatchers("/","/levelcreator", "/login",
+                        "/home","/registration",
+                        "/forgotPassword",
+                        "/css/**", "/images/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()

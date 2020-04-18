@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
+import com.example.levelcreator.http.Response;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -39,6 +40,10 @@ public class UserService{
         return userRepo.findByUsername(username);
     }
 
+    public User getUserByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
+
     public User register(HttpServletRequest request, User user) {
 
         String password = user.getPassword();
@@ -63,6 +68,13 @@ public class UserService{
         authToken.setDetails(new WebAuthenticationDetails(request));
         Authentication authentication = authenticationManager.authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    public Response changePassword(User user, String password) {
+        User u = userRepo.findByUsername(user.getUsername());
+        u.setPassword(passwordEncoder.encode(password));
+        userRepo.save(u);
+        return new Response(true);
     }
 
 

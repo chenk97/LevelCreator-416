@@ -1,9 +1,12 @@
 package com.example.levelcreator.controller;
 
+import com.example.levelcreator.model.User;
+import com.example.levelcreator.service.UserService;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class IndexController {
@@ -33,7 +36,6 @@ public class IndexController {
     public String registration(){
         return "registration.html";
     }
-
 
     @RequestMapping("/levelcreator")
     public String levelcreator(){

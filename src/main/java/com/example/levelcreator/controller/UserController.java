@@ -1,9 +1,11 @@
 package com.example.levelcreator.controller;
 
+import com.example.levelcreator.Exception.UserNotFoundException;
 import com.example.levelcreator.service.UserService;
 import com.example.levelcreator.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class UserController {
     public List<User> getAllUsers() {
         return userService.getUsers();
     }
+
 
 
 //    public User getUser(@PathVariable int id) {
