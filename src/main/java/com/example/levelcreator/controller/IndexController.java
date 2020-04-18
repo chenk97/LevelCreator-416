@@ -51,4 +51,9 @@ public class IndexController {
         return "index.html";
     }
 
+    @RequestMapping("/myWork")
+    public String myWork(){
+        return "mywork.html";
+    }
+
 }
