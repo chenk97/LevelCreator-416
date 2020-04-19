@@ -39,6 +39,7 @@ public class UserController {
                                     @RequestParam("cfmpassword") String confirmpassword,
                                     Model model, Authentication authentication){
         User user = authService.getPrincipal(authentication);
+        model.addAttribute("user", user);
         if(!confirmpassword.equals(password)){
             model.addAttribute("passwordNotMatch", true);
             return "profile.html";
