@@ -13,14 +13,14 @@ function createJson() {
         tileWidth: tileWidth,
         tileHeight: tileHeight,
         nextTiledLayerid: 2,
-        nextObjectLayerId: 1,
+        nextObjectId: 1,
         layers: [
             {
                 type: "tile",
                 id: 1,
                 data: dataArray,
                 properties: [],
-                visibie: true,
+                visibility: true,
                 height: mapHeight,
                 width: mapWidth,
                 x: 0,
