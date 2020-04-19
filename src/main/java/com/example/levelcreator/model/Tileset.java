@@ -2,6 +2,7 @@ package com.example.levelcreator.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "lc_tileset")
@@ -12,25 +13,25 @@ public class Tileset {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "imageHeight", nullable = false)
-    private int imageHeight;
-
-    @Column(name = "imageWidth", nullable = false)
-    private int imageWidth;
-
     @ManyToOne
     @JoinColumn(name = "map_id", nullable = false)
     private Map map;
+
+    @Lob
+    @NotBlank
+    //image stored as base64 byte[] string
+    private String image;
+
+    private int firstGid;
 
     public Tileset(){
         super();
     }
 
-    public Tileset(int imageHeight, int imageWidth, Map map) {
+    public Tileset(Map map, int firstGid) {
         super();
-        this.imageHeight = imageHeight;
-        this.imageWidth = imageWidth;
         this.map = map;
+        this.firstGid = firstGid;
     }
 
     public Integer getId() {
@@ -41,27 +42,19 @@ public class Tileset {
         this.id = id;
     }
 
-    public int getImageHeight() {
-        return imageHeight;
-    }
-
-    public void setImageHeight(int imageHeight) {
-        this.imageHeight = imageHeight;
-    }
-
-    public int getImageWidth() {
-        return imageWidth;
-    }
-
-    public void setImageWidth(int imageWidth) {
-        this.imageWidth = imageWidth;
-    }
-
     public Map getMap() {
         return map;
     }
 
     public void setMap(Map map) {
         this.map = map;
+    }
+
+    public int getFirstGid() {
+        return firstGid;
+    }
+
+    public void setFirstGid(int firstGid) {
+        this.firstGid = firstGid;
     }
 }

@@ -28,8 +28,8 @@ public class User {
 //    //image stored as base64 byte[] string
 //    private String avatar;
 
-    @OneToMany(mappedBy="id")
-    private Set<User> followingList;
+//    @OneToMany(mappedBy="id")
+//    private Set<User> followingList;
 
     @OneToMany(mappedBy = "user")
     Set<UserProject> projectList;
@@ -43,7 +43,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.followingList = followingList;
+//        this.followingList = followingList;
         this.projectList = projectList;
     }
 
@@ -86,13 +86,13 @@ public class User {
 //        this.avatar = avatar;
 //    }
 
-    public Set<User> getFollowingList() {
-        return followingList;
-    }
-
-    public void setFollowingList(Set<User> followingList) {
-        this.followingList = followingList;
-    }
+//    public Set<User> getFollowingList() {
+//        return followingList;
+//    }
+//
+//    public void setFollowingList(Set<User> followingList) {
+//        this.followingList = followingList;
+//    }
 
     public Set<UserProject> getProjectList() {
         return projectList;
