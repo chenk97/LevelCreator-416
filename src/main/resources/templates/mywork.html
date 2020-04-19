@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org"
@@ -26,7 +27,8 @@
             </div>
             <div class="modal-body">
 <!--                The Input Form-->
-                <form href= "/createProject">
+                <!--/*@thymesVar id="project" type=""*/-->
+                <form action="#" th:action="@{/workspace}" th:object="${project}" method = "POST">
                     <div class="form-group form-inline">
                         <label >Orientation:</label>
                         <div class="dropdown" style="padding-left: 20px">
@@ -60,7 +62,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" >Create Map</button>
+                        <button type="submit" class="btn btn-primary" onclick="createJson()">Create Map</button>
                     </div>
                 </form>
 

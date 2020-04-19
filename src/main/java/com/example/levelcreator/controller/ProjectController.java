@@ -1,13 +1,14 @@
 package com.example.levelcreator.controller;
 
+import com.example.levelcreator.model.Project;
 import com.example.levelcreator.service.AuthenticationService;
+import org.springframework.ui.Model;
 import com.example.levelcreator.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+
 public class ProjectController {
 
     private UserService userService;
@@ -18,14 +19,11 @@ public class ProjectController {
         return "mywork.html";
     }
 
-    @RequestMapping("/createProject")
-    public String createProject(){
-        return "project.html";
+    //submitting the form with map preferences directs the user to the workspace page where
+    //they are able to start creating
+    @PostMapping("/workspace")
+    public String submitNewProject(@ModelAttribute Project project,Model model) {
+        model.addAttribute("project", new Project());
+        return "workspace";
     }
-//
-//    @RequestMapping(value = "/createProject", method = RequestMethod.GET)
-//    public String redirect() {
-//        return "project.html";
-//    }
-
 }
