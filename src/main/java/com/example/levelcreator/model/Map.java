@@ -5,6 +5,7 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Entity
@@ -33,6 +34,12 @@ public class Map {
 
     @Column(name = "map")
     private String mapJSON;
+
+    private int nextLayerId;
+
+    private int nextObjectId;
+
+    private ArrayList<Layer> layers;
 
     public Map(){
         super();
