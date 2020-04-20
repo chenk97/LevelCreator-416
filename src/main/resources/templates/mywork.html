@@ -25,13 +25,14 @@
                 <h5 class="modal-title" id="exampleModalLongTitle">Create A New Map!!</h5>
             </div>
             <div class="modal-body">
-<!--                The Input Form-->
+                <!--                The Input Form-->
+                <!--/*@thymesVar id="project" type=""*/-->
                 <form action="#" th:action="@{/workspace}" th:object="${project}" method = "POST">
                     <div class="form-group form-inline">
                         <label>Orientation:</label>
                         <select id="orientation" style="padding-left: 10px">
-                            <option value="Isometric">Isometric</option>
                             <option value="Orthogonal">Orthogonal</option>
+                            <option value="Isometric">Isometric</option>
                         </select>
                     </div>
 
@@ -54,7 +55,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" >Create Map</button>
+                        <button type="submit" class="btn btn-primary" onclick="createJson()">Create Map</button>
                     </div>
                 </form>
 
@@ -64,6 +65,7 @@
 </div>
 
 <!-- Optional JavaScript -->
+<script src="js/addProject.js"></script>
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
