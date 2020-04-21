@@ -96,52 +96,57 @@ function drawCanvas() {
 var currentLayer
 
 //Change the name of layer
-function changeLayerName(theLayerId){
+function changeLayerName(theLayerId) {
 
     let project = JSON.parse(localStorage.getItem('project'));
     let projectLayers = project.layers
-    for(let x =0; x< projectLayers.length;x++){
-        if(projectLayers[x].id==theLayerId){
+    for (let x = 0; x < projectLayers.length; x++) {
+        if (projectLayers[x].id == theLayerId) {
             console.log("hi")
             projectLayers[x].name = event.target.value
         }
     }
-    project.layers=projectLayers
+    project.layers = projectLayers
     localStorage.setItem('project', JSON.stringify(project));
 }
 
 // Cretes a layer to be addded to list
-function createLayer(theLayerId,type,name,visibility) {
+function createLayer(theLayerId, type, name, visibility) {
+
     // Change Icon Base On Visibility
     let visIcon
-    visIcon=document.createElement("i")
-    if(visibility==true){
-        visIcon.setAttribute("class","fas fa-eye")
-    }else{
-        visIcon.setAttribute("class","fas fa-eye-slash")
+    visIcon = document.createElement("i")
+    if (visibility == true) {
+        visIcon.setAttribute("class", "fas fa-eye")
+    } else {
+        visIcon.setAttribute("class", "fas fa-eye-slash")
     }
+
     // Change Icon Base on Layer or Object Layer
     let typeIcon
-    typeIcon=document.createElement("i")
-    if(type=="tile"){
-        typeIcon.setAttribute("class","fas fa-th")
-    }else{
-        typeIcon.setAttribute("class","fas fa-cubes")
+    typeIcon = document.createElement("i")
+    if (type == "tile") {
+        typeIcon.setAttribute("class", "fas fa-th")
+    } else {
+        typeIcon.setAttribute("class", "fas fa-cubes")
     }
+
     // Add Lock Icon
     let lockIcon
-    lockIcon=document.createElement("i")
-    lockIcon.setAttribute("class","fas fa-lock-open")
+    lockIcon = document.createElement("i")
+    lockIcon.setAttribute("class", "fas fa-lock-open")
 
     //Create Li Element
     let li = document.createElement("li");
     li.className = "list-group-item"
+
     // Create Input Element
     let x = document.createElement("INPUT")
     x.setAttribute("type", "text")
     x.setAttribute("value", name)
 
-    x.addEventListener("input",function(){
+    //Event Listener for changing layer name
+    x.addEventListener("input", function () {
         changeLayerName(theLayerId)
     })
 
@@ -152,30 +157,35 @@ function createLayer(theLayerId,type,name,visibility) {
 
     return li
 }
-
+//Helps append layer to layer panel
 function appendLayer(layer) {
     let layerList = document.getElementById("layerList")
     layerList.appendChild(layer)
+}
+
+//Helps append canvas to canvas div
+function appendCanvas(canvas){
+    let canvasStorage=document.getElementById("canvasStorage")
+
 }
 
 // Load the layers that the project has
 function loadLayer() {
     //Get the object from local storage
     let project = JSON.parse(localStorage.getItem('project'));
-
     let projectLayers = project.layers
+
 
 
     for (let i = 0; i < projectLayers.length; i++) {
 
-        let projectName = createLayer(projectLayers[i].id,projectLayers[i].type,projectLayers[i].name,projectLayers[i].visibility)
+        let projectName = createLayer(projectLayers[i].id, projectLayers[i].type, projectLayers[i].name, projectLayers[i].visibility)
         appendLayer(projectName)
 
+        let canvas = document.createElement("CANVAS");
+        appendCanvas(canvas)
     }
 }
 
-createMap()
+
 loadLayer()
-// setInterval(loadLayer,1000/60)
-// var retrievedObject = localStorage.getItem('project');
-// console.log( JSON.parse(retrievedObject))
