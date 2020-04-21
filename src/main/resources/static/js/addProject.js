@@ -95,19 +95,61 @@ function drawCanvas() {
 
 var currentLayer
 
-// Cretes a layer to be addded to list
-function createLayer(name) {
+//Change the name of layer
+function changeLayerName(theLayerId){
 
+    let project = JSON.parse(localStorage.getItem('project'));
+    let projectLayers = project.layers
+    for(let x =0; x< projectLayers.length;x++){
+        if(projectLayers[x].id==theLayerId){
+            console.log("hi")
+            projectLayers[x].name = event.target.value
+        }
+    }
+    project.layers=projectLayers
+    localStorage.setItem('project', JSON.stringify(project));
+}
+
+// Cretes a layer to be addded to list
+function createLayer(theLayerId,type,name,visibility) {
+    // Change Icon Base On Visibility
+    let visIcon
+    visIcon=document.createElement("i")
+    if(visibility==true){
+        visIcon.setAttribute("class","fas fa-eye")
+    }else{
+        visIcon.setAttribute("class","fas fa-eye-slash")
+    }
+    // Change Icon Base on Layer or Object Layer
+    let typeIcon
+    typeIcon=document.createElement("i")
+    if(type=="tile"){
+        typeIcon.setAttribute("class","fas fa-th")
+    }else{
+        typeIcon.setAttribute("class","fas fa-cubes")
+    }
+    // Add Lock Icon
+    let lockIcon
+    lockIcon=document.createElement("i")
+    lockIcon.setAttribute("class","fas fa-lock-open")
+
+    //Create Li Element
     let li = document.createElement("li");
     li.className = "list-group-item"
-
+    // Create Input Element
     let x = document.createElement("INPUT")
     x.setAttribute("type", "text")
     x.setAttribute("value", name)
 
+    x.addEventListener("input",function(){
+        changeLayerName(theLayerId)
+    })
 
-
+    li.appendChild(typeIcon)
     li.appendChild(x)
+    li.appendChild(visIcon)
+    li.appendChild(lockIcon)
+
     return li
 }
 
@@ -126,7 +168,7 @@ function loadLayer() {
 
     for (let i = 0; i < projectLayers.length; i++) {
 
-        let projectName = createLayer(projectLayers[i].name)
+        let projectName = createLayer(projectLayers[i].id,projectLayers[i].type,projectLayers[i].name,projectLayers[i].visibility)
         appendLayer(projectName)
 
     }
