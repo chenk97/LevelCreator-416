@@ -1,4 +1,4 @@
-// Generate project object to be stored in localstorage
+//Generate project object to be stored in localstorage
 function createJson() {
     console.log("hi")
     var mapOrientation = document.getElementById("orientation").value
@@ -48,52 +48,53 @@ function createJson() {
     localStorage.setItem('project', JSON.stringify(project));
 }
 
-// Setups the map either isometric or orthogonal and setup grid
-function createMap() {
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // Have to Create a canvas in here and use this function in load layer
+//Global variable to be used to indicate the currently selected layers id
+var curLayerSelected
 
-
-    var project = JSON.parse(localStorage.getItem('project'));
-
-    var mapHeight = parseInt(project.height)
-    var mapWidth = parseInt(project.width)
-    var tileHeight = parseInt(project.tileHeight)
-    var tileWidth = parseInt(project.tileWidth)
-
-    if (project.orientation == "Orthogonal") {
-
-        var canvas = document.getElementById("canvas")
-        canvas.width = mapWidth * tileWidth
-        canvas.height = mapHeight * tileHeight
-
-        var ctx = canvas.getContext('2d')
-        ctx.strokeStyle = 'black'
-        ctx.lineWidth = 1
-        ctx.setLineDash([1, 1]);
-        for (i = tileWidth; i < tileWidth * mapWidth; i = i + tileWidth) {
-
-            ctx.moveTo(i, 0)
-            ctx.lineTo(i, tileHeight * mapHeight)
-            ctx.stroke()
-
-        }
-        for (j = tileHeight; j < tileHeight * mapHeight; j = j + tileHeight) {
-            ctx.moveTo(0, j)
-            ctx.lineTo(tileWidth * mapWidth, j)
-            ctx.stroke()
-        }
-    } else {
-        console.log("Isometric not implemented yet")
-    }
-}
-
-//Draw the map and places any tiles on it
-function drawCanvas() {
-
-}
-
-var currentLayer
+// // Setups the map either isometric or orthogonal and setup grid
+// function createMap() {
+//     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//     // Have to Create a canvas in here and use this function in load layer
+//
+//
+//     var project = JSON.parse(localStorage.getItem('project'));
+//
+//     var mapHeight = parseInt(project.height)
+//     var mapWidth = parseInt(project.width)
+//     var tileHeight = parseInt(project.tileHeight)
+//     var tileWidth = parseInt(project.tileWidth)
+//
+//     if (project.orientation == "Orthogonal") {
+//
+//         var canvas = document.getElementById("canvas")
+//         canvas.width = mapWidth * tileWidth
+//         canvas.height = mapHeight * tileHeight
+//
+//         var ctx = canvas.getContext('2d')
+//         ctx.strokeStyle = 'black'
+//         ctx.lineWidth = 1
+//         ctx.setLineDash([1, 1]);
+//         for (i = tileWidth; i < tileWidth * mapWidth; i = i + tileWidth) {
+//
+//             ctx.moveTo(i, 0)
+//             ctx.lineTo(i, tileHeight * mapHeight)
+//             ctx.stroke()
+//
+//         }
+//         for (j = tileHeight; j < tileHeight * mapHeight; j = j + tileHeight) {
+//             ctx.moveTo(0, j)
+//             ctx.lineTo(tileWidth * mapWidth, j)
+//             ctx.stroke()
+//         }
+//     } else {
+//         console.log("Isometric not implemented yet")
+//     }
+// }
+//
+// //Draw the map and places any tiles on it
+// function drawCanvas() {
+//
+// }
 
 //Change the name of layer
 function changeLayerName(theLayerId) {
@@ -110,7 +111,7 @@ function changeLayerName(theLayerId) {
     localStorage.setItem('project', JSON.stringify(project));
 }
 
-// Cretes a layer to be addded to list
+//Creates a layer to be addded to list
 function createLayer(theLayerId, type, name, visibility) {
 
     // Change Icon Base On Visibility
@@ -157,6 +158,7 @@ function createLayer(theLayerId, type, name, visibility) {
 
     return li
 }
+
 //Helps append layer to layer panel
 function appendLayer(layer) {
     let layerList = document.getElementById("layerList")
@@ -164,26 +166,61 @@ function appendLayer(layer) {
 }
 
 //Helps append canvas to canvas div
-function appendCanvas(canvas){
-    let canvasStorage=document.getElementById("canvasStorage")
+// function appendCanvas(canvas){
+//     let canvasStorage=document.getElementById("canvasStorage")
+//
+// }
 
+//Set global variable curLayerSelected to the the layerId that is currently being selected by user
+function setCurrentSelectedLayer(layerId) {
+    curLayerSelected = layerId
+}
+
+//Function for removing all layers from layer panel
+function clearLayerPanel(){
+    document.getElementById("layerList").innerHTML=""
+}
+
+//Delete the current that is selected base on the global variable curLayerSelected
+function deleteLayer() {
+
+    if(curLayerSelected==undefined){
+        console.log("No layer was selected")
+        return
+    }
+
+    let project = JSON.parse(localStorage.getItem('project'));
+    let projectLayers = project.layers
+
+    for(let y=0; y<projectLayers.length;y++){
+
+        if(projectLayers[y].id==curLayerSelected){
+            projectLayers.splice(y,1)
+            console.log("Layer deleted sucessfully!")
+        }
+    }
+    project.layers = projectLayers
+    localStorage.setItem('project', JSON.stringify(project));
+    loadLayer()
 }
 
 // Load the layers that the project has
 function loadLayer() {
+    clearLayerPanel()
     //Get the object from local storage
     let project = JSON.parse(localStorage.getItem('project'));
     let projectLayers = project.layers
 
-
-
     for (let i = 0; i < projectLayers.length; i++) {
 
-        let projectName = createLayer(projectLayers[i].id, projectLayers[i].type, projectLayers[i].name, projectLayers[i].visibility)
-        appendLayer(projectName)
+        let theLayer = createLayer(projectLayers[i].id, projectLayers[i].type, projectLayers[i].name, projectLayers[i].visibility)
+        theLayer.addEventListener("click", function () {
+            setCurrentSelectedLayer(projectLayers[i].id)
+        })
+        appendLayer(theLayer)
 
-        let canvas = document.createElement("CANVAS");
-        appendCanvas(canvas)
+        // let canvas = document.createElement("CANVAS");
+        // appendCanvas(canvas)
     }
 }
 
