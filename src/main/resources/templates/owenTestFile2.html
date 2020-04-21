@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
+    <title>Title</title>
+
+</head>
+<body>
+
+
+<canvas id="canvas" width="320" height="320" style="border:1px solid"></canvas>
+<img id="testImage" src="../static/images/iconfinder_To_do_list_131719.png" alt="The Scream">
+
+<script>
+
+    var map = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    if (localStorage.getItem("map") === null) {
+        localStorage.setItem("map", JSON.stringify(map))
+    }
+
+    var c = document.getElementById('canvas')
+    var ctx = c.getContext('2d')
+    ctx.strokeStyle = 'black'
+    ctx.lineWidth = 1
+    ctx.setLineDash([1, 1]);
+    for (i = 32; i < 320; i = i + 32) {
+
+        ctx.moveTo(i, 0)
+        ctx.lineTo(i, 320)
+        ctx.stroke()
+
+    }
+    for (j = 32; j < 320; j = j + 32) {
+        ctx.moveTo(0, j)
+        ctx.lineTo(320, j)
+        ctx.stroke()
+    }
+
+    // We have n by m map. Then if click on let say i,j(note map start at 0,0). So conversion is i*m + j from map to index on array
+    // So let say we want index for coodinate 1,1 in a 10 by 10 map. We get 1*10+1 = 11.
+
+    var mapIndex = 0
+    var img = document.getElementById("testImage");
+
+    function drawCanvas(){
+        for (var y = 0; y < 10; y++) {
+            for (var x = 0; x < 10; x++, mapIndex++) {
+                var tile_x = x * 32
+                var tile_y = y * 32
+                var retrieve = localStorage.getItem("map")
+                var parse = JSON.parse(retrieve)
+                if (parse[mapIndex] == 1) {
+                    ctx.drawImage(img, tile_x, tile_y)
+                }
+            }
+        }
+        mapIndex = 0
+    }
+
+    function getCursorPosition(canvas, event) {
+        const rect = canvas.getBoundingClientRect()
+        const x = event.clientX - rect.left
+        const y = event.clientY - rect.top
+        var x_coor = Math.floor(y / 32)
+        var y_coor = Math.floor(x / 32)
+        var indexInArrrary = x_coor * 10 + y_coor
+
+        var retrieve = localStorage.getItem("map")
+        var parse = JSON.parse(retrieve)
+        parse[indexInArrrary] = 1
+        localStorage.setItem("map", JSON.stringify(parse))
+        console.log("x: " + x_coor + " y: " + y_coor)
+    }
+
+    const canvas2 = document.querySelector('canvas')
+    canvas2.addEventListener('mousedown', function (e) {
+        getCursorPosition(canvas2, e)
+    })
+    setInterval(drawCanvas, 1000 / 60);
+
+</script>
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://kit.fontawesome.com/ef8993b96a.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -28,6 +28,18 @@ function createJson() {
                 width: mapWidth,
                 x: 0,
                 y: 0,
+            },
+            {
+                type: "tile",
+                id: 2,
+                name: "Tile Layer 2",
+                data: dataArray,
+                properties: [],
+                visibility: true,
+                height: mapHeight,
+                width: mapWidth,
+                x: 0,
+                y: 0,
             }
         ],
         tilesets: []
@@ -83,53 +95,41 @@ function drawCanvas() {
 
 var currentLayer
 
+// Cretes a layer to be addded to list
+function createLayer(name) {
+
+    let li = document.createElement("li");
+    li.className = "list-group-item"
+
+    let x = document.createElement("INPUT")
+    x.setAttribute("type", "text")
+    x.setAttribute("value", name)
+
+
+
+    li.appendChild(x)
+    return li
+}
+
+function appendLayer(layer) {
+    let layerList = document.getElementById("layerList")
+    layerList.appendChild(layer)
+}
+
 // Load the layers that the project has
 function loadLayer() {
     //Get the object from local storage
-    var project = JSON.parse(localStorage.getItem('project'));
-    var projectLayers = project.layers
+    let project = JSON.parse(localStorage.getItem('project'));
 
-    //Get the <ul>
-    var layerList = document.getElementById("layerList")
-    layerList.innerHTML = ""
+    let projectLayers = project.layers
 
-    for (var x = 0; x < projectLayers.length; x++) {
-        // create a new list item
-        var li = document.createElement("li");
-        li.className = "list-group-item"
 
-        // scenario when it a tile layer
-        if (projectLayers[x].type == "tile") {
+    for (let i = 0; i < projectLayers.length; i++) {
 
-            // Change icon base on if layer is visble or not
-            var visible
-            if (projectLayers[x].visibility == true) {
-                visible = "<span class=\"fas fa-eye\" style=\"float:right;margin-right:20px; margin-top: 5px;\"></span>"
-            } else {
-                visible = "<span class=\"fas fa-eye-slash\" style=\"float:right;margin-right:20px; margin-top: 5px;\"></span>"
-            }
-
-            // Creates a layer by creating a list item
-            //It add the input for name and adds the visible icon and the lock icon
-            li.innerHTML = " <div class=\"md-form\">\n" +
-                "              <i class=\"fas fa-th\"></i>\n" +
-                "              <input type=\"text\"    class=\"form-control\">\n" +
-                "            </div>" +
-                "            <div>\n" +
-                visible +
-                "              <span class=\"fas fa-lock-open\" style=\"float:right;margin-right:5px;margin-top: 5px;\"></span>\n" +
-                "            </div>"
-
-            //adds the <li> to the <ul>
-            layerList.appendChild(li)
-
-    // scenario when it a object layer
-        } else {
-
-        }
+        let projectName = createLayer(projectLayers[i].name)
+        appendLayer(projectName)
 
     }
-
 }
 
 createMap()
