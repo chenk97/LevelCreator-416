@@ -1,0 +1,220 @@
+//Global variable to be used to indicate the currently selected layers id
+var curLayerSelected
+
+// // Setups the map either isometric or orthogonal and setup grid
+// function createMap() {
+//     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//     // Have to Create a canvas in here and use this function in load layer
+//
+//
+//     var project = JSON.parse(localStorage.getItem('project'));
+//
+//     var mapHeight = parseInt(project.height)
+//     var mapWidth = parseInt(project.width)
+//     var tileHeight = parseInt(project.tileHeight)
+//     var tileWidth = parseInt(project.tileWidth)
+//
+//     if (project.orientation == "Orthogonal") {
+//
+//         var canvas = document.getElementById("canvas")
+//         canvas.width = mapWidth * tileWidth
+//         canvas.height = mapHeight * tileHeight
+//
+//         var ctx = canvas.getContext('2d')
+//         ctx.strokeStyle = 'black'
+//         ctx.lineWidth = 1
+//         ctx.setLineDash([1, 1]);
+//         for (i = tileWidth; i < tileWidth * mapWidth; i = i + tileWidth) {
+//
+//             ctx.moveTo(i, 0)
+//             ctx.lineTo(i, tileHeight * mapHeight)
+//             ctx.stroke()
+//
+//         }
+//         for (j = tileHeight; j < tileHeight * mapHeight; j = j + tileHeight) {
+//             ctx.moveTo(0, j)
+//             ctx.lineTo(tileWidth * mapWidth, j)
+//             ctx.stroke()
+//         }
+//     } else {
+//         console.log("Isometric not implemented yet")
+//     }
+// }
+//
+// //Draw the map and places any tiles on it
+// function drawCanvas() {
+//
+// }
+
+//Change the name of layer
+function changeLayerName(theLayerId) {
+
+    let project = JSON.parse(localStorage.getItem('project'));
+    let projectLayers = project.layers
+    for (let x = 0; x < projectLayers.length; x++) {
+        if (projectLayers[x].id == theLayerId) {
+            console.log("hi")
+            projectLayers[x].name = event.target.value
+        }
+    }
+    project.layers = projectLayers
+    localStorage.setItem('project', JSON.stringify(project));
+}
+
+//Creates a layer to be added to layer panel
+function createLayer(theLayerId, type, name, visibility) {
+
+    // Change Icon Base On Visibility
+    let visIcon
+    visIcon = document.createElement("i")
+    if (visibility == true) {
+        visIcon.setAttribute("class", "fas fa-eye")
+    } else {
+        visIcon.setAttribute("class", "fas fa-eye-slash")
+    }
+
+    // Change Icon Base on Layer or Object Layer
+    let typeIcon
+    typeIcon = document.createElement("i")
+    if (type == "tile") {
+        typeIcon.setAttribute("class", "fas fa-th")
+    } else {
+        typeIcon.setAttribute("class", "fas fa-cubes")
+    }
+
+    // Add Lock Icon
+    let lockIcon
+    lockIcon = document.createElement("i")
+    lockIcon.setAttribute("class", "fas fa-lock-open")
+
+    //Create Li Element
+    let li = document.createElement("li");
+    li.className = "list-group-item"
+
+    // Create Input Element
+    let x = document.createElement("INPUT")
+    x.setAttribute("type", "text")
+    x.setAttribute("value", name)
+
+    //Event Listener for changing layer name
+    x.addEventListener("input", function () {
+        changeLayerName(theLayerId)
+    })
+
+    li.appendChild(typeIcon)
+    li.appendChild(x)
+    li.appendChild(visIcon)
+    li.appendChild(lockIcon)
+
+    return li
+}
+
+//Helps append layer to layer panel
+function appendLayer(layer) {
+    let layerList = document.getElementById("layerList")
+    layerList.appendChild(layer)
+}
+
+//Helps append canvas to canvas div
+// function appendCanvas(canvas){
+//     let canvasStorage=document.getElementById("canvasStorage")
+//
+// }
+
+//Set global variable curLayerSelected to the layerId that is currently being selected by user
+function setCurrentSelectedLayer(layerId) {
+    curLayerSelected = layerId
+}
+
+//Function for removing all layers from layer panel
+function clearLayerPanel() {
+    document.getElementById("layerList").innerHTML = ""
+}
+
+//Delete the current that is selected base on the global variable curLayerSelected
+function deleteLayer() {
+
+    if (curLayerSelected == undefined) {
+        console.log("No layer was selected")
+        return
+    }
+
+    let project = JSON.parse(localStorage.getItem('project'));
+    let projectLayers = project.layers
+
+    for (let y = 0; y < projectLayers.length; y++) {
+
+        if (projectLayers[y].id == curLayerSelected) {
+            projectLayers.splice(y, 1)
+            console.log("Layer deleted sucessfully!")
+        }
+    }
+    project.layers = projectLayers
+    localStorage.setItem('project', JSON.stringify(project));
+    loadLayer()
+}
+
+//Adds a new tile layer to layer panel
+function newTileLayer() {
+    let project = JSON.parse(localStorage.getItem('project'));
+    var dataArray = new Array(project.width * project.height).fill(0)
+    let newTileLayer = {
+        type: "tile",
+        id: project.nextTiledLayerid,
+        name: "Tile Layer",
+        data: dataArray,
+        properties: [],
+        visibility: true,
+        height: project.height,
+        width: project.width,
+        x: 0,
+        y: 0,
+    }
+
+    project.nextTiledLayerid += 1
+    project.layers.push(newTileLayer)
+    localStorage.setItem('project', JSON.stringify(project));
+    loadLayer()
+}
+
+//Adds a new object layer to layer panel
+function newObjectLayer() {
+    let project = JSON.parse(localStorage.getItem('project'));
+    let newObjectLayer = {
+        type: "object",
+        id: project.nextTiledLayerid,
+        name: "Object Layer",
+        objects: [],
+        visibility: true,
+        x: 0,
+        y: 0,
+    }
+
+    project.nextTiledLayerid += 1
+    project.layers.push(newObjectLayer)
+    localStorage.setItem('project', JSON.stringify(project));
+    loadLayer()
+}
+
+// Load the layers that the project has
+function loadLayer() {
+    clearLayerPanel()
+    //Get the object from local storage
+    let project = JSON.parse(localStorage.getItem('project'));
+    let projectLayers = project.layers
+
+    for (let i = 0; i < projectLayers.length; i++) {
+
+        let theLayer = createLayer(projectLayers[i].id, projectLayers[i].type, projectLayers[i].name, projectLayers[i].visibility)
+        theLayer.addEventListener("click", function () {
+            setCurrentSelectedLayer(projectLayers[i].id)
+        })
+        appendLayer(theLayer)
+
+        // let canvas = document.createElement("CANVAS");
+        // appendCanvas(canvas)
+    }
+}
+
+
+loadLayer()

@@ -77,7 +77,7 @@
 
         <div class="col-8 middle">
             <div class="box" id="canvasStorage" style="height:660px; width: 100%; position:relative; overflow: auto;">
-<!--                <canvas id="canvas" style="border:1px solid"></canvas>-->
+                <!--                <canvas id="canvas" style="border:1px solid"></canvas>-->
             </div>
         </div>
 
@@ -88,49 +88,61 @@
                         <center>Layers</center>
                     </div>
 
-                    <div class="card-body" style="height: 300px; background-color: white; overflow: auto" >
+                    <div class="card-body" style="height: 300px; background-color: white; overflow: auto">
                         <ul class="list-group list-group-flush" id="layerList">
 
                         </ul>
 
                     </div>
                     <div class="card-footer text-muted">
-                        <span class="fas fa-minus" onclick="deleteLayer()" style="float:right;margin-right:5px;margin-top: 5px;"></span>
-                        &nbsp
-                        <span class="fas fa-plus" style="float:right;margin-right:20px; margin-top: 5px;"></span>
-                        &nbsp
+
+                        <span class="fas fa-minus" onclick="deleteLayer()"
+                              style="float:right;margin-right:5px;margin-top: 5px;"></span>
+
+                        <div class="dropdown">
+
+                            <span class="fas fa-plus dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown"
+                                  aria-haspopup="true" aria-expanded="false"
+                                  style="float:right;margin-right:20px; margin-top: 5px;"></span>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <button class="dropdown-item" type="button" onclick="newTileLayer()">Tile Layer</button>
+                                <button class="dropdown-item" type="button" onclick="newObjectLayer()">Object layer</button>
+                            </div>
+                        </div>
+
                         <span class="fas fa-arrow-down" style="float:right;margin-right:20px;margin-top: 5px;"></span>
-                        &nbsp
+
                         <span class="fas fa-arrow-up" style="float:right;margin-right:20px;margin-top: 5px;"></span>
                     </div>
                 </div>
 
             </div>
-<!--            <br>-->
+            <!--            <br>-->
 
-<!--            <div class="row">-->
-<!--                <div class="card card1">-->
-<!--                    <div class="card-header">-->
-<!--                        <ul class="nav nav-tabs card-header-tabs">-->
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link active" href="#">Tileset #1</a>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                    <br>-->
-<!--                    <br>-->
-<!--                    <div class="card-body" style="height: 150px; background-color: white;">-->
-<!--                        <button type="button" class="btn btn-secondary btn-lg btn-block"> Import Tileset</button>-->
+            <!--            <div class="row">-->
+            <!--                <div class="card card1">-->
+            <!--                    <div class="card-header">-->
+            <!--                        <ul class="nav nav-tabs card-header-tabs">-->
+            <!--                            <li class="nav-item">-->
+            <!--                                <a class="nav-link active" href="#">Tileset #1</a>-->
+            <!--                            </li>-->
+            <!--                        </ul>-->
+            <!--                    </div>-->
+            <!--                    <br>-->
+            <!--                    <br>-->
+            <!--                    <div class="card-body" style="height: 150px; background-color: white;">-->
+            <!--                        <button type="button" class="btn btn-secondary btn-lg btn-block"> Import Tileset</button>-->
 
-<!--                    </div>-->
-<!--                    <div class="card-footer text-muted">-->
-<!--                        <span class="fas fa-minus" style="float:right;margin-right:5px;margin-top: 5px;"></span>-->
-<!--                        &nbsp-->
-<!--                        <span class="fas fa-plus" style="float:right;margin-right:20px; margin-top: 5px;"></span>-->
+            <!--                    </div>-->
+            <!--                    <div class="card-footer text-muted">-->
+            <!--                        <span class="fas fa-minus" style="float:right;margin-right:5px;margin-top: 5px;"></span>-->
+            <!--                        &nbsp-->
+            <!--                        <span class="fas fa-plus" style="float:right;margin-right:20px; margin-top: 5px;"></span>-->
 
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
         </div>
 
     </div>
@@ -138,6 +150,7 @@
 
 <!-- Optional JavaScript -->
 <script src="js/addProject.js"></script>
+<script src="js/layerController.js"></script>
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
