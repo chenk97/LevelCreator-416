@@ -189,7 +189,6 @@ function newObjectLayer() {
         x: 0,
         y: 0,
     }
-
     project.nextTiledLayerid += 1
     project.layers.push(newObjectLayer)
     localStorage.setItem('project', JSON.stringify(project));
