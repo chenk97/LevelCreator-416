@@ -125,6 +125,7 @@ function appendLayer(layer) {
 
 //Set global variable curLayerSelected to the layerId that is currently being selected by user
 function setCurrentSelectedLayer(layerId) {
+    console.log("Layer selected with layer Id: "+ layerId)
     curLayerSelected = layerId
 }
 
@@ -174,7 +175,7 @@ function newTileLayer() {
     }
 
     project.nextTiledLayerid += 1
-    project.layers.push(newTileLayer)
+    project.layers.unshift(newTileLayer)
     localStorage.setItem('project', JSON.stringify(project));
     loadLayer()
 }
@@ -192,7 +193,7 @@ function newObjectLayer() {
         y: 0,
     }
     project.nextTiledLayerid += 1
-    project.layers.push(newObjectLayer)
+    project.layers.unshift(newObjectLayer)
     localStorage.setItem('project', JSON.stringify(project));
     loadLayer()
 }
