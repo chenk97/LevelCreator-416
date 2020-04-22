@@ -1,6 +1,7 @@
 //Global variable to be used to indicate the currently selected layers id
 var curLayerSelected
-
+var firstLoad = true
+var justAddedNewLayer = false
 // // Setups the map either isometric or orthogonal and setup grid
 // function createMap() {
 //     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -89,14 +90,15 @@ function createLayer(theLayerId, type, name, visibility) {
 
     //Create Li Element
     let li = document.createElement("li");
-    li.setAttribute("class","list-group-item liTag")
+    li.setAttribute("class", "list-group-item liTag")
+    li.setAttribute("id", theLayerId)
 
 
     // Create Input Element
     let x = document.createElement("INPUT")
     x.setAttribute("type", "text")
     x.setAttribute("value", name)
-    x.setAttribute("class","liInputTag")
+    x.setAttribute("class", "liInputTag")
 
     //Event Listener for changing layer name
     x.addEventListener("input", function () {
@@ -123,9 +125,21 @@ function appendLayer(layer) {
 //
 // }
 
-//Set global variable curLayerSelected to the layerId that is currently being selected by user
+//SetCurrentSelectedLayer loops through all Li elements and checks if li.id equals the layer.id in database. If so change the background of that li and set curLayerSelected to the layerId.
 function setCurrentSelectedLayer(layerId) {
-    console.log("Layer selected with layer Id: "+ layerId)
+    let layerList = document.getElementById("layerList")
+    let layer = layerList.getElementsByTagName("li")
+
+    for (let i = 0; i < layer.length; i++) {
+        if (layer[i].id != layerId) {
+            layer[i].style.backgroundColor = "white"
+        } else {
+            layer[i].style.backgroundColor = "#a8d1ff"
+
+        }
+    }
+
+    console.log("Layer selected with layer Id: " + layerId)
     curLayerSelected = layerId
 }
 
@@ -177,6 +191,7 @@ function newTileLayer() {
     project.nextTiledLayerid += 1
     project.layers.unshift(newTileLayer)
     localStorage.setItem('project', JSON.stringify(project));
+    justAddedNewLayer = true
     loadLayer()
 }
 
@@ -195,6 +210,7 @@ function newObjectLayer() {
     project.nextTiledLayerid += 1
     project.layers.unshift(newObjectLayer)
     localStorage.setItem('project', JSON.stringify(project));
+    justAddedNewLayer = true
     loadLayer()
 }
 
@@ -206,12 +222,23 @@ function loadLayer() {
     let projectLayers = project.layers
 
     for (let i = 0; i < projectLayers.length; i++) {
-
+        //Creates a li for a layer
         let theLayer = createLayer(projectLayers[i].id, projectLayers[i].type, projectLayers[i].name, projectLayers[i].visibility)
+        //Adds a eventlistener for the li when clicked
         theLayer.addEventListener("click", function () {
             setCurrentSelectedLayer(projectLayers[i].id)
         })
+        //Appends the li to the ul
         appendLayer(theLayer)
+
+        //Checks if a new layers has been added or if the project was loaded for the first time
+        //If so we set the first layers to be the current selected one
+        if (justAddedNewLayer == true || firstLoad == true) {
+            setCurrentSelectedLayer(projectLayers[0].id)
+            justAddedNewLayer = false
+            firstLoad = false
+        }
+
 
         // let canvas = document.createElement("CANVAS");
         // appendCanvas(canvas)
