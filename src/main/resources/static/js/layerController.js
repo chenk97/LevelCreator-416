@@ -68,33 +68,35 @@ function createLayer(theLayerId, type, name, visibility) {
     let visIcon
     visIcon = document.createElement("i")
     if (visibility == true) {
-        visIcon.setAttribute("class", "fas fa-eye")
+        visIcon.setAttribute("class", "fas fa-eye liItems")
     } else {
-        visIcon.setAttribute("class", "fas fa-eye-slash")
+        visIcon.setAttribute("class", "fas fa-eye-slash liItems")
     }
 
     // Change Icon Base on Layer or Object Layer
     let typeIcon
     typeIcon = document.createElement("i")
     if (type == "tile") {
-        typeIcon.setAttribute("class", "fas fa-th")
+        typeIcon.setAttribute("class", "fas fa-th typeIcon")
     } else {
-        typeIcon.setAttribute("class", "fas fa-cubes")
+        typeIcon.setAttribute("class", "fas fa-cubes typeIcon")
     }
 
     // Add Lock Icon
     let lockIcon
     lockIcon = document.createElement("i")
-    lockIcon.setAttribute("class", "fas fa-lock-open")
+    lockIcon.setAttribute("class", "fas fa-lock-open liItems")
 
     //Create Li Element
     let li = document.createElement("li");
-    li.className = "list-group-item"
+    li.setAttribute("class","list-group-item liTag")
+
 
     // Create Input Element
     let x = document.createElement("INPUT")
     x.setAttribute("type", "text")
     x.setAttribute("value", name)
+    x.setAttribute("class","liInputTag")
 
     //Event Listener for changing layer name
     x.addEventListener("input", function () {

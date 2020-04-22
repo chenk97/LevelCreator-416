@@ -20,7 +20,7 @@ function createJson() {
             {
                 type: "tile",
                 id: 1,
-                name: "Tile Layer 1",
+                name: "Tile Layer",
                 data: dataArray,
                 properties: [],
                 visibility: true,
