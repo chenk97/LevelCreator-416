@@ -2,50 +2,6 @@
 var curLayerSelected
 var firstLoad = true
 var justAddedNewLayer = false
-// // Setups the map either isometric or orthogonal and setup grid
-// function createMap() {
-//     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//     // Have to Create a canvas in here and use this function in load layer
-//
-//
-//     var project = JSON.parse(localStorage.getItem('project'));
-//
-//     var mapHeight = parseInt(project.height)
-//     var mapWidth = parseInt(project.width)
-//     var tileHeight = parseInt(project.tileHeight)
-//     var tileWidth = parseInt(project.tileWidth)
-//
-//     if (project.orientation == "Orthogonal") {
-//
-//         var canvas = document.getElementById("canvas")
-//         canvas.width = mapWidth * tileWidth
-//         canvas.height = mapHeight * tileHeight
-//
-//         var ctx = canvas.getContext('2d')
-//         ctx.strokeStyle = 'black'
-//         ctx.lineWidth = 1
-//         ctx.setLineDash([1, 1]);
-//         for (i = tileWidth; i < tileWidth * mapWidth; i = i + tileWidth) {
-//
-//             ctx.moveTo(i, 0)
-//             ctx.lineTo(i, tileHeight * mapHeight)
-//             ctx.stroke()
-//
-//         }
-//         for (j = tileHeight; j < tileHeight * mapHeight; j = j + tileHeight) {
-//             ctx.moveTo(0, j)
-//             ctx.lineTo(tileWidth * mapWidth, j)
-//             ctx.stroke()
-//         }
-//     } else {
-//         console.log("Isometric not implemented yet")
-//     }
-// }
-//
-// //Draw the map and places any tiles on it
-// function drawCanvas() {
-//
-// }
 
 //Change the name of layer
 function changeLayerName(theLayerId) {
@@ -62,6 +18,21 @@ function changeLayerName(theLayerId) {
     localStorage.setItem('project', JSON.stringify(project));
 }
 
+function changeVisbility(layerId) {
+    let project = JSON.parse(localStorage.getItem('project'));
+    let projectLayers = project.layers
+
+    for (let x = 0; x < projectLayers.length; x++) {
+        if (projectLayers[x].id == layerId) {
+            projectLayers[x].visibility = (projectLayers[x].visibility == true) ? false : true
+        }
+    }
+    project.layers = projectLayers
+    localStorage.setItem('project', JSON.stringify(project));
+    loadLayer()
+    createMap()
+}
+
 //Creates a layer to be added to layer panel
 function createLayer(theLayerId, type, name, visibility) {
 
@@ -73,6 +44,10 @@ function createLayer(theLayerId, type, name, visibility) {
     } else {
         visIcon.setAttribute("class", "fas fa-eye-slash liItems")
     }
+
+    visIcon.addEventListener("click", function () {
+        changeVisbility(theLayerId)
+    })
 
     // Change Icon Base on Layer or Object Layer
     let typeIcon
@@ -119,12 +94,6 @@ function appendLayer(layer) {
     layerList.appendChild(layer)
 }
 
-//Helps append canvas to canvas div
-// function appendCanvas(canvas){
-//     let canvasStorage=document.getElementById("canvasStorage")
-//
-// }
-
 //SetCurrentSelectedLayer loops through all Li elements and checks if li.id equals the layer.id in database. If so change the background of that li and set curLayerSelected to the layerId.
 function setCurrentSelectedLayer(layerId) {
     let layerList = document.getElementById("layerList")
@@ -141,11 +110,6 @@ function setCurrentSelectedLayer(layerId) {
 
     console.log("Layer selected with layer Id: " + layerId)
     curLayerSelected = layerId
-}
-
-//Function for removing all layers from layer panel
-function clearLayerPanel() {
-    document.getElementById("layerList").innerHTML = ""
 }
 
 //Delete the current that is selected base on the global variable curLayerSelected
@@ -214,8 +178,21 @@ function newObjectLayer() {
     loadLayer()
 }
 
+//Function for removing all layers from layer panel
+function clearLayerPanel() {
+    document.getElementById("layerList").innerHTML = ""
+}
+
+//Function for removing everything that is on the canvas
+function clearCanvas() {
+    let x = document.getElementById("canvas")
+    let context = x.getContext('2d');
+    context.clearRect(0, 0, x.width, x.height)
+}
+
 // Load the layers that the project has
 function loadLayer() {
+
     clearLayerPanel()
     //Get the object from local storage
     let project = JSON.parse(localStorage.getItem('project'));
@@ -238,12 +215,59 @@ function loadLayer() {
             justAddedNewLayer = false
             firstLoad = false
         }
+    }
+}
 
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// CODE FROM HERE ON DEALS WITH MAPS
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        // let canvas = document.createElement("CANVAS");
-        // appendCanvas(canvas)
+//Draws out the grids for orthogonal map
+function initializeMapGridForOrth(mapHeight, mapWidth, tileHeight, tileWidth) {
+
+    var canvas = document.getElementById("canvas")
+    canvas.width = mapWidth * tileWidth
+    canvas.height = mapHeight * tileHeight
+
+    var ctx = canvas.getContext('2d')
+    ctx.strokeStyle = 'black'
+    ctx.lineWidth = 1
+    ctx.setLineDash([1, 1]);
+    for (i = tileWidth; i < tileWidth * mapWidth; i = i + tileWidth) {
+
+        ctx.moveTo(i, 0)
+        ctx.lineTo(i, tileHeight * mapHeight)
+        ctx.stroke()
+
+    }
+    for (j = tileHeight; j < tileHeight * mapHeight; j = j + tileHeight) {
+        ctx.moveTo(0, j)
+        ctx.lineTo(tileWidth * mapWidth, j)
+        ctx.stroke()
+    }
+}
+
+// Setups the map either isometric or orthogonal and setup grid
+function createMap() {
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // Have to Create a canvas in here and use this function in load layer
+    clearCanvas()
+    var project = JSON.parse(localStorage.getItem('project'));
+    var porjectLayers = project.layers
+
+    var mapHeight = parseInt(project.height)
+    var mapWidth = parseInt(project.width)
+    var tileHeight = parseInt(project.tileHeight)
+    var tileWidth = parseInt(project.tileWidth)
+
+    if (project.orientation == "Orthogonal") {
+        initializeMapGridForOrth(mapHeight, mapWidth, tileHeight, tileWidth)
+
+    } else {
+        console.log("Isometric not implemented yet")
     }
 }
 
 
+createMap()
 loadLayer()
