@@ -5,7 +5,7 @@
 <head th:insert="fragments.html :: headerfiles-form">
     <title>Log in</title>
 </head>
-<body>
+<body class="login">
 <div class="container">
     <div class="h-100 d-flex justify-content-center align-items-center">
         <div class="form-login-1">
@@ -19,30 +19,37 @@
                     <div th:if="${param.logout}" class="alert alert-success">
                         You have been logged out.
                     </div>
-                    <!--                         Login Controls-->
-                    <img src="images/LogoMakr9uhDkH.png" class="logo-1">
-                    <h4>Login here...</h4>
-                    <div class="form-group form-inline">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email"
-                               placeholder="Email">
+                    <!--  Login Controls-->
+                    <div class = "row" id="row-1">
+                        <div class = "col" id="login-col-1" >
+                            <img src="images/levelcreator_logo_1.png" class="logo-1">
+                        </div>
+                        <div class = "col" id = "login-col">
+                            <h4> Sign In </h4>
+                            <div class="form-group form-inline">
+                                <input type="email" class="form-control" id="email" name="email"
+                                       placeholder="Email">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <input type="password" class="form-control" id="password" name="password"
+                                       placeholder="Password">
+                            </div>
+                            <br>
+                            <!-- Login Button -->
+                            <div class ="form-actions" >
+                                <button type="submit" class="btn btn-primary btn-lg" id = "login-button">Submit</button>
+                            </div>
+
+                            <div class = "login-links">
+                                <a href="/forgotPassword" class = "ml-2">Forgot Password?</a>
+                                <br>
+                                <br>
+                                <a href="/registration"> Create an Account -> </a>
+                            </div>
+
+                        </div>
                     </div>
-
-                    <div class="form-group form-inline">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password"
-                               placeholder="Password">
-
-                        <a href="/forgotPassword" class = "ml-2">Forgot Password?</a>
-                    </div>
-
-                    <!-- Login Button -->
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-
-                        <a href="/"> Cancel </a>
-                    </div>
-
                 </fieldset>
             </form>
         </div>

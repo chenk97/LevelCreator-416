@@ -61,7 +61,7 @@ function addFirstTileset(input){
 
 function addTileset(input){
     let project = JSON.parse(localStorage.getItem('project'));
-    //creat new tileset object
+    //create new tileset object
     let newTileset = {
         firstgid : project.gidCnt,
         id: project.tilesets.length + 1,

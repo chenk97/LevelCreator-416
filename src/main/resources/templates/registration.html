@@ -6,42 +6,56 @@
 <head th:insert="fragments.html :: headerfiles-form">
     <title>Register</title>
 </head>
-<body>
+<body class="registration">
+<div class="container">
 <div class="h-100 d-flex justify-content-center align-items-center">
 
     <div class="form-login-1">
         <form th:action="@{/registration}" th:object="${user}" method="POST">
-            <img src="images/LogoMakr9uhDkH.png" class="logo-1">
-            <h4>Start Creating ...</h4>
-            <div class="form-group form-inline">
-                <label for="Username" >Username:</label>
-                <input type="text" class="form-control input-sm chat-input" th:field="*{username}" id="Username" placeholder="Enter username">
-                <p class="error-message"
-                   th:each="error: ${#fields.errors('username')}"
-                   th:text="${error}">Validation error</p>
+            <fieldset>
+            <div class = "row" id="row-1">
+                <div class = "col" id="login-col-1" >
+                    <img src="images/levelcreator_logo_1.png" class="logo-1">
+                </div>
+                <div class = "col" id="login-col" >
+                    <span class = "reg-h4">Create Your Account</span>
+                    <br>
+                    <br>
+                    <div class="form-group form-inline">
+
+                        <input type="text" class="form-control input-sm chat-input" th:field="*{username}" id="Username" placeholder="Enter username">
+                        <p class="error-message"
+                           th:each="error: ${#fields.errors('username')}"
+                           th:text="${error}">Validation error</p>
+                    </div>
+                    <div class="form-group form-inline">
+
+                        <input type="email" class="form-control input-sm chat-input" th:field="*{email}" id="Email" placeholder="Enter email">
+                        <p class="error-message"
+                           th:each="error: ${#fields.errors('email')}"
+                           th:text="${error}">Validation error</p>
+                    </div>
+                    <div class="form-group form-inline">
+
+                        <input type="password" class="form-control input-sm chat-input" th:field="*{password}" id="password" placeholder="Enter password">
+                        <p class="error-message"
+                           th:each="error: ${#fields.errors('password')}"
+                           th:text="${error}">Validation error</p>
+                    </div>
+                    <div class="login-links">
+                        <span class="group-btn">
+                            <button type="submit" class="btn btn-primary btn-lg" id = "login-button">Submit</button>
+                        </span>
+                        <br>
+                        <br>
+                        <a href="/"> I change my mind -> </a>
+                    </div>
+                </div>
             </div>
-            <div class="form-group form-inline">
-                <label for="Email">Email Address:</label>
-                <input type="email" class="form-control input-sm chat-input" th:field="*{email}" id="Email" placeholder="Enter email">
-                <p class="error-message"
-                   th:each="error: ${#fields.errors('email')}"
-                   th:text="${error}">Validation error</p>
-            </div>
-            <div class="form-group form-inline">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control input-sm chat-input" th:field="*{password}" id="password" placeholder="Enter password">
-                <p class="error-message"
-                   th:each="error: ${#fields.errors('password')}"
-                   th:text="${error}">Validation error</p>
-            </div>
-            <div class="wrapper">
-                <span class="group-btn">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </span>
-                <a href="/"> Cancel </a>
-            </div>
+            </fieldset>
         </form>
     </div>
+</div>
 </div>
 </body>
 </html>

@@ -1,9 +1,13 @@
 body {
-    -webkit-font-smoothing: antialiased;
-    font-family: 'Merriweather', serif;
+    background: #fafafa;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
     height: 100%;
 }
+.registration, .login, .profile{
+    background-image: url("../images/bg.jpg")
 
+}
 .logo{
     display: block;
     margin-left: auto;
@@ -17,7 +21,22 @@ body {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 30px;
-    width: 50%;
+    width: 120%; !important
+    flex-shrink: 0;
+}
+
+#row-1{
+    padding: 50px 0px 50px 0px;
+}
+
+#login-col-1{
+
+    padding-right: 100px;
+
+}
+#login-col{
+
+    padding-left: 100px;
 }
 
 html, body, .container {
@@ -41,7 +60,7 @@ html, body, .container {
 }
 
 .form-login-1{
-    background-color:#FFFFFF;
+    background-color:#C0C0C0;
     padding-top: 50px;
     padding-bottom: 50px;
     padding-left: 150px;
@@ -54,18 +73,36 @@ html, body, .container {
 }
 
 h4 {
-    font-family: 'Oleo Script', cursive;
+    font-family: 'Roboto', sans-serif;
     font-size:30px;
-    color: #89c9cf;
+    color: #000000;
     border:0 solid #fff;
     padding-bottom:30px;
     text-align: center;
 }
 
-.form-control{
-    border-radius: 15px;
-    margin-left: 20px;
+.reg-h4{
+    font-family: 'Roboto', sans-serif;
+    font-size:30px;
+    color: #000000;
+    border:0 solid #fff;
+    padding-bottom:30px;
+    text-align: center;
+}
 
+.login-links{
+
+    font-family: 'Roboto', sans-serif;
+    font-size:30px;
+
+}
+
+.row .form-control{
+    font-family: 'Roboto', sans-serif;
+    font-size:20px;
+    border-radius: 15px;
+
+    width: 120%;
 }
 
 .wrapper {
@@ -73,11 +110,12 @@ h4 {
     padding-top: 40px;
 }
 
-.btn{
-    margin-right: 50px;
-    margin-left: 50px;
-    width: 120px;
+#login-button{
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
 }
+
+
 
 label {
     display: inline-block;

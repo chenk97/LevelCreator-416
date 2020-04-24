@@ -240,6 +240,7 @@ function initializeMapGridForOrth(mapHeight, mapWidth, tileHeight, tileWidth) {
     ctx.strokeStyle = 'black'
     ctx.lineWidth = 1
     ctx.setLineDash([1, 1]);
+
     for (i = tileWidth; i < tileWidth * mapWidth; i = i + tileWidth) {
 
         ctx.moveTo(i, 0)
@@ -254,6 +255,51 @@ function initializeMapGridForOrth(mapHeight, mapWidth, tileHeight, tileWidth) {
     }
 }
 
+function initializeMapGridForIso(mapHeight, mapWidth, tileHeight, tileWidth){
+    var canvas = document.getElementById("canvas")
+    canvas.width = mapWidth * tileWidth *2
+    canvas.height = mapHeight * tileHeight *2
+
+    var ctx = canvas.getContext('2d')
+    ctx.strokeStyle = 'black'
+    ctx.lineWidth = 1
+    ctx.setLineDash([1, 1]);
+
+    for (i = 0; i < mapWidth; i++) {
+        for (j = 0; j < mapHeight; j++) {
+            // calculate coordinates
+            var init_xPos = canvas.width/2
+            var init_yPos = tileHeight
+            var x = (i-j) * tileWidth / 2 + init_xPos
+            var y = (i+j) * tileHeight / 2 + init_yPos
+
+            // begin drawing
+            ctx.beginPath()
+
+            // move to start point
+            ctx.moveTo(x - tileWidth / 2, y)
+
+            /**
+             *  need to draw each diamond shaped tile
+             *   /\
+             *   \/
+             */
+
+            //draws '/' on top
+            ctx.lineTo(x - tileWidth, y + tileHeight / 2)
+            //draws '\' on bottom
+            ctx.lineTo(x - tileWidth / 2, y + tileHeight)
+            //draws '/' on bottom
+            ctx.lineTo(x, y + tileHeight / 2)
+            //draws '\' on top
+            ctx.lineTo(x - tileWidth / 2,  y)
+
+            // draw path
+            ctx.stroke()
+        }
+    }
+
+}
 // Setups the map either isometric or orthogonal and setup grid
 function createMap() {
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -268,11 +314,19 @@ function createMap() {
     var tileWidth = parseInt(project.tileWidth)
 
     if (project.orientation == "Orthogonal") {
+
         initializeMapGridForOrth(mapHeight, mapWidth, tileHeight, tileWidth)
 
-    } else {
-        console.log("Isometric not implemented yet")
+    }  else if(project.orientation=="Isometric"){
+
+        initializeMapGridForIso(mapHeight, mapWidth, tileHeight, tileWidth)
+
+    }  else{
+
+        console.log("Some error has occurred")
+
     }
+
 }
 
 createMap()
