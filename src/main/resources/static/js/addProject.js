@@ -24,6 +24,7 @@ function createJson() {
                 data: dataArray,
                 properties: [],
                 visibility: true,
+                locked: false,
                 height: mapHeight,
                 width: mapWidth,
                 x: 0,

@@ -18,6 +18,7 @@ function changeLayerName(theLayerId) {
     localStorage.setItem('project', JSON.stringify(project));
 }
 
+//Change layer visibility status
 function changeVisbility(layerId) {
     let project = JSON.parse(localStorage.getItem('project'));
     let projectLayers = project.layers
@@ -33,35 +34,42 @@ function changeVisbility(layerId) {
     createMap()
 }
 
+//Change layer lock status
+function changeLockStatus(layerId) {
+    let project = JSON.parse(localStorage.getItem('project'));
+    let projectLayers = project.layers
+
+    for (let x = 0; x < projectLayers.length; x++) {
+        if (projectLayers[x].id == layerId) {
+            projectLayers[x].locked = (projectLayers[x].locked == false) ? true : false
+        }
+    }
+    project.layers = projectLayers
+    localStorage.setItem('project', JSON.stringify(project));
+    loadLayer()
+}
+
 //Creates a layer to be added to layer panel
-function createLayer(theLayerId, type, name, visibility) {
+function createLayer(theLayerId, type, name, visibility, locked) {
 
     // Change Icon Base On Visibility
-    let visIcon
-    visIcon = document.createElement("i")
-    if (visibility == true) {
-        visIcon.setAttribute("class", "fas fa-eye liItems")
-    } else {
-        visIcon.setAttribute("class", "fas fa-eye-slash liItems")
-    }
+    let visIcon = document.createElement("i")
+    visibility == true ? visIcon.setAttribute("class", "fas fa-eye liItems") : visIcon.setAttribute("class", "fas fa-eye-slash liItems")
 
     visIcon.addEventListener("click", function () {
         changeVisbility(theLayerId)
     })
 
     // Change Icon Base on Layer or Object Layer
-    let typeIcon
-    typeIcon = document.createElement("i")
-    if (type == "tile") {
-        typeIcon.setAttribute("class", "fas fa-th typeIcon")
-    } else {
-        typeIcon.setAttribute("class", "fas fa-cubes typeIcon")
-    }
+    let typeIcon = document.createElement("i")
+    type == "tile" ? typeIcon.setAttribute("class", "fas fa-th typeIcon") : typeIcon.setAttribute("class", "fas fa-cubes typeIcon")
 
     // Add Lock Icon
-    let lockIcon
-    lockIcon = document.createElement("i")
-    lockIcon.setAttribute("class", "fas fa-lock-open liItems")
+    let lockIcon = document.createElement("i")
+    locked == false ? lockIcon.setAttribute("class", "fas fa-lock-open liItems") : lockIcon.setAttribute("class", "fas fa-lock liItems")
+    lockIcon.addEventListener("click", function () {
+        changeLockStatus(theLayerId)
+    })
 
     //Create Li Element
     let li = document.createElement("li");
@@ -100,12 +108,7 @@ function setCurrentSelectedLayer(layerId) {
     let layer = layerList.getElementsByTagName("li")
 
     for (let i = 0; i < layer.length; i++) {
-        if (layer[i].id != layerId) {
-            layer[i].style.backgroundColor = "white"
-        } else {
-            layer[i].style.backgroundColor = "#a8d1ff"
-
-        }
+        layer[i].id != layerId ? layer[i].style.backgroundColor = "white" : layer[i].style.backgroundColor = "#a8d1ff"
     }
 
     console.log("Layer selected with layer Id: " + layerId)
@@ -200,11 +203,13 @@ function loadLayer() {
 
     for (let i = 0; i < projectLayers.length; i++) {
         //Creates a li for a layer
-        let theLayer = createLayer(projectLayers[i].id, projectLayers[i].type, projectLayers[i].name, projectLayers[i].visibility)
+        let theLayer = createLayer(projectLayers[i].id, projectLayers[i].type, projectLayers[i].name, projectLayers[i].visibility, projectLayers[i].locked)
+
         //Adds a eventlistener for the li when clicked
         theLayer.addEventListener("click", function () {
             setCurrentSelectedLayer(projectLayers[i].id)
         })
+
         //Appends the li to the ul
         appendLayer(theLayer)
 
