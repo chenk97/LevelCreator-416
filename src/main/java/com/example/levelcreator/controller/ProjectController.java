@@ -1,5 +1,6 @@
 package com.example.levelcreator.controller;
 
+import com.example.levelcreator.model.Map;
 import com.example.levelcreator.model.Project;
 import com.example.levelcreator.service.AuthenticationService;
 import org.springframework.ui.Model;
@@ -19,11 +20,10 @@ public class ProjectController {
         return "mywork.html";
     }
 
-    //submitting the form with map preferences directs the user to the workspace page where
-    //they are able to start creating
-    @PostMapping("/workspace")
-    public String submitNewProject(@ModelAttribute Project project,Model model) {
-        model.addAttribute("project", new Project());
+//    submitting the form with map preferences directs the user to the workspace page where
+//    they are able to start creating
+    @RequestMapping("/workspace")
+    public String submitNewProject() {
         return "workspace";
     }
 }

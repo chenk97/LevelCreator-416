@@ -113,41 +113,53 @@
                     </div>
                 </div>
             </div>
-            <!--            <br>-->
+            <br>
 
-            <!--            <div class="row">-->
-            <!--                <div class="card card1">-->
-            <!--                    <div class="card-header">-->
-            <!--                        <ul class="nav nav-tabs card-header-tabs">-->
-            <!--                            <li class="nav-item">-->
-            <!--                                <a class="nav-link active" href="#">Tileset #1</a>-->
-            <!--                            </li>-->
-            <!--                        </ul>-->
-            <!--                    </div>-->
-            <!--                    <br>-->
-            <!--                    <br>-->
-            <!--                    <div class="card-body" style="height: 150px; background-color: white;">-->
-            <!--                        <button type="button" class="btn btn-secondary btn-lg btn-block"> Import Tileset</button>-->
+            <div class="row">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" id="bologna-list" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id = "tileset1" href="#Tileset#1" role="tab">Tileset#1</a>
+                            </li>
+                            <!--                            <li class="nav-item">-->
+                            <!--                                <a class="nav-link"  href="#history" role="tab" aria-controls="history" aria-selected="false">Tileset#2</a>-->
+                            <!--                            </li>-->
+                        </ul>
+                    </div>
+                    <div class="card-body" style="padding:0px!important;">
+                        <div class="tab-content mt-3">
+                            <div class="tab-pane active" id="Tileset#1" role="tabpanel">
+                                <input type = "file" id = "realBtn" hidden = "hidden" onchange="addFirstTileset(this);">
+                                <button type="button"  id = "fakeBtn" class="btn btn-secondary btn-lg btn-block"> Import Tileset</button>
+                                <canvas id="myCanvas" >this is canvas</canvas>
+                            </div>
+                            <!--                            <div class="tab-pane" id="history" role="tabpanel" aria-labelledby="history-tab" style="overflow: scroll;max-height:256px;">-->
+                            <!--                                <canvas id="myCanvas2" >this is canvas</canvas>-->
+                            <!--                            </div>-->
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <input type = "file" id = "fileBtn"  hidden = "hidden" onchange="addTileset(this);">
+                        <a href="#" class="remove-tileset" id = "minusBtn"><span class="fas fa-minus" style="float:right;margin-right:5px;margin-top: 5px;"></span></a>
+                        <a href="#" class="add-tileset" id = "plusBtn"><span class="fas fa-plus" style="float:right;margin-right:20px; margin-top: 5px;"></span></a>
+                    </div>
+                </div>
 
-            <!--                    </div>-->
-            <!--                    <div class="card-footer text-muted">-->
-            <!--                        <span class="fas fa-minus" style="float:right;margin-right:5px;margin-top: 5px;"></span>-->
-            <!--                        &nbsp-->
-            <!--                        <span class="fas fa-plus" style="float:right;margin-right:20px; margin-top: 5px;"></span>-->
+            </div>
 
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
         </div>
-
     </div>
 </div>
+
+</div>
+
+
 
 <!-- Optional JavaScript -->
 <script src="js/addProject.js"></script>
 <script src="js/layerController.js"></script>
 
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
@@ -158,5 +170,27 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
+<!-- Optional JavaScript-->
+<script type="text/javascript">
+    const realFileBtn = document.getElementById("realBtn");
+    const fakeFileBtn = document.getElementById("fakeBtn");
+    fakeFileBtn.addEventListener("click", function(){
+        realFileBtn.click();
+    })
+</script>
+
+<script type="text/javascript">
+    const fileBtn = document.getElementById("fileBtn");
+    const plusBtn = document.getElementById("plusBtn");
+    plusBtn.addEventListener("click", function(){
+        fileBtn.click();
+    })
+</script>
+
+<script src = "js/tabs.js"></script>
+<script src="js/addProject.js"></script>
+<script src="js/addTileset.js"></script>
+<script src ="js/tileSelection.js"></script>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
 </body>
-</html>
