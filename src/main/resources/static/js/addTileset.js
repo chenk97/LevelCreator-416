@@ -107,15 +107,17 @@ function addTileset(input){
 function init(canvas, ctx) {
     let project = JSON.parse(localStorage.getItem('project'));
     imgW = img.width;
+    console.log(imgW);
     imgH = img.height;
+    console.log(imgH);
     tileW = project.tileWidth;
     tileH = project.tileHeight;
-    canvas.width = imgW * offset;
-    canvas.height = imgH * offset;
-    //check how many full tiles we can fit
-    //right and bottom sides of the image will get cropped
     tileCountX = ~~(imgW / tileW);
     tileCountY = ~~(imgH / tileH);
+    canvas.width = tileW*tileCountX + (tileCountX-1)* (tileW*(offset-1));
+    canvas.height = tileH*tileCountY + (tileCountY-1)* (tileH*(offset-1));
+    //check how many full tiles we can fit
+    //right and bottom sides of the image will get cropped
     project.gidCnt += tileCountX * tileCountY;
     localStorage.setItem('project', JSON.stringify(project));
     console.log("xcount: " + tileCountX);
@@ -189,7 +191,7 @@ function drawTiles(tiles, ctx) {
 function addTileCanvas(){
     var id = $(".nav-tabs").children().length + 1;
     $(".nav-tabs").append(`<li class="nav-item"><a class="nav-link" id = "tileset${id}" href="#tileset_${id}">Tileset#${id}</a></li>`);
-    $('.tab-content').append(`<div class="tab-pane" id="tileset_${id}" style="overflow: scroll;max-height:256px;"><canvas id ="canvas_${id}"/>${id}</div>`);
+    $('.tab-content').append(`<div class="tab-pane" id="tileset_${id}" style="overflow: scroll;max-height:256px;"><canvas id ="canvas_${id}"/></div>`);
     $(`a[href="#tileset_${id}"]`).click();
     var canvas = document.getElementById("canvas_"+id);
     return canvas;
