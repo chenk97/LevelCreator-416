@@ -149,6 +149,7 @@ function newTileLayer() {
         data: dataArray,
         properties: [],
         visibility: true,
+        locked: false,
         height: project.height,
         width: project.width,
         x: 0,
@@ -171,6 +172,7 @@ function newObjectLayer() {
         name: "Object Layer",
         objects: [],
         visibility: true,
+        locked: false,
         x: 0,
         y: 0,
     }
@@ -272,7 +274,6 @@ function createMap() {
         console.log("Isometric not implemented yet")
     }
 }
-
 
 createMap()
 loadLayer()
