@@ -1,4 +1,3 @@
-
 html,body{
     height: 100%;
 }
@@ -76,6 +75,17 @@ html,body{
 .tools{
     margin-left: 20px;
     margin-right: 20px;
-
 }
 
+
+body {
+    background: #fafafa;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+}
+
+
+
+.container {
+    margin-top: 10px;
+}
