@@ -4,6 +4,8 @@ var img = new Image(),
     tileW,
     tileH;
 
+//draw with offset
+var offset = 1.1;
 
 function addFirstTileset(input){
     var canvas = document.getElementById("myCanvas"),
@@ -108,8 +110,8 @@ function init(canvas, ctx) {
     imgH = img.height;
     tileW = project.tileWidth;
     tileH = project.tileHeight;
-    canvas.width = imgW;
-    canvas.height = imgH;
+    canvas.width = imgW * offset;
+    canvas.height = imgH * offset;
     //check how many full tiles we can fit
     //right and bottom sides of the image will get cropped
     tileCountX = ~~(imgW / tileW);
@@ -170,8 +172,7 @@ function getTiles() {
     return tiles;
 }
 
-//and draw with offset
-var offset = 1.1;
+
 function drawTiles(tiles, ctx) {
     //loop through each tile in array
     tiles.forEach((d,i) => ctx.putImageData(d, d.x * offset, d.y * offset));
