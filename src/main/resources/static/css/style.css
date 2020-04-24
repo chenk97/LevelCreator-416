@@ -76,31 +76,6 @@ html,body{
 .tools{
     margin-left: 20px;
     margin-right: 20px;
-}
 
-.layerIcon{
-    padding: 10px;
-}
-
-.liItems{
- padding-left: 5px;
-}
-
-.liInputTag{
-    width: auto ;
-}
-
-.typeIcon{
-    padding: 5px;
-}
-
-.liTag{
-    text-align: center;
-}
-
-.canvasPosition{
-    position: absolute;
-    left: 0px;
-    top: 0px;
 }
 
