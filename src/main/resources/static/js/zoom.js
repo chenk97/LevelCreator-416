@@ -28,7 +28,7 @@ function mouseUp(e){
 }
 
 function addListeners(){
-    window.addEventListener('wheel',zoom);
+    canvas.addEventListener('wheel',zoom);
     canvas.addEventListener('mousedown',mouseDown);
     window.addEventListener('mouseup',mouseUp);
 
