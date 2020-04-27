@@ -9,7 +9,7 @@ var offset = 1.1;
 var currentTarget;
 
 function addTileset(input){
-    console.log("adding!!!");
+    console.log("adding tileset...");
     var fakeCanvas = document.createElement('canvas');
     fakeCanvas.setAttribute('id', '_fake_canvas');
     var ctx = fakeCanvas.getContext("2d");
@@ -27,8 +27,6 @@ function addTileset(input){
         id: id,
         source: null,
         image: null,
-        // imageW: null,
-        // imageH: null,
         canvasId : canvas.id,
     };
     //get file name, the tab name ll be the same as it
@@ -163,15 +161,28 @@ function drawTiles(tiles, fabricCanvas) {
             img.on("mouseup", function(e){
                 var target = e.target;
                 currentTarget = target._element.src;
-                console.log(currentTarget);
+                // console.log(currentTarget);
             });
 
             img.lockMovementX = true;
             img.lockMovementY = true;
             img.lockScalingX = true;
             img.lockScalingY = true;
+            img.hasControls = false;
+            img.setCoords();
 
             // console.log(JSON.stringify(img));//good
+            fabricCanvas.on('selection:created',function(e){
+                //try group selection here
+                e.target.set({
+                    lockScalingX: true,
+                    lockScalingY: true,
+                    lockMovementX: true,
+                    lockMovementY: true,
+                    hasControls: false,
+                });
+            });
+
             c = null;
             $('#_temp_canvas').remove();
             // fabricCanvas.renderAll();
@@ -206,8 +217,6 @@ function reloadTileset(){
         var tileset = map.tilesets[i];
         var canvas = addTileCanvas(tileset.id);
         img.src = tileset.image;
-        console.log("reload..."+img.src);
-        console.log("reload..."+img.width);
         init(fakeCanvas, ctx);
         var tiles = getTiles();
         var fabricCanvas = new fabric.Canvas(canvas.id,{

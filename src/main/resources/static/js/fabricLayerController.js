@@ -325,6 +325,18 @@ function changeLockStatus(layerId) {
     loadLayer()
 }
 
+//
+// function loadMap(){
+//     let map = JSON.parse(localStorage.getItem("map"));
+//     for(let i = 0; i< map.layers.length; i++){
+//         let layer = map.layers[i];
+//         for(let j = 0; j<layer.data.length; j++){
+//             fabric.Image.loadFromJSON(layer.data[i], gridCanvas);
+//         }
+//     }
+// }
+
+
 // });
 
 
@@ -336,3 +348,4 @@ function changeLockStatus(layerId) {
 
 drawGrids();
 loadLayer();
+

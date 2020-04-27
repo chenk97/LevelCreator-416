@@ -4,7 +4,6 @@ function createMap() {
     var mapHeight = Number(document.getElementById("mapHeight").value)
     var tileWidth = Number(document.getElementById("tileWidth").value)
     var tileHeight = Number(document.getElementById("tileHeight").value)
-    var dataArray = new Array(mapWidth * mapHeight).fill(0)
 
     var map = {
         orientation: mapOrientation,
@@ -21,7 +20,7 @@ function createMap() {
                 id: 1,
                 name: "Tile Layer",
                 properties: [],
-                data: dataArray,
+                data: [],
                 position: 1,//larger position index on top
                 visibility: true,
                 locked: false,

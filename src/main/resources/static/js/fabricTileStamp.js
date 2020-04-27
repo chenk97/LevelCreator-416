@@ -1,5 +1,16 @@
 var map = JSON.parse(localStorage.getItem('map'));
 
+
+gridCanvas.on('selection:created',function(e){
+    currentTarget = "";
+    e.target.set({
+        lockScalingX: true,
+        lockScalingY: true,
+        hasControls: false,
+    });
+});
+
+
 gridCanvas.on({
     'object:selected': (e)=>{
         currentTarget = "";
@@ -31,11 +42,23 @@ gridCanvas.on({
                 top: top,
                 left: left,
                 selectable: true,
+                hasControls: false,
             });
             im.lockScalingX = true;
             im.lockScalingY = true;
             im.setCoords();
+            var map = JSON.parse(localStorage.getItem("map"));
+
+            for(var i = 0; i < map.layers.length; i ++){
+                let layer = map.layers[i];
+                if(layer.id === curLayerSelected){
+                    layer.data.push(JSON.stringify(im));
+                    // console.log(JSON.stringify(JSON.stringify(im)));
+                    localStorage.setItem("map", JSON.stringify(map));
+                }
+            }
         });
+
     }
 });
 
