@@ -1,4 +1,6 @@
-//Global variable to be used to indicate the currently selected layers id
+import {addTransactions} from "./redoAndUndo.js";
+
+// Global variable to be used to indicate the currently selected layers id
 var curLayerSelected
 var firstLoad = true
 var justAddedNewLayer = false
@@ -31,7 +33,6 @@ function changeVisbility(layerId) {
     project.layers = projectLayers
     localStorage.setItem('project', JSON.stringify(project));
     loadLayer()
-    createMap()
 }
 
 //Change layer lock status
@@ -135,6 +136,7 @@ function deleteLayer() {
     }
     project.layers = projectLayers
     localStorage.setItem('project', JSON.stringify(project));
+    addTransactions("layer")
     loadLayer()
 }
 
@@ -160,6 +162,7 @@ function newTileLayer() {
     project.layers.unshift(newTileLayer)
     localStorage.setItem('project', JSON.stringify(project));
     justAddedNewLayer = true
+    addTransactions("layer")
     loadLayer()
 }
 
@@ -180,6 +183,7 @@ function newObjectLayer() {
     project.layers.unshift(newObjectLayer)
     localStorage.setItem('project', JSON.stringify(project));
     justAddedNewLayer = true
+    addTransactions("layer")
     loadLayer()
 }
 
@@ -196,7 +200,7 @@ function clearCanvas() {
 }
 
 // Load the layers that the project has
-function loadLayer() {
+export function loadLayer() {
 
     clearLayerPanel()
     //Get the object from local storage
@@ -218,12 +222,19 @@ function loadLayer() {
         //Checks if a new layers has been added or if the project was loaded for the first time
         //If so we set the first layers to be the current selected one
         if (justAddedNewLayer == true || firstLoad == true) {
+            if(firstLoad==true){
+                addTransactions("layer")
+            }
             setCurrentSelectedLayer(projectLayers[0].id)
             justAddedNewLayer = false
             firstLoad = false
         }
     }
 }
+
+document.getElementById("addTileLayer").addEventListener("click",newTileLayer)
+document.getElementById("addObjectLayer").addEventListener("click",newObjectLayer)
+document.getElementById("deleteLayer").addEventListener("click",deleteLayer)
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // CODE FROM HERE ON DEALS WITH MAPS
@@ -241,14 +252,14 @@ function initializeMapGridForOrth(mapHeight, mapWidth, tileHeight, tileWidth) {
     ctx.lineWidth = 1
     ctx.setLineDash([1, 1]);
 
-    for (i = tileWidth; i < tileWidth * mapWidth; i = i + tileWidth) {
+    for (let i = tileWidth; i < tileWidth * mapWidth; i = i + tileWidth) {
 
         ctx.moveTo(i, 0)
         ctx.lineTo(i, tileHeight * mapHeight)
         ctx.stroke()
 
     }
-    for (j = tileHeight; j < tileHeight * mapHeight; j = j + tileHeight) {
+    for (let j = tileHeight; j < tileHeight * mapHeight; j = j + tileHeight) {
         ctx.moveTo(0, j)
         ctx.lineTo(tileWidth * mapWidth, j)
         ctx.stroke()
@@ -265,8 +276,8 @@ function initializeMapGridForIso(mapHeight, mapWidth, tileHeight, tileWidth){
     ctx.lineWidth = 1
     ctx.setLineDash([1, 1]);
 
-    for (i = 0; i < mapWidth; i++) {
-        for (j = 0; j < mapHeight; j++) {
+    for (let i = 0; i < mapWidth; i++) {
+        for (let j = 0; j < mapHeight; j++) {
             // calculate coordinates
             var init_xPos = canvas.width/2
             var init_yPos = tileHeight
@@ -331,3 +342,4 @@ function createMap() {
 
 createMap()
 loadLayer()
+

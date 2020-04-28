@@ -27,10 +27,10 @@
             </div>
             <div class="row iconrow">
                 <div class="col">
-                    <i class="fas fa-undo icon"></i>
+                    <i class="fas fa-undo icon" id="undo"></i>
                 </div>
                 <div class="col">
-                    <i class="fas fa-redo icon"></i>
+                    <i class="fas fa-redo icon" id="redo"></i>
                 </div>
             </div>
             <div class="row iconrow">
@@ -103,12 +103,12 @@
                            aria-haspopup="true" aria-expanded="false"></i>
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <button class="dropdown-item" type="button" onclick="newTileLayer()">Tile Layer</button>
-                            <button class="dropdown-item" type="button" onclick="newObjectLayer()">Object layer
+                            <button class="dropdown-item" type="button" id="addTileLayer">Tile Layer</button>
+                            <button class="dropdown-item" type="button" id="addObjectLayer">Object layer
                             </button>
                         </div>
 
-                        <i class="fas fa-minus layerIcon" onclick="deleteLayer()"></i>
+                        <i class="fas fa-minus layerIcon" id="deleteLayer"></i>
                     </div>
                 </div>
             </div>
@@ -190,7 +190,7 @@
 <script src = "js/zoom.js"></script>
 <script src="js/tabs.js"></script>
 <script src="js/addProject.js"></script>
-<script src="js/layerController.js"></script>
+<script type="module"   src="js/layerController.js"></script>
 <script src="js/addTileset.js"></script>
 <script src="js/tileSelection.js"></script>
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
