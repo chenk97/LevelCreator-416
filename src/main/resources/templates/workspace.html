@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
+
+    <!--    For Literally Canvas-->
+    <link href="../static/css/literallycanvas.css" rel="stylesheet">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-with-addons.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
+    <script src="../static/js/literallycanvas.js"></script>
+    <!--    For Literally Canvas-->
+
+
     <title>Title</title>
 </head>
 <body>
@@ -59,7 +68,37 @@
             </div>
             <div class="row iconrow">
                 <div class="col">
-                    <i class="fas fa-edit icon"></i>
+                    <i class="fas fa-edit icon" id="drawCanvas" data-toggle="modal" data-target="#exampleModal"></i>
+
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="my-drawing"></div>
+                                    <script>
+                                        LC.init(
+                                            document.getElementsByClassName('my-drawing')[0],
+                                            {imageURLPrefix:'../static/images/literallyCanvasImg'}
+                                        )
+
+                                    </script>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="col">
                     <i class="fas fa-users icon"></i>
@@ -156,6 +195,7 @@
 </div>
 
 </div>
+<div class="my-drawing"></div>-->
 
 
 <!-- Optional JavaScript -->
@@ -187,7 +227,7 @@
     })
 </script>
 
-<script src = "js/zoom.js"></script>
+<script src="js/zoom.js"></script>
 <script src="js/tabs.js"></script>
 <script src="js/addProject.js"></script>
 <script src="js/layerController.js"></script>
