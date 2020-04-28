@@ -181,6 +181,11 @@ function drawTiles(tiles, fabricCanvas) {
                     lockMovementY: true,
                     hasControls: false,
                 });
+                //get selected items and add to group
+                //clone group and placed on gridMap, ungroup the group
+                // fabricCanvas.getActiveObject().clone(function(cloned) {
+                //     _clipboard = cloned;
+                // });
             });
 
             c = null;

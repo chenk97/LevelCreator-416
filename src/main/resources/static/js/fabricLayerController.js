@@ -7,6 +7,7 @@ var lineXN = [];
 var lineYN = [];
 var gridCanvas;
 var curLayerSelected;
+var groupSelection = false;
 var firstLoad = true;
 var justAddedNewLayer = false;
 

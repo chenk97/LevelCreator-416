@@ -34,7 +34,7 @@ gridCanvas.on({
     'mouse:up':(e)=>{
         let top = closest(lineYN, gridCanvas.getPointer(e.e).y-tileH/2);
         let left = closest(lineXN, gridCanvas.getPointer(e.e).x-tileW/2);
-        new fabric.Image.fromURL(currentTarget, function(im) {
+        var img = new fabric.Image.fromURL(currentTarget, function(im) {
             im.scaleToWidth(tileW);
             im.scaleToHeight(tileH);
             gridCanvas.add(im);
@@ -43,11 +43,11 @@ gridCanvas.on({
                 left: left,
                 selectable: true,
                 hasControls: false,
+                id: curLayerSelected,
             });
             im.lockScalingX = true;
             im.lockScalingY = true;
             im.setCoords();
-
         });
 
         var map = JSON.parse(localStorage.getItem("map"));
@@ -59,10 +59,17 @@ gridCanvas.on({
                 //save info for rebuilding and image object
                 let image = {src: currentTarget, top: top, left: left};
                 layer.data.push(image);
-                // console.log(JSON.stringify(JSON.stringify(im)));
                 localStorage.setItem("map", JSON.stringify(map));
             }
         }
+
+        //get object id
+        // var obj = gridCanvas.getObjects();
+        // obj.forEach(function(item, i) {
+        //     console.log(item.id);
+        // });
+
+        //reload layer each time
 
     }
 });
