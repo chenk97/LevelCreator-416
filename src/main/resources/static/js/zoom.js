@@ -1,5 +1,5 @@
 var box = document.getElementById('canvasStorage').getElementsByTagName('canvas');
-var canvas = document.getElementById('canvas');
+var canvas = document.getElementById('grid_canvas');
 
 var scale = 1;
 

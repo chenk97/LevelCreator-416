@@ -325,16 +325,31 @@ function changeLockStatus(layerId) {
     loadLayer()
 }
 
-//
-// function loadMap(){
-//     let map = JSON.parse(localStorage.getItem("map"));
-//     for(let i = 0; i< map.layers.length; i++){
-//         let layer = map.layers[i];
-//         for(let j = 0; j<layer.data.length; j++){
-//             fabric.Image.loadFromJSON(layer.data[i], gridCanvas);
-//         }
-//     }
-// }
+
+function loadMap(){
+    let map = JSON.parse(localStorage.getItem("map"));
+    for(let i = 0; i< map.layers.length; i++){
+        let layer = map.layers[i];
+        for(let j = 0; j<layer.data.length; j++){
+            let obj = layer.data[j];
+            new fabric.Image.fromURL(obj.src, function(im) {
+                im.scaleToWidth(tileW);
+                im.scaleToHeight(tileH);
+                gridCanvas.add(im);
+                im.set({
+                    top: obj.top,
+                    left: obj.left,
+                    selectable: true,
+                    hasControls: false,
+                });
+                im.lockScalingX = true;
+                im.lockScalingY = true;
+                im.setCoords();
+
+            });
+        }
+    }
+}
 
 
 // });
@@ -348,4 +363,5 @@ function changeLockStatus(layerId) {
 
 drawGrids();
 loadLayer();
+loadMap();
 
