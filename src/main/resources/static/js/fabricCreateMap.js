@@ -1,5 +1,9 @@
 // $(document).ready(function(){
 var boundBox;
+//var canvas = document.getElementById("grid_canvas");
+var parentw = document.getElementById("canvasStorage").clientWidth;
+var parenth = document.getElementById("canvasStorage").clientHeight;
+
 // var square;
 var lineX = [];
 var lineY = [];
@@ -53,10 +57,9 @@ function drawGrids(){
     let map = JSON.parse(localStorage.getItem('map'));
     let tileW = map.tileWidth;
     let tileH = map.tileHeight;
-    gridCanvas = new fabric.Canvas('grid_canvas',{
-        width: window.outerWidth,
-        height: window.outerHeight,
-    });
+    gridCanvas = new fabric.Canvas('grid_canvas');
+    gridCanvas.setWidth(parentw);
+    gridCanvas.setHeight(parenth);
     // console.log(gridCanvas);
     boundBox = new fabric.Rect({
         width: map.width * map.tileWidth,
@@ -124,22 +127,44 @@ function drawGrids(){
 }
 
 /////////////// zoom and panning function start from here //////////////////////
-var zoomhandler = function(event){
-    if(event.e.ctrlKey) {
+var zoomhandler = function(event) {
+    if (event.e.ctrlKey) {
         event.e.preventDefault();
         event.e.stopPropagation();
         var delta = event.e.deltaY;
         var zoom = gridCanvas.getZoom();
         //greater the divisor the smoother zoom based on mousescroll is
-        zoom = zoom + delta / 300;
+        zoom = zoom + delta / 200;
         //zooms in up to 10 times(1000%)
         if (zoom > 10) zoom = 10;
         //zooms out up to 10%
         if (zoom < 0.10) zoom = 0.10;
         gridCanvas.zoomToPoint({x: event.e.offsetX, y: event.e.offsetY}, zoom);
+        var vpt = gridCanvas.viewportTransform;
+        //if zoomed out all the way
+        if (zoom < 400 / gridCanvas.width) {
+            //return the grid to the center of the canvas
+            gridCanvas.viewportTransform[4] =  (gridCanvas.width/2) - gridCanvas.width * zoom / 2;
+            gridCanvas.viewportTransform[5] = (gridCanvas.height/2) - gridCanvas.height * zoom / 2;
+        } else {
+            //panning left and right
+            if (vpt[4] >= 0) {
+                //going left
+                gridCanvas.viewportTransform[4] = 0;
+            } else if (vpt[4] < gridCanvas.width - gridCanvas.width * zoom) {
+                gridCanvas.viewportTransform[4] = gridCanvas.width - (gridCanvas.width * zoom);
+            }
+            //panning up and down
+            if (vpt[5] >= 0) {
+                //going up
+                gridCanvas.viewportTransform[5] = 0;
+            } else if (vpt[5] < gridCanvas.height - gridCanvas.height * zoom) {
+                gridCanvas.viewportTransform[5] = gridCanvas.height- (gridCanvas.height * zoom);
+            }
+
+        }
     }
 }
-
 
 function loadMap(){
     let map = JSON.parse(localStorage.getItem("map"));
@@ -151,3 +176,25 @@ function loadMap(){
 drawGrids();
 loadMap();
 gridCanvas.on('mouse:wheel', zoomhandler);
+
+gridCanvas.on('mouse:down', function(event) {
+        var evt = event.e;
+        this.isDragging = true;
+        this.selection = false;
+        this.lastPosX = evt.clientX;
+        this.lastPosY = evt.clientY;
+});
+gridCanvas.on('mouse:move', function(event) {
+    if (this.isDragging) {
+        var evt = event.e;
+        this.viewportTransform[4] += evt.clientX - this.lastPosX;
+        this.viewportTransform[5] += evt.clientY - this.lastPosY;
+        this.requestRenderAll();
+        this.lastPosX = evt.clientX;
+        this.lastPosY = evt.clientY;
+    }
+});
+gridCanvas.on('mouse:up', function(event) {
+    this.isDragging = false;
+    this.selection = true;
+});
