@@ -9,7 +9,6 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
     <title>Title</title>
-
 </head>
 <body>
 
@@ -23,7 +22,7 @@
                     <i class="fas fa-save icon"></i>
                 </div>
                 <div class="col">
-                   <i class="fas fa-file-import icon"></i>
+                    <i class="fas fa-file-import icon"></i>
                 </div>
             </div>
             <!--            this is test icons-->
@@ -46,10 +45,10 @@
             <!--            this is test icons-->
             <div class="row iconrow">
                 <div class="col">
-                    <i class="fas fa-undo icon"></i>
+                    <i class="fas fa-undo icon" id="undo"></i>
                 </div>
                 <div class="col">
-                    <i class="fas fa-redo icon"></i>
+                    <i class="fas fa-redo icon" id="redo"></i>
                 </div>
             </div>
             <div class="row iconrow">
@@ -122,11 +121,12 @@
                            aria-haspopup="true" aria-expanded="false"></i>
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <button class="dropdown-item" type="button" onclick="newTileLayer()">Tile Layer</button>
-                            <button class="dropdown-item" type="button" onclick="newObjectLayer()">Object layer</button>
+                            <button class="dropdown-item" type="button" id="addTileLayer">Tile Layer</button>
+                            <button class="dropdown-item" type="button" id="addObjectLayer">Object layer
+                            </button>
                         </div>
 
-                        <i class="fas fa-minus layerIcon" onclick="deleteLayer()"></i>
+                        <i class="fas fa-minus layerIcon" id="deleteLayer"></i>
                     </div>
                 </div>
             </div>
@@ -136,26 +136,26 @@
                 <div class="card card1">
                     <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs" role="tablist">
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link active" id="tileset1" href="#Tileset#1" data-toggle="tab">Tileset#1</a>-->
-<!--                            </li>-->
+                            <!--                            <li class="nav-item">-->
+                            <!--                                <a class="nav-link active" id="tileset1" href="#Tileset#1" data-toggle="tab">Tileset#1</a>-->
+                            <!--                            </li>-->
                         </ul>
                     </div>
                     <div class="card-body" style="padding:unset;min-height: 256px;">
                         <div class="tab-content mt-3">
-<!--                            <div class="tab-pane active" id="Tileset#1" role="tabpanel">-->
-<!--                                <input type="file" id="realBtn" hidden="hidden" onchange="addFirstTileset(this);">-->
-<!--                                <button type="button" id="fakeBtn" class="btn btn-secondary btn-lg btn-block"> Import-->
-<!--                                    Tileset-->
-<!--                                </button>-->
-<!--                                <canvas id="canvas_1">this is canvas</canvas>-->
-<!--                            </div>-->
+                            <!--                            <div class="tab-pane active" id="Tileset#1" role="tabpanel">-->
+                            <!--                                <input type="file" id="realBtn" hidden="hidden" onchange="addFirstTileset(this);">-->
+                            <!--                                <button type="button" id="fakeBtn" class="btn btn-secondary btn-lg btn-block"> Import-->
+                            <!--                                    Tileset-->
+                            <!--                                </button>-->
+                            <!--                                <canvas id="canvas_1">this is canvas</canvas>-->
+                            <!--                            </div>-->
                         </div>
                     </div>
                     <div class="card-footer form-inline">
-<!--                        wanna make these in one line-->
+                        <!--                        wanna make these in one line-->
                         <h5 class = "my-1 mr-lg-5">Tilesets</h5>
-<!--                        <h5 class = "my-1 ml-lg-5 mr-lg-5"></h5>-->
+                        <!--                        <h5 class = "my-1 ml-lg-5 mr-lg-5"></h5>-->
                         <input type="file" id="fileBtn" hidden="hidden" onclick="this.value = null" onchange="addTileset(this);">
                         <a href="#" class="add-tileset float-right my-1 ml-lg-5" id="plusBtn"><span class="fas fa-plus"></span></a>
                         <a href="#" class="remove-tileset float-right my-1 ml-4" id="minusBtn"><span class="fas fa-minus"></span></a>
@@ -208,7 +208,7 @@
 <script src = "js/fabricNumberedImage.js"></script>
 <script src="js/fabricCreateMap.js"></script>
 <script src="js/fabricLayerController.js"></script>
-<script src="js/layerController.js"></script>
+<script type="module"   src="js/layerController.js"></script>
 <script src="js/fabricTilesetController.js"></script>
 <script src="js/fabricTileStamp.js"></script>
 <!--<script src="js/tileSelection.js"></script>-->

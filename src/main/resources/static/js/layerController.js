@@ -1,11 +1,11 @@
 //Global variable to be used to indicate the currently selected layers id
+import {addTransactions} from "./redoAndUndo.js";
 var curLayerSelected
 var firstLoad = true
 var justAddedNewLayer = false
 
 //Change the name of layer
 function changeLayerName(theLayerId) {
-
     let map = JSON.parse(localStorage.getItem('map'));
     let mapLayers = map.layers
     for (let x = 0; x < mapLayers.length; x++) {
@@ -135,6 +135,7 @@ function deleteLayer() {
     }
     map.layers = mapLayers
     localStorage.setItem('map', JSON.stringify(map));
+    addTransactions("layer")
     loadLayer()
 }
 
@@ -160,6 +161,7 @@ function newTileLayer() {
     map.layers.unshift(newTileLayer)
     localStorage.setItem('map', JSON.stringify(map));
     justAddedNewLayer = true
+    addTransactions("layer")
     loadLayer()
 }
 
@@ -180,6 +182,7 @@ function newObjectLayer() {
     map.layers.unshift(newObjectLayer)
     localStorage.setItem('map', JSON.stringify(map));
     justAddedNewLayer = true
+    addTransactions("layer")
     loadLayer()
 }
 
@@ -196,7 +199,7 @@ function clearCanvas() {
 }
 
 // Load the layers that the project has
-function loadLayer() {
+export function loadLayer() {
 
     clearLayerPanel()
     //Get the object from local storage
@@ -212,24 +215,32 @@ function loadLayer() {
             setCurrentSelectedLayer(mapLayers[i].id)
         })
 
+
         //Appends the li to the ul
         appendLayer(theLayer)
 
         //Checks if a new layers has been added or if the project was loaded for the first time
         //If so we set the first layers to be the current selected one
         if (justAddedNewLayer == true || firstLoad == true) {
+            if(firstLoad==true){
+                addTransactions("layer")
+            }
             setCurrentSelectedLayer(mapLayers[0].id)
             justAddedNewLayer = false
             firstLoad = false
         }
     }
 }
+document.getElementById("addTileLayer").addEventListener("click",newTileLayer)
+document.getElementById("addObjectLayer").addEventListener("click",newObjectLayer)
+document.getElementById("deleteLayer").addEventListener("click",deleteLayer)
+
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // CODE FROM HERE ON DEALS WITH MAPS
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-// //Draws out the grids for orthogonal map
+//Draws out the grids for orthogonal map
 // function initializeMapGridForOrth(mapHeight, mapWidth, tileHeight, tileWidth) {
 //
 //     var canvas = document.getElementById("canvas")
