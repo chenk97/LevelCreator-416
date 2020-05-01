@@ -19,7 +19,7 @@ function createMap() {
             {
                 type: "tile",
                 id: 1,
-                name: "Tile Layer 1",
+                name: "Tile Layer",
                 properties: [],
                 position: 1,//larger position index on top
                 visibility: true,

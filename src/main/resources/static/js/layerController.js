@@ -6,46 +6,46 @@ var justAddedNewLayer = false
 //Change the name of layer
 function changeLayerName(theLayerId) {
 
-    let project = JSON.parse(localStorage.getItem('project'));
-    let projectLayers = project.layers
-    for (let x = 0; x < projectLayers.length; x++) {
-        if (projectLayers[x].id == theLayerId) {
+    let map = JSON.parse(localStorage.getItem('map'));
+    let mapLayers = map.layers
+    for (let x = 0; x < mapLayers.length; x++) {
+        if (mapLayers[x].id == theLayerId) {
             console.log("hi")
-            projectLayers[x].name = event.target.value
+            mapLayers[x].name = event.target.value
         }
     }
-    project.layers = projectLayers
-    localStorage.setItem('project', JSON.stringify(project));
+    map.layers = mapLayers
+    localStorage.setItem('map', JSON.stringify(map));
 }
 
 //Change layer visibility status
 function changeVisbility(layerId) {
-    let project = JSON.parse(localStorage.getItem('project'));
-    let projectLayers = project.layers
+    let map = JSON.parse(localStorage.getItem('map'));
+    let mapLayers = map.layers
 
-    for (let x = 0; x < projectLayers.length; x++) {
-        if (projectLayers[x].id == layerId) {
-            projectLayers[x].visibility = (projectLayers[x].visibility == true) ? false : true
+    for (let x = 0; x < mapLayers.length; x++) {
+        if (mapLayers[x].id == layerId) {
+            mapLayers[x].visibility = (mapLayers[x].visibility == true) ? false : true
         }
     }
-    project.layers = projectLayers
-    localStorage.setItem('project', JSON.stringify(project));
+    map.layers = mapLayers
+    localStorage.setItem('map', JSON.stringify(map));
     loadLayer()
     createMap()
 }
 
 //Change layer lock status
 function changeLockStatus(layerId) {
-    let project = JSON.parse(localStorage.getItem('project'));
-    let projectLayers = project.layers
+    let map = JSON.parse(localStorage.getItem('map'));
+    let mapLayers = map.layers
 
-    for (let x = 0; x < projectLayers.length; x++) {
-        if (projectLayers[x].id == layerId) {
-            projectLayers[x].locked = (projectLayers[x].locked == false) ? true : false
+    for (let x = 0; x < mapLayers.length; x++) {
+        if (mapLayers[x].id == layerId) {
+            mapLayers[x].locked = (mapLayers[x].locked == false) ? true : false
         }
     }
-    project.layers = projectLayers
-    localStorage.setItem('project', JSON.stringify(project));
+    map.layers = mapLayers
+    localStorage.setItem('map', JSON.stringify(map));
     loadLayer()
 }
 
@@ -123,52 +123,52 @@ function deleteLayer() {
         return
     }
 
-    let project = JSON.parse(localStorage.getItem('project'));
-    let projectLayers = project.layers
+    let map = JSON.parse(localStorage.getItem('map'));
+    let mapLayers = map.layers
 
-    for (let y = 0; y < projectLayers.length; y++) {
+    for (let y = 0; y < mapLayers.length; y++) {
 
-        if (projectLayers[y].id == curLayerSelected) {
-            projectLayers.splice(y, 1)
+        if (mapLayers[y].id == curLayerSelected) {
+            mapLayers.splice(y, 1)
             console.log("Layer deleted sucessfully!")
         }
     }
-    project.layers = projectLayers
-    localStorage.setItem('project', JSON.stringify(project));
+    map.layers = mapLayers
+    localStorage.setItem('map', JSON.stringify(map));
     loadLayer()
 }
 
 //Adds a new tile layer to layer panel
 function newTileLayer() {
-    let project = JSON.parse(localStorage.getItem('project'));
-    var dataArray = new Array(project.width * project.height).fill(0)
+    let map = JSON.parse(localStorage.getItem('map'));
+    var dataArray = new Array(map.width * map.height).fill(0)
     let newTileLayer = {
         type: "tile",
-        id: project.nextTiledLayerid,
+        id: map.nextTiledLayerid,
         name: "Tile Layer",
         data: dataArray,
         properties: [],
         visibility: true,
         locked: false,
-        height: project.height,
-        width: project.width,
+        height: map.height,
+        width: map.width,
         x: 0,
         y: 0,
     }
 
-    project.nextTiledLayerid += 1
-    project.layers.unshift(newTileLayer)
-    localStorage.setItem('project', JSON.stringify(project));
+    map.nextTiledLayerid += 1
+    map.layers.unshift(newTileLayer)
+    localStorage.setItem('map', JSON.stringify(map));
     justAddedNewLayer = true
     loadLayer()
 }
 
 //Adds a new object layer to layer panel
 function newObjectLayer() {
-    let project = JSON.parse(localStorage.getItem('project'));
+    let map = JSON.parse(localStorage.getItem('map'));
     let newObjectLayer = {
         type: "object",
-        id: project.nextTiledLayerid,
+        id: map.nextTiledLayerid,
         name: "Object Layer",
         objects: [],
         visibility: true,
@@ -176,9 +176,9 @@ function newObjectLayer() {
         x: 0,
         y: 0,
     }
-    project.nextTiledLayerid += 1
-    project.layers.unshift(newObjectLayer)
-    localStorage.setItem('project', JSON.stringify(project));
+    map.nextTiledLayerid += 1
+    map.layers.unshift(newObjectLayer)
+    localStorage.setItem('map', JSON.stringify(map));
     justAddedNewLayer = true
     loadLayer()
 }
@@ -200,16 +200,16 @@ function loadLayer() {
 
     clearLayerPanel()
     //Get the object from local storage
-    let project = JSON.parse(localStorage.getItem('project'));
-    let projectLayers = project.layers
+    let map = JSON.parse(localStorage.getItem('map'));
+    let mapLayers = map.layers
 
-    for (let i = 0; i < projectLayers.length; i++) {
+    for (let i = 0; i < mapLayers.length; i++) {
         //Creates a li for a layer
-        let theLayer = createLayer(projectLayers[i].id, projectLayers[i].type, projectLayers[i].name, projectLayers[i].visibility, projectLayers[i].locked)
+        let theLayer = createLayer(mapLayers[i].id, mapLayers[i].type, mapLayers[i].name, mapLayers[i].visibility, mapLayers[i].locked)
 
         //Adds a eventlistener for the li when clicked
         theLayer.addEventListener("click", function () {
-            setCurrentSelectedLayer(projectLayers[i].id)
+            setCurrentSelectedLayer(mapLayers[i].id)
         })
 
         //Appends the li to the ul
@@ -218,7 +218,7 @@ function loadLayer() {
         //Checks if a new layers has been added or if the project was loaded for the first time
         //If so we set the first layers to be the current selected one
         if (justAddedNewLayer == true || firstLoad == true) {
-            setCurrentSelectedLayer(projectLayers[0].id)
+            setCurrentSelectedLayer(mapLayers[0].id)
             justAddedNewLayer = false
             firstLoad = false
         }
@@ -229,105 +229,105 @@ function loadLayer() {
 // CODE FROM HERE ON DEALS WITH MAPS
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-//Draws out the grids for orthogonal map
-function initializeMapGridForOrth(mapHeight, mapWidth, tileHeight, tileWidth) {
-
-    var canvas = document.getElementById("canvas")
-    canvas.width = mapWidth * tileWidth
-    canvas.height = mapHeight * tileHeight
-
-    var ctx = canvas.getContext('2d')
-    ctx.strokeStyle = 'black'
-    ctx.lineWidth = 1
-    ctx.setLineDash([1, 1]);
-
-    for (i = tileWidth; i < tileWidth * mapWidth; i = i + tileWidth) {
-
-        ctx.moveTo(i, 0)
-        ctx.lineTo(i, tileHeight * mapHeight)
-        ctx.stroke()
-
-    }
-    for (j = tileHeight; j < tileHeight * mapHeight; j = j + tileHeight) {
-        ctx.moveTo(0, j)
-        ctx.lineTo(tileWidth * mapWidth, j)
-        ctx.stroke()
-    }
-}
-
-function initializeMapGridForIso(mapHeight, mapWidth, tileHeight, tileWidth){
-    var canvas = document.getElementById("canvas")
-    canvas.width = mapWidth * tileWidth *2
-    canvas.height = mapHeight * tileHeight *2
-
-    var ctx = canvas.getContext('2d')
-    ctx.strokeStyle = 'black'
-    ctx.lineWidth = 1
-    ctx.setLineDash([1, 1]);
-
-    for (i = 0; i < mapWidth; i++) {
-        for (j = 0; j < mapHeight; j++) {
-            // calculate coordinates
-            var init_xPos = canvas.width/2
-            var init_yPos = tileHeight
-            var x = (i-j) * tileWidth / 2 + init_xPos
-            var y = (i+j) * tileHeight / 2 + init_yPos
-
-            // begin drawing
-            ctx.beginPath()
-
-            // move to start point
-            ctx.moveTo(x - tileWidth / 2, y)
-
-            /**
-             *  need to draw each diamond shaped tile
-             *   /\
-             *   \/
-             */
-
-            //draws '/' on top
-            ctx.lineTo(x - tileWidth, y + tileHeight / 2)
-            //draws '\' on bottom
-            ctx.lineTo(x - tileWidth / 2, y + tileHeight)
-            //draws '/' on bottom
-            ctx.lineTo(x, y + tileHeight / 2)
-            //draws '\' on top
-            ctx.lineTo(x - tileWidth / 2,  y)
-
-            // draw path
-            ctx.stroke()
-        }
-    }
-
-}
-// Setups the map either isometric or orthogonal and setup grid
-function createMap() {
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // Have to Create a canvas in here and use this function in load layer
-    clearCanvas()
-    var project = JSON.parse(localStorage.getItem('project'));
-    var porjectLayers = project.layers
-
-    var mapHeight = parseInt(project.height)
-    var mapWidth = parseInt(project.width)
-    var tileHeight = parseInt(project.tileHeight)
-    var tileWidth = parseInt(project.tileWidth)
-
-    if (project.orientation == "Orthogonal") {
-
-        initializeMapGridForOrth(mapHeight, mapWidth, tileHeight, tileWidth)
-
-    }  else if(project.orientation=="Isometric"){
-
-        initializeMapGridForIso(mapHeight, mapWidth, tileHeight, tileWidth)
-
-    }  else{
-
-        console.log("Some error has occurred")
-
-    }
-
-}
-
-createMap()
+// //Draws out the grids for orthogonal map
+// function initializeMapGridForOrth(mapHeight, mapWidth, tileHeight, tileWidth) {
+//
+//     var canvas = document.getElementById("canvas")
+//     canvas.width = mapWidth * tileWidth
+//     canvas.height = mapHeight * tileHeight
+//
+//     var ctx = canvas.getContext('2d')
+//     ctx.strokeStyle = 'black'
+//     ctx.lineWidth = 1
+//     ctx.setLineDash([1, 1]);
+//
+//     for (i = tileWidth; i < tileWidth * mapWidth; i = i + tileWidth) {
+//
+//         ctx.moveTo(i, 0)
+//         ctx.lineTo(i, tileHeight * mapHeight)
+//         ctx.stroke()
+//
+//     }
+//     for (j = tileHeight; j < tileHeight * mapHeight; j = j + tileHeight) {
+//         ctx.moveTo(0, j)
+//         ctx.lineTo(tileWidth * mapWidth, j)
+//         ctx.stroke()
+//     }
+// }
+//
+// function initializeMapGridForIso(mapHeight, mapWidth, tileHeight, tileWidth){
+//     var canvas = document.getElementById("canvas")
+//     canvas.width = mapWidth * tileWidth *2
+//     canvas.height = mapHeight * tileHeight *2
+//
+//     var ctx = canvas.getContext('2d')
+//     ctx.strokeStyle = 'black'
+//     ctx.lineWidth = 1
+//     ctx.setLineDash([1, 1]);
+//
+//     for (i = 0; i < mapWidth; i++) {
+//         for (j = 0; j < mapHeight; j++) {
+//             // calculate coordinates
+//             var init_xPos = canvas.width/2
+//             var init_yPos = tileHeight
+//             var x = (i-j) * tileWidth / 2 + init_xPos
+//             var y = (i+j) * tileHeight / 2 + init_yPos
+//
+//             // begin drawing
+//             ctx.beginPath()
+//
+//             // move to start point
+//             ctx.moveTo(x - tileWidth / 2, y)
+//
+//             /**
+//              *  need to draw each diamond shaped tile
+//              *   /\
+//              *   \/
+//              */
+//
+//             //draws '/' on top
+//             ctx.lineTo(x - tileWidth, y + tileHeight / 2)
+//             //draws '\' on bottom
+//             ctx.lineTo(x - tileWidth / 2, y + tileHeight)
+//             //draws '/' on bottom
+//             ctx.lineTo(x, y + tileHeight / 2)
+//             //draws '\' on top
+//             ctx.lineTo(x - tileWidth / 2,  y)
+//
+//             // draw path
+//             ctx.stroke()
+//         }
+//     }
+//
+// }
+// // Setups the map either isometric or orthogonal and setup grid
+// function createMap() {
+//     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//     // Have to Create a canvas in here and use this function in load layer
+//     clearCanvas()
+//     var project = JSON.parse(localStorage.getItem('project'));
+//     var porjectLayers = project.layers
+//
+//     var mapHeight = parseInt(project.height)
+//     var mapWidth = parseInt(project.width)
+//     var tileHeight = parseInt(project.tileHeight)
+//     var tileWidth = parseInt(project.tileWidth)
+//
+//     if (project.orientation == "Orthogonal") {
+//
+//         initializeMapGridForOrth(mapHeight, mapWidth, tileHeight, tileWidth)
+//
+//     }  else if(project.orientation=="Isometric"){
+//
+//         initializeMapGridForIso(mapHeight, mapWidth, tileHeight, tileWidth)
+//
+//     }  else{
+//
+//         console.log("Some error has occurred")
+//
+//     }
+//
+// }
+//
+// createMap()
 loadLayer()

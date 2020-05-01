@@ -46,31 +46,33 @@ gridCanvas.on({
     'mouse:up':(e)=>{
         let top = closest(lineYN, gridCanvas.getPointer(e.e).y-tileH/2);
         let left = closest(lineXN, gridCanvas.getPointer(e.e).x-tileW/2);
-        $.each(gridCanvas.getObjects(), function (i, e) {//check if there is an object at the same layer and position
-            if (e.selectable && e.id === curLayerSelected) {
-                if(e.top === top && e.left ===left){
-                    gridCanvas.remove(e);
+        if(currentTarget){
+            $.each(gridCanvas.getObjects(), function (i, e) {//check if there is an object at the same layer and position
+                if (e.selectable && e.id === curLayerSelected) {
+                    if(e.top === top && e.left ===left){
+                        gridCanvas.remove(e);
+                    }
                 }
-            }
-        });
-        var img = new fabric.Image.fromURL(currentTarget, function(im) {
-            im.scaleToWidth(tileW);
-            im.scaleToHeight(tileH);
-            im.set({
-                top: top,
-                left: left,
-                selectable: true,
-                hasControls: false,
-                id: curLayerSelected, //set id to layer id
             });
-            im.lockScalingX = true;
-            im.lockScalingY = true;
-            im.setCoords();
-            gridCanvas.add(im);
-            im.bringToFront();
-            refreshData();
-        });
 
+            var img = new fabric.Image.fromURL(currentTarget, function(im) {
+                im.scaleToWidth(tileW);
+                im.scaleToHeight(tileH);
+                im.set({
+                    top: top,
+                    left: left,
+                    selectable: true,
+                    hasControls: false,
+                    id: curLayerSelected, //set id to layer id
+                });
+                im.lockScalingX = true;
+                im.lockScalingY = true;
+                im.setCoords();
+                gridCanvas.add(im);
+                im.bringToFront();
+                refreshData();
+            });
+        }else{return;}
         //get object id by iterating all objects on canvas
         // var obj = gridCanvas.getObjects();
         // obj.forEach(function(item, i) {
@@ -101,6 +103,10 @@ function eraseTile(){
         });
     gridCanvas.renderAll();
     refreshData();
+}
+
+function clearUrl(){
+    currentTarget = null;
 }
 
 
