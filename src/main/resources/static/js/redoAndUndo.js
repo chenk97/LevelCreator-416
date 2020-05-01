@@ -4,7 +4,7 @@ let transactions = []
 let mostRecentTransaction = -1
 
 export function addTransactions(type) {
-    var project = JSON.parse(localStorage.getItem('project'));
+    var map = JSON.parse(localStorage.getItem('map'));
 
     if ((mostRecentTransaction < 0) || (mostRecentTransaction < (transactions.length - 1))) {
         for (let i = transactions.length - 1; i > mostRecentTransaction; i--) {
@@ -17,7 +17,7 @@ export function addTransactions(type) {
         transactions.push(
             {
                 type: "layer",
-                storage: project
+                storage: map
             }
         )
 
@@ -45,7 +45,7 @@ function undo() {
         let transaction = transactions[mostRecentTransaction - 1]
         mostRecentTransaction--
         if (transaction.type == "layer") {
-            localStorage.setItem('project', JSON.stringify(transaction.storage));
+            localStorage.setItem('map', JSON.stringify(transaction.storage));
             loadLayer()
         } else if (transaction.type == "map") {
 
@@ -61,7 +61,7 @@ function redo() {
         let transaction = transactions[mostRecentTransaction + 1]
         mostRecentTransaction++
         if (transaction.type == "layer") {
-            localStorage.setItem('project', JSON.stringify(transaction.storage));
+            localStorage.setItem('map', JSON.stringify(transaction.storage));
             loadLayer()
         } else if (transaction.type == "map") {
 
