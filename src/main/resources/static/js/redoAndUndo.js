@@ -74,3 +74,15 @@ function redo() {
 
 document.getElementById("undo").addEventListener("click", undo)
 document.getElementById("redo").addEventListener("click", redo)
+
+function KeyPress(e) {
+    var evtobj = window.event? event : e
+    if (evtobj.keyCode == 90 && evtobj.ctrlKey){
+        undo()
+    }
+    if (evtobj.keyCode == 89 && evtobj.ctrlKey){
+        redo()
+    }
+}
+
+document.onkeydown = KeyPress;

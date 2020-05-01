@@ -1,51 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments.html :: headerfiles">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Title</title>
+
+    <link href="../static/css/literallycanvas.css" rel="stylesheet">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-with-addons.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
+    <script src="../static/js/literallyCanvasJs/literallycanvas.js"></script>
+
+
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#BBF8FC">
-        <a class="navbar-brand" href="#">LevelCreator</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<header th:insert="fragments.html :: nav"></header>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">My Work</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Following<span class="badge badge-pill badge-info mx-1">12</span></a>
-                </li>
-            </ul>
-
-            <form class="form-inline mt-5 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-
-            <ul class="navbar-nav ml-5">
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-user mx-1"></i>Username</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Log out</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
