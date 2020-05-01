@@ -1,6 +1,6 @@
 //Global variable to be used to indicate the currently selected layers id
 import {addTransactions} from "./redoAndUndo.js";
-var curLayerSelected
+export var curLayerSelected
 var firstLoad = true
 var justAddedNewLayer = false
 

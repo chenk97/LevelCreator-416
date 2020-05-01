@@ -1,4 +1,5 @@
 /******************still need work, doesn't work in loop******************/
+
 // function moveLayerUp(layerId){
 //     var obj = gridCanvas.getObjects();
 //     obj.forEach(function(item, i) {

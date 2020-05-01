@@ -31,15 +31,18 @@
                     <a href="#" id="upBtn" onclick="lockLayer(curLayerSelected)"><i class="fas fa-lock icon"></i></a>
                 </div>
                 <div class="col">
-                    <a href="#" id="downBtn" onclick="unlockLayer(curLayerSelected)"><i class="fas fa-lock-open icon"></i></a>
+                    <a href="#" id="downBtn" onclick="unlockLayer(curLayerSelected)"><i
+                            class="fas fa-lock-open icon"></i></a>
                 </div>
             </div>
             <div class="row iconrow">
                 <div class="col">
-                    <a href="#" id="trasBtn" onclick="makeLayerInvisible(curLayerSelected)"><i class="fas fa-eye-slash icon"></i></a>
+                    <a href="#" id="trasBtn" onclick="makeLayerInvisible(curLayerSelected)"><i
+                            class="fas fa-eye-slash icon"></i></a>
                 </div>
                 <div class="col">
-                    <a href="#" id="noTrasBtn" onclick="makeLayerVisible(curLayerSelected)"><i class="fas fa-eye icon"></i></a>
+                    <a href="#" id="noTrasBtn" onclick="makeLayerVisible(curLayerSelected)"><i
+                            class="fas fa-eye icon"></i></a>
                 </div>
             </div>
             <!--            this is test icons-->
@@ -94,8 +97,9 @@
         </div>
 
         <div class="col-8 middle">
-            <div class="box" id="canvasStorage" style="height:100%; width: 100%; position:relative; overflow: auto; background-color: gray;">
-                <canvas id = "grid_canvas"></canvas>
+            <div class="box" id="canvasStorage"
+                 style="height:100%; width: 100%; position:relative; overflow: auto; background-color: gray;">
+                <canvas id="grid_canvas"></canvas>
             </div>
         </div>
 
@@ -154,11 +158,14 @@
                     </div>
                     <div class="card-footer form-inline">
                         <!--                        wanna make these in one line-->
-                        <h5 class = "my-1 mr-lg-5">Tilesets</h5>
+                        <h5 class="my-1 mr-lg-5">Tilesets</h5>
                         <!--                        <h5 class = "my-1 ml-lg-5 mr-lg-5"></h5>-->
-                        <input type="file" id="fileBtn" hidden="hidden" onclick="this.value = null" onchange="addTileset(this);">
-                        <a href="#" class="add-tileset float-right my-1 ml-lg-5" id="plusBtn"><span class="fas fa-plus"></span></a>
-                        <a href="#" class="remove-tileset float-right my-1 ml-4" id="minusBtn"><span class="fas fa-minus"></span></a>
+                        <input type="file" id="fileBtn" hidden="hidden" onclick="this.value = null"
+                               onchange="addTileset(this);">
+                        <a href="#" class="add-tileset float-right my-1 ml-lg-5" id="plusBtn"><span
+                                class="fas fa-plus"></span></a>
+                        <a href="#" class="remove-tileset float-right my-1 ml-4" id="minusBtn"><span
+                                class="fas fa-minus"></span></a>
 
                     </div>
                 </div>
@@ -205,12 +212,12 @@
 <!--<script src = "js/zoom.js"></script>-->
 <script src="js/tabs.js"></script>
 <!--<script src="js/addProject.js"></script>-->
-<script src = "js/fabricNumberedImage.js"></script>
+<script src="js/fabricNumberedImage.js"></script>
 <script src="js/fabricCreateMap.js"></script>
 <script src="js/fabricLayerController.js"></script>
-<script type="module"   src="js/layerController.js"></script>
+<script type="module" src="js/layerController.js"></script>
 <script src="js/fabricTilesetController.js"></script>
-<script src="js/fabricTileStamp.js"></script>
+<script type="module" src="js/fabricTileStamp.js"></script>
 <!--<script src="js/tileSelection.js"></script>-->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 

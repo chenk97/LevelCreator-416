@@ -1,4 +1,5 @@
 //extend image to be able to covert with canvas
+import {curLayerSelected} from "./layerController.js";
 var clonedGroup;
 var clipboard = null;
 
