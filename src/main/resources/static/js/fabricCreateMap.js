@@ -123,6 +123,7 @@ function drawGrids(){
 
 }
 
+/////////////// zoom and panning function start from here //////////////////////
 var zoomhandler = function(event){
     if(event.e.ctrlKey) {
         event.e.preventDefault();
