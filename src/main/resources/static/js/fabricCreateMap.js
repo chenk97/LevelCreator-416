@@ -178,11 +178,13 @@ loadMap();
 gridCanvas.on('mouse:wheel', zoomhandler);
 
 gridCanvas.on('mouse:down', function(event) {
+    if (event.e.altKey) {
         var evt = event.e;
         this.isDragging = true;
         this.selection = false;
         this.lastPosX = evt.clientX;
         this.lastPosY = evt.clientY;
+    }
 });
 gridCanvas.on('mouse:move', function(event) {
     if (this.isDragging) {
