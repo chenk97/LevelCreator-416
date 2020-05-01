@@ -111,6 +111,9 @@ function clearUrl(){
     currentTarget = null;
 }
 
+document.getElementById("selectBtn").addEventListener("click", clearUrl);
+document.getElementById("eraseBtn").addEventListener("click", eraseTile);
+
 
 // function Copy() {
 //     // Single Object

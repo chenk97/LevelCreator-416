@@ -1,3 +1,4 @@
+import {curLayerSelected} from "./layerController.js";
 /******************still need work, doesn't work in loop******************/
 
 // function moveLayerUp(layerId){
@@ -22,10 +23,10 @@
 // }
 
 
-function makeLayerInvisible(layerId){
+function makeLayerInvisible(){
     var obj = gridCanvas.getObjects();
     obj.forEach(function(item, i) {
-        if(item.id===layerId){
+        if(item.id===curLayerSelected){
             item.set({opacity: 0});
         }
     });
@@ -33,10 +34,10 @@ function makeLayerInvisible(layerId){
 }
 
 
-function makeLayerVisible(layerId){
+function makeLayerVisible(){
     var obj = gridCanvas.getObjects();
     obj.forEach(function(item, i) {
-        if(item.id===layerId){
+        if(item.id===curLayerSelected){
             item.set({opacity: 1});
         }
     });
@@ -44,10 +45,10 @@ function makeLayerVisible(layerId){
 }
 
 
-function lockLayer(layerId){
+function lockLayer(){
     var obj = gridCanvas.getObjects();
     obj.forEach(function(item, i) {
-        if(item.id===layerId){
+        if(item.id===curLayerSelected){
             item.set({selectable:false});
         }
     });
@@ -55,13 +56,17 @@ function lockLayer(layerId){
 }
 
 
-function unlockLayer(layerId){
+function unlockLayer(){
     var obj = gridCanvas.getObjects();
     obj.forEach(function(item, i) {
-        if(item.id===layerId){
+        if(item.id===curLayerSelected){
             item.set({selectable:true});
         }
     });
     gridCanvas.renderAll();
 }
 
+document.getElementById("lockBtn").addEventListener("click", lockLayer);
+document.getElementById("unlockBtn").addEventListener("click", unlockLayer);
+document.getElementById("trasBtn").addEventListener("click", makeLayerInvisible);
+document.getElementById("noTrasBtn").addEventListener("click", makeLayerVisible);

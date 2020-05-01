@@ -28,21 +28,18 @@
             <!--            this is test icons-->
             <div class="row iconrow">
                 <div class="col">
-                    <a href="#" id="upBtn" onclick="lockLayer(curLayerSelected)"><i class="fas fa-lock icon"></i></a>
+                    <a href="#" id="lockBtn"><i class="fas fa-lock icon"></i></a>
                 </div>
                 <div class="col">
-                    <a href="#" id="downBtn" onclick="unlockLayer(curLayerSelected)"><i
-                            class="fas fa-lock-open icon"></i></a>
+                    <a href="#" id="unlockBtn"><i class="fas fa-lock-open icon"></i></a>
                 </div>
             </div>
             <div class="row iconrow">
                 <div class="col">
-                    <a href="#" id="trasBtn" onclick="makeLayerInvisible(curLayerSelected)"><i
-                            class="fas fa-eye-slash icon"></i></a>
+                    <a href="#" id="trasBtn"><i class="fas fa-eye-slash icon"></i></a>
                 </div>
                 <div class="col">
-                    <a href="#" id="noTrasBtn" onclick="makeLayerVisible(curLayerSelected)"><i
-                            class="fas fa-eye icon"></i></a>
+                    <a href="#" id="noTrasBtn"><i class="fas fa-eye icon"></i></a>
                 </div>
             </div>
             <!--            this is test icons-->
@@ -72,10 +69,10 @@
             </div>
             <div class="row iconrow">
                 <div class="col">
-                    <a href="#" id="selectBtn" onclick="clearUrl()"><i class="fas fa-object-group icon"></i></a>
+                    <a href="#" id="selectBtn"><i class="fas fa-object-group icon"></i></a>
                 </div>
                 <div class="col">
-                    <a href="#" id="eraseBtn" onclick="eraseTile()"><i class="fas fa-eraser icon"></i></a>
+                    <a href="#" id="eraseBtn"><i class="fas fa-eraser icon"></i></a>
                 </div>
             </div>
             <div class="row iconrow">
@@ -214,7 +211,7 @@
 <!--<script src="js/addProject.js"></script>-->
 <script src="js/fabricNumberedImage.js"></script>
 <script src="js/fabricCreateMap.js"></script>
-<script src="js/fabricLayerController.js"></script>
+<script type="module" src="js/fabricLayerController.js"></script>
 <script type="module" src="js/layerController.js"></script>
 <script src="js/fabricTilesetController.js"></script>
 <script type="module" src="js/fabricTileStamp.js"></script>
