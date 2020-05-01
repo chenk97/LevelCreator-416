@@ -123,6 +123,22 @@ function drawGrids(){
 
 }
 
+var zoomhandler = function(event){
+    if(event.e.ctrlKey) {
+        event.e.preventDefault();
+        event.e.stopPropagation();
+        var delta = event.e.deltaY;
+        var zoom = gridCanvas.getZoom();
+        //greater the divisor the smoother zoom based on mousescroll is
+        zoom = zoom + delta / 300;
+        //zooms in up to 10 times(1000%)
+        if (zoom > 10) zoom = 10;
+        //zooms out up to 10%
+        if (zoom < 0.10) zoom = 0.10;
+        gridCanvas.zoomToPoint({x: event.e.offsetX, y: event.e.offsetY}, zoom);
+    }
+}
+
 
 function loadMap(){
     let map = JSON.parse(localStorage.getItem("map"));
@@ -133,3 +149,4 @@ function loadMap(){
 
 drawGrids();
 loadMap();
+gridCanvas.on('mouse:wheel', zoomhandler);
