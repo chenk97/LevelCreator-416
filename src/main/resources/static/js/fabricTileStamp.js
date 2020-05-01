@@ -70,6 +70,7 @@ gridCanvas.on({
                 im.setCoords();
                 gridCanvas.add(im);
                 im.bringToFront();
+                gridCanvas.renderAll();
                 refreshData();
             });
         }else{return;}
