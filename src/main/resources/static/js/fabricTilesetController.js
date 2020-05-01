@@ -186,6 +186,10 @@ function drawTiles(tiles, fabricCanvas) {
                 // fabricCanvas.getActiveObject().clone(function(cloned) {
                 //     _clipboard = cloned;
                 // });
+
+                // var group = new fabric.Group();
+                // var object = fabric.util.object.clone(fabricCanvas.getActiveObjects());
+
             });
 
             c = null;

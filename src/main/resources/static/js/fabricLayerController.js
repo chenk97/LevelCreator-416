@@ -135,6 +135,7 @@ function clearLayerPanel() {
 
 //SetCurrentSelectedLayer loops through all Li elements and checks if li.id equals the layer.id in database. If so change the background of that li and set curLayerSelected to the layerId.
 function setCurrentSelectedLayer(layerId) {
+    //need to enable movement of object with same id and disable movement of others
     let layerList = document.getElementById("layerList")
     let layer = layerList.getElementsByTagName("li")
 
@@ -217,7 +218,7 @@ function newTileLayer() {
     let newTileLayer = {
         type: "tile",
         id: map.nextTiledLayerid,
-        name: "Tile Layer",
+        name: "Tile Layer"+map.nextTiledLayerid,
         data: dataArray,
         properties: [],
         visibility: true,
@@ -241,7 +242,7 @@ function newObjectLayer() {
     let newObjectLayer = {
         type: "object",
         id: map.nextTiledLayerid,
-        name: "Object Layer",
+        name: "Object Layer" + map.nextTiledLayerid,
         objects: [],
         visibility: true,
         locked: false,
@@ -329,27 +330,9 @@ function changeLockStatus(layerId) {
 
 function loadMap(){
     let map = JSON.parse(localStorage.getItem("map"));
-    for(let i = 0; i< map.layers.length; i++){
-        let layer = map.layers[i];
-        for(let j = 0; j<layer.data.length; j++){
-            let obj = layer.data[j];
-            new fabric.Image.fromURL(obj.src, function(im) {
-                im.scaleToWidth(tileW);
-                im.scaleToHeight(tileH);
-                gridCanvas.add(im);
-                im.set({
-                    top: obj.top,
-                    left: obj.left,
-                    selectable: true,
-                    hasControls: false,
-                });
-                im.lockScalingX = true;
-                im.lockScalingY = true;
-                im.setCoords();
-
-            });
-        }
-    }
+    gridCanvas.loadFromJSON(map.canvas, ()=>{
+        gridCanvas.renderAll();
+    });
 }
 
 

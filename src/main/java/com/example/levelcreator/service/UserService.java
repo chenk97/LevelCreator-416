@@ -63,7 +63,7 @@ public class UserService{
         }
     }
 
-    public void authWithAuthManager(HttpServletRequest request, String username, String password) {
+    private void authWithAuthManager(HttpServletRequest request, String username, String password) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
         authToken.setDetails(new WebAuthenticationDetails(request));
         Authentication authentication = authenticationManager.authenticate(authToken);

@@ -14,13 +14,13 @@ function createMap() {
         nextTiledLayerid: 2,
         nextObjectId: 1,
         gidCnt:1,
+        canvas: null,
         layers: [
             {
                 type: "tile",
                 id: 1,
-                name: "Tile Layer",
+                name: "Tile Layer 1",
                 properties: [],
-                data: [],
                 position: 1,//larger position index on top
                 visibility: true,
                 locked: false,
