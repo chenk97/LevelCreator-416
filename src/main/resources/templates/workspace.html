@@ -8,29 +8,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
-    <!-- stylesheet -->
-    <link href="css/literallycanvas.css" rel="stylesheet">
-
-    <!-- dependency: React.js -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-with-addons.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
-
-    <!-- Literally Canvas -->
-    <script src="./js/literallycanvas.js"></script>
-
 
     <title>Title</title>
 </head>
 <body>
-<div class="my-drawing"></div>
 
-<!-- kick it off -->
-<script>
-    LC.init(
-        document.getElementsByClassName('my-drawing')[0],
-        {imageURLPrefix: 'img'}
-    );
-</script>
+
 <header th:insert="fragments.html :: nav"></header>
 
 <div class="container" style="max-width: 100%">
