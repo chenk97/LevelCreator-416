@@ -79,7 +79,29 @@
             </div>
             <div class="row iconrow">
                 <div class="col">
-                    <a href="/customizeTileset" id="drawBtn"><i class="fas fa-edit icon"></i></a>
+                    <a data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit icon"></i></a>
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Draw Tileset</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="my-drawing"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save Tileset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="col">
                     <i class="fas fa-users icon"></i>
@@ -190,7 +212,18 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.2/fabric.min.js"></script>
+<script>
+    var canvas = LC.init(
+        document.getElementsByClassName('my-drawing')[0],
+        {
+            imageURLPrefix: 'images'
+        }
+    );
 
+    $('#exampleModal').on('shown.bs.modal', function () {
+        canvas.respondToSizeChange();
+    });
+</script>
 <!-- Optional JavaScript-->
 <!--<script type="text/javascript">-->
 <!--    const realFileBtn = document.getElementById("realBtn");-->
