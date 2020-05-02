@@ -66,6 +66,17 @@ function unlockLayer(){
     gridCanvas.renderAll();
 }
 
+function removeLayer(layerId){
+    var objs = gridCanvas.getActiveObjects();
+    objs.forEach(function(item, i) {
+        if(item.id===layerId){
+            gridCanvas.remove(item);
+        }
+    });
+    gridCanvas.renderAll();
+    refreshData();
+}
+
 document.getElementById("lockBtn").addEventListener("click", lockLayer);
 document.getElementById("unlockBtn").addEventListener("click", unlockLayer);
 document.getElementById("trasBtn").addEventListener("click", makeLayerInvisible);
