@@ -4,6 +4,9 @@
 <head th:fragment="headerfiles">
     <!--icon kit-->
     <script src="https://kit.fontawesome.com/ef8993b96a.js" crossorigin="anonymous"></script>
+    <!--    import react dependency for literally canvas-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-with-addons.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
 
     <!--comment-->
     <meta charset="utf-8">
@@ -17,7 +20,10 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link th:href="@{/css/freelancer.min.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
-<!--    <link th:href="@{/css/style_1.css}" rel="stylesheet">-->
+    <!--    literally canvas css and js-->
+    <link th:href="@{/css/literallycanvas.css}" rel="stylesheet">
+    <script src="js/literallycanvas.js"></script>
+    <!--    <link th:href="@{/css/style_1.css}" rel="stylesheet">-->
 </head>
 
 <head th:fragment="headerfiles-form">
@@ -35,8 +41,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link th:href="@{/css/freelancer.min.css}" rel="stylesheet">
-<!--    <link th:href="@{/css/style.css}" rel="stylesheet">-->
+    <!--    <link th:href="@{/css/style.css}" rel="stylesheet">-->
     <link th:href="@{/css/style_1.css}" rel="stylesheet">
+    <!-- stylesheet -->
+    <!--    &lt;!&ndash; dependency: React.js &ndash;&gt;-->
+    <!--    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-with-addons.js"></script>-->
+    <!--    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>-->
+
 
 </head>
 
@@ -61,7 +72,7 @@
                 </li>
 
                 <li sec:authorize="isAuthenticated()"  class="nav-item">
-                    <a class="nav-link" href="#">Following<span class="badge badge-pill badge-info mx-1">12</span></a>
+                    <a class="nav-link" href="/following">Following<span class="badge badge-pill badge-info mx-1">12</span></a>
                 </li>
             </ul>
 
