@@ -18,7 +18,12 @@
 
 <div class="container" style="max-width: 100%">
     <div class=" row firstRow">
+
         <div class="col-1 text-center tools pt-4">
+            <div class="row d-flex justify-content-center">
+                <h3 style="border-bottom: 3px solid">TOOLBAR</h3>
+            </div>
+
             <div class="row iconrow">
                 <div class="col">
                     <i class="fas fa-save icon"></i>
@@ -81,7 +86,7 @@
                 <div class="col">
                     <a data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit icon"></i></a>
 
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" data-backdrop="static"
                          aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
@@ -128,7 +133,7 @@
             <div class="row">
                 <div class="card card1">
                     <div class="card-header text-center">
-                        <h5>Layers</h5>
+                        <h3>LAYERS</h3>
                     </div>
 
                     <div style="height: 300px; overflow: auto">
@@ -166,7 +171,7 @@
                             <!--                            </li>-->
                         </ul>
                     </div>
-                    <div class="card-body" style="padding:unset;min-height: 256px;">
+                    <div class="card-body" style="padding:unset;min-height: 300px;">
                         <div class="tab-content mt-3">
                             <!--                            <div class="tab-pane active" id="Tileset#1" role="tabpanel">-->
                             <!--                                <input type="file" id="realBtn" hidden="hidden" onchange="addFirstTileset(this);">-->
@@ -177,17 +182,18 @@
                             <!--                            </div>-->
                         </div>
                     </div>
-                    <div class="card-footer form-inline">
+                    <div class="card-footer form-inline d-flex">
                         <!--                        wanna make these in one line-->
-                        <h5 class="my-1 mr-lg-5">Tilesets</h5>
+                        <h3 class="my-1 mr-lg-5">TILESETS</h3>
                         <!--                        <h5 class = "my-1 ml-lg-5 mr-lg-5"></h5>-->
                         <input type="file" id="fileBtn" hidden="hidden" onclick="this.value = null"
                                onchange="addTileset(this);">
-                        <a href="#" class="add-tileset float-right my-1 ml-lg-5" id="plusBtn"><span
-                                class="fas fa-plus"></span></a>
-                        <a href="#" class="remove-tileset float-right my-1 ml-4" id="minusBtn"><span
-                                class="fas fa-minus"></span></a>
-
+                        <div class="float-right ml-auto">
+                            <i class="fas fa-plus tileSetIcon" id="plusBtn"></i>
+                            <i class="fas fa-minus tileSetIcon" id="minusBtn"></i>
+<!--                            <a href="#" class="add-tileset float-right my-1 ml-lg-5" id="plusBtn"><span class="fas fa-plus"></span></a>-->
+<!--                            <a href="#" class="remove-tileset float-right my-1 ml-4" id="minusBtn"><span class="fas fa-minus"></span></a>-->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -212,6 +218,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.2/fabric.min.js"></script>
+
 <script>
     var canvas = LC.init(
         document.getElementsByClassName('my-drawing')[0],
@@ -224,6 +231,7 @@
         canvas.respondToSizeChange();
     });
 </script>
+
 <!-- Optional JavaScript-->
 <!--<script type="text/javascript">-->
 <!--    const realFileBtn = document.getElementById("realBtn");-->
