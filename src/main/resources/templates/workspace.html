@@ -9,17 +9,10 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
 
-    <!--    For Literally Canvas-->
-    <link href="../static/css/literallycanvas.css" rel="stylesheet">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-with-addons.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
-    <script src="../static/js/literallycanvas.js"></script>
-    <!--    For Literally Canvas-->
-
-
     <title>Title</title>
 </head>
 <body>
+
 
 <header th:insert="fragments.html :: nav"></header>
 
@@ -34,12 +27,30 @@
                     <i class="fas fa-file-import icon"></i>
                 </div>
             </div>
+            <!--            this is test icons-->
             <div class="row iconrow">
                 <div class="col">
-                    <i class="fas fa-undo icon"></i>
+                    <a href="#" id="lockBtn"><i class="fas fa-lock icon"></i></a>
                 </div>
                 <div class="col">
-                    <i class="fas fa-redo icon"></i>
+                    <a href="#" id="unlockBtn"><i class="fas fa-lock-open icon"></i></a>
+                </div>
+            </div>
+            <div class="row iconrow">
+                <div class="col">
+                    <a href="#" id="trasBtn"><i class="fas fa-eye-slash icon"></i></a>
+                </div>
+                <div class="col">
+                    <a href="#" id="noTrasBtn"><i class="fas fa-eye icon"></i></a>
+                </div>
+            </div>
+            <!--            this is test icons-->
+            <div class="row iconrow">
+                <div class="col">
+                    <i class="fas fa-undo icon" id="undo"></i>
+                </div>
+                <div class="col">
+                    <i class="fas fa-redo icon" id="redo"></i>
                 </div>
             </div>
             <div class="row iconrow">
@@ -60,45 +71,15 @@
             </div>
             <div class="row iconrow">
                 <div class="col">
-                    <i class="fas fa-object-group icon"></i>
+                    <a href="#" id="selectBtn"><i class="fas fa-object-group icon"></i></a>
                 </div>
                 <div class="col">
-                    <i class="fas fa-eraser icon"></i>
+                    <a href="#" id="eraseBtn"><i class="fas fa-eraser icon"></i></a>
                 </div>
             </div>
             <div class="row iconrow">
                 <div class="col">
-                    <i class="fas fa-edit icon" id="drawCanvas" data-toggle="modal" data-target="#exampleModal"></i>
-
-
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="my-drawing"></div>
-                                    <script>
-                                        LC.init(
-                                            document.getElementsByClassName('my-drawing')[0],
-                                            {imageURLPrefix:'../static/images/literallyCanvasImg'}
-                                        )
-
-                                    </script>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    <i class="fas fa-edit icon"></i>
                 </div>
                 <div class="col">
                     <i class="fas fa-users icon"></i>
@@ -115,16 +96,17 @@
         </div>
 
         <div class="col-8 middle">
-            <div class="box" id="canvasStorage" style="height:660px; width: 100%; position:relative; overflow: auto;">
-                <canvas id="canvas"></canvas>
+            <div class="box" id="canvasStorage"
+                 style="height:100%; width: 100%; position:relative; overflow: auto; background-color: gray;">
+                <canvas id="grid_canvas"></canvas>
             </div>
         </div>
 
         <div class="col-2 panels">
             <div class="row">
                 <div class="card card1">
-                    <div class="card-header">
-                        <center>Layers</center>
+                    <div class="card-header text-center">
+                        <h5>Layers</h5>
                     </div>
 
                     <div style="height: 300px; overflow: auto">
@@ -142,12 +124,12 @@
                            aria-haspopup="true" aria-expanded="false"></i>
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <button class="dropdown-item" type="button" onclick="newTileLayer()">Tile Layer</button>
-                            <button class="dropdown-item" type="button" onclick="newObjectLayer()">Object layer
+                            <button class="dropdown-item" type="button" id="addTileLayer">Tile Layer</button>
+                            <button class="dropdown-item" type="button" id="addObjectLayer">Object layer
                             </button>
                         </div>
 
-                        <i class="fas fa-minus layerIcon" onclick="deleteLayer()"></i>
+                        <i class="fas fa-minus layerIcon" id="deleteLayer"></i>
                     </div>
                 </div>
             </div>
@@ -156,46 +138,44 @@
             <div class="row">
                 <div class="card card1">
                     <div class="card-header">
-                        <ul class="nav nav-tabs card-header-tabs" id="bologna-list" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="tileset1" href="#Tileset#1" role="tab">Tileset#1</a>
-                            </li>
+                        <ul class="nav nav-tabs card-header-tabs" role="tablist">
                             <!--                            <li class="nav-item">-->
-                            <!--                                <a class="nav-link"  href="#history" role="tab" aria-controls="history" aria-selected="false">Tileset#2</a>-->
+                            <!--                                <a class="nav-link active" id="tileset1" href="#Tileset#1" data-toggle="tab">Tileset#1</a>-->
                             <!--                            </li>-->
                         </ul>
                     </div>
-                    <div class="card-body" style="padding:unset;">
+                    <div class="card-body" style="padding:unset;min-height: 256px;">
                         <div class="tab-content mt-3">
-                            <div class="tab-pane active" id="Tileset#1" role="tabpanel">
-                                <input type="file" id="realBtn" hidden="hidden" onchange="addFirstTileset(this);">
-                                <button type="button" id="fakeBtn" class="btn btn-secondary btn-lg btn-block"> Import
-                                    Tileset
-                                </button>
-                                <canvas id="myCanvas">this is canvas</canvas>
-                            </div>
-                            <!--                            <div class="tab-pane" id="history" role="tabpanel" aria-labelledby="history-tab" style="overflow: scroll;max-height:256px;">-->
-                            <!--                                <canvas id="myCanvas2" >this is canvas</canvas>-->
+                            <!--                            <div class="tab-pane active" id="Tileset#1" role="tabpanel">-->
+                            <!--                                <input type="file" id="realBtn" hidden="hidden" onchange="addFirstTileset(this);">-->
+                            <!--                                <button type="button" id="fakeBtn" class="btn btn-secondary btn-lg btn-block"> Import-->
+                            <!--                                    Tileset-->
+                            <!--                                </button>-->
+                            <!--                                <canvas id="canvas_1">this is canvas</canvas>-->
                             <!--                            </div>-->
                         </div>
                     </div>
-                    <div class="card-footer text-muted">
-                        <input type="file" id="fileBtn" hidden="hidden" onchange="addTileset(this);">
-                        <a href="#" class="remove-tileset" id="minusBtn"><span class="fas fa-minus"
-                                                                               style="float:right;margin-right:5px;margin-top: 5px;"></span></a>
-                        <a href="#" class="add-tileset" id="plusBtn"><span class="fas fa-plus"
-                                                                           style="float:right;margin-right:20px; margin-top: 5px;"></span></a>
+                    <div class="card-footer form-inline">
+                        <!--                        wanna make these in one line-->
+                        <h5 class="my-1 mr-lg-5">Tilesets</h5>
+                        <!--                        <h5 class = "my-1 ml-lg-5 mr-lg-5"></h5>-->
+                        <input type="file" id="fileBtn" hidden="hidden" onclick="this.value = null"
+                               onchange="addTileset(this);">
+                        <a href="#" class="add-tileset float-right my-1 ml-lg-5" id="plusBtn"><span
+                                class="fas fa-plus"></span></a>
+                        <a href="#" class="remove-tileset float-right my-1 ml-4" id="minusBtn"><span
+                                class="fas fa-minus"></span></a>
+
                     </div>
                 </div>
-
             </div>
-
         </div>
+
+
     </div>
 </div>
 
 </div>
-<div class="my-drawing"></div>-->
 
 
 <!-- Optional JavaScript -->
@@ -209,15 +189,16 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.2/fabric.min.js"></script>
 
 <!-- Optional JavaScript-->
-<script type="text/javascript">
-    const realFileBtn = document.getElementById("realBtn");
-    const fakeFileBtn = document.getElementById("fakeBtn");
-    fakeFileBtn.addEventListener("click", function () {
-        realFileBtn.click();
-    })
-</script>
+<!--<script type="text/javascript">-->
+<!--    const realFileBtn = document.getElementById("realBtn");-->
+<!--    const fakeFileBtn = document.getElementById("fakeBtn");-->
+<!--    fakeFileBtn.addEventListener("click", function () {-->
+<!--        realFileBtn.click();-->
+<!--    })-->
+<!--</script>-->
 
 <script type="text/javascript">
     const fileBtn = document.getElementById("fileBtn");
@@ -227,12 +208,16 @@
     })
 </script>
 
-<script src="js/zoom.js"></script>
+<!--<script src = "js/zoom.js"></script>-->
 <script src="js/tabs.js"></script>
-<script src="js/addProject.js"></script>
-<script src="js/layerController.js"></script>
-<script src="js/addTileset.js"></script>
-<script src="js/tileSelection.js"></script>
+<!--<script src="js/addProject.js"></script>-->
+<script src="js/fabricNumberedImage.js"></script>
+<script src="js/fabricCreateMap.js"></script>
+<script type="module" src="js/fabricLayerController.js"></script>
+<script type="module" src="js/layerController.js"></script>
+<script src="js/fabricTilesetController.js"></script>
+<script type="module" src="js/fabricTileStamp.js"></script>
+<!--<script src="js/tileSelection.js"></script>-->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
 </body>

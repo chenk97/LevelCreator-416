@@ -45,11 +45,13 @@ html,body{
     background: #fff;
     border: 1px solid #999;
     border-radius: 3px;
-    width: 810px;
-    margin: 0px;
-    padding: 0px;
-    float: left;
+
+
 }
+.canvas-container{
+    margin: 0 auto;
+}
+
 
 .tools{
     border: solid;
