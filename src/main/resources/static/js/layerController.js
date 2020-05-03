@@ -145,8 +145,8 @@ function newTileLayer() {
     var dataArray = new Array(map.width * map.height).fill(0)
     let newTileLayer = {
         type: "tile",
-        id: map.nextTiledLayerid,
-        name: "Tile Layer",
+        id: map.nextLayerid,
+        name: "Tile Layer"+map.nextLayerid,
         data: dataArray,
         properties: [],
         visibility: true,
@@ -156,8 +156,7 @@ function newTileLayer() {
         x: 0,
         y: 0,
     }
-
-    map.nextTiledLayerid += 1
+    map.nextLayerid += 1
     map.layers.unshift(newTileLayer)
     localStorage.setItem('map', JSON.stringify(map));
     justAddedNewLayer = true
@@ -170,15 +169,15 @@ function newObjectLayer() {
     let map = JSON.parse(localStorage.getItem('map'));
     let newObjectLayer = {
         type: "object",
-        id: map.nextTiledLayerid,
-        name: "Object Layer",
+        id: map.nextLayerid,
+        name: "Object Layer"+map.nextLayerid,
         objects: [],
         visibility: true,
         locked: false,
         x: 0,
         y: 0,
     }
-    map.nextTiledLayerid += 1
+    map.nextLayerid += 1
     map.layers.unshift(newObjectLayer)
     localStorage.setItem('map', JSON.stringify(map));
     justAddedNewLayer = true

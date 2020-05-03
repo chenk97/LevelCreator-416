@@ -1,31 +1,32 @@
 import {curLayerSelected} from "./layerController.js";
-/******************still need work, doesn't work in loop******************/
+import {refreshData} from "./fabricTileStamp.js";
 
-// function moveLayerUp(layerId){
-//     var obj = gridCanvas.getObjects();
-//     obj.forEach(function(item, i) {
-//         if(item.id===layerId){
-//             item.bringForward();
-//         }
-//     });
-//     gridCanvas.renderAll();
-// }
-//
-//
-// function moveLayerDown(layerId){
-//     var obj = gridCanvas.getObjects();
-//     obj.forEach(function(item, i) {
-//         if(item.id===layerId){
-//             item.sendBackwards();
-//         }
-//     });
-//     gridCanvas.renderAll();
-// }
+function moveLayerUp(){
+    console.log("moveup layer:"+curLayerSelected);
+    gridCanvas.getObjects().forEach(item=>{
+        if(item.id===curLayerSelected){
+            item.bringToFront();
+        }
+    });
+    gridCanvas.renderAll();
+    refreshData();
+}
+
+
+function moveLayerDown(){
+    console.log("movedown layer:"+curLayerSelected);
+    gridCanvas.getObjects().forEach(item=>{
+        if(item.id===curLayerSelected){
+            item.sendToBack();
+        }
+    });
+    gridCanvas.renderAll();
+    refreshData();
+}
 
 
 function makeLayerInvisible(){
-    var obj = gridCanvas.getObjects();
-    obj.forEach(function(item, i) {
+    gridCanvas.getObjects().forEach(item=>{
         if(item.id===curLayerSelected){
             item.set({opacity: 0});
         }
@@ -35,8 +36,7 @@ function makeLayerInvisible(){
 
 
 function makeLayerVisible(){
-    var obj = gridCanvas.getObjects();
-    obj.forEach(function(item, i) {
+    gridCanvas.getObjects().forEach(item=>{
         if(item.id===curLayerSelected){
             item.set({opacity: 1});
         }
@@ -46,8 +46,7 @@ function makeLayerVisible(){
 
 
 function lockLayer(){
-    var obj = gridCanvas.getObjects();
-    obj.forEach(function(item, i) {
+    gridCanvas.getObjects().forEach(item=>{
         if(item.id===curLayerSelected){
             item.set({selectable:false});
         }
@@ -57,8 +56,7 @@ function lockLayer(){
 
 
 function unlockLayer(){
-    var obj = gridCanvas.getObjects();
-    obj.forEach(function(item, i) {
+    gridCanvas.getObjects().forEach(item=>{
         if(item.id===curLayerSelected){
             item.set({selectable:true});
         }
@@ -67,8 +65,7 @@ function unlockLayer(){
 }
 
 function removeLayer(layerId){
-    var objs = gridCanvas.getActiveObjects();
-    objs.forEach(function(item, i) {
+    gridCanvas.getActiveObjects().forEach(item=>{
         if(item.id===layerId){
             gridCanvas.remove(item);
         }
@@ -81,3 +78,5 @@ document.getElementById("lockBtn").addEventListener("click", lockLayer);
 document.getElementById("unlockBtn").addEventListener("click", unlockLayer);
 document.getElementById("trasBtn").addEventListener("click", makeLayerInvisible);
 document.getElementById("noTrasBtn").addEventListener("click", makeLayerVisible);
+document.getElementById("upBtn").addEventListener("click", moveLayerUp);
+document.getElementById("downBtn").addEventListener("click", moveLayerDown);

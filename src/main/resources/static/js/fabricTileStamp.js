@@ -1,7 +1,5 @@
 //extend image to be able to covert with canvas
 import {curLayerSelected} from "./layerController.js";
-var clonedGroup;
-var clipboard = null;
 
 fabric.Image.prototype.toObject = (function(toObject) {
     return function() {
@@ -22,12 +20,6 @@ gridCanvas.on('selection:created',function(e){
 });
 
 
-// gridCanvas.on({
-//     'object:selected': (e)=>{
-//         currentTarget = "";
-//     }
-// });
-
 
 gridCanvas.on({
     'object:moving':(e)=>{
@@ -45,41 +37,65 @@ gridCanvas.on({
 
 gridCanvas.on({
     'mouse:up':(e)=>{
+        //limit the mouse click detection inside boundBox
+        if(gridCanvas.getPointer(e.e).y<boundBox.top || gridCanvas.getPointer(e.e).y>boundBox.top+boundBox.height
+            ||gridCanvas.getPointer(e.e).x<boundBox.left ||gridCanvas.getPointer(e.e).x>boundBox.left+boundBox.width){
+            return;
+        }
         let top = closest(lineYN, gridCanvas.getPointer(e.e).y-tileH/2);
         let left = closest(lineXN, gridCanvas.getPointer(e.e).x-tileW/2);
-        if(currentTarget){
-            $.each(gridCanvas.getObjects(), function (i, e) {//check if there is an object at the same layer and position
-                if (e.selectable && e.id === curLayerSelected) {
-                    if(e.top === top && e.left ===left){
-                        gridCanvas.remove(e);
-                    }
+        if(clonedObject){
+            clonedObject.clone(function(cloned) {
+                if (cloned.type === 'activeSelection') {
+                    let width = cloned.width * cloned.scaleX;
+                    let height = cloned.height * cloned.scaleY;
+                    cloned.set({
+                        top: top-height/2,
+                        left: left-width/2,
+                    });
+                    cloned.forEachObject(function (obj) {
+                        obj.lockScalingX = true;
+                        obj.lockScalingY = true;
+                        obj.set({
+                            top: obj.top/offset,
+                            left: obj.left/offset,
+                            selectable: true,
+                            hasControls: false,
+                            id: curLayerSelected, //set id to layer id
+                        });
+                        obj.setCoords();
+                        gridCanvas.add(obj);
+                    });
+                    gridCanvas.setActiveObject(cloned);
+                    gridCanvas.discardActiveObject();
+                    gridCanvas.getObjects().forEach(item=>{
+                        if(item.id===curLayerSelected){
+                            item.set({
+                                top:closest(lineYN, item.top),
+                                left:closest(lineXN, item.left),
+                            });
+                        }
+                    });
+                    gridCanvas.renderAll();
+                }else{
+                    gridCanvas.getObjects().forEach(item=>{//check if there is an object at the same layer and position
+                        if (item.selectable && item.id === curLayerSelected) {
+                            if(item.top === top && item.left ===left){
+                                gridCanvas.remove(item);
+                            }
+                        }
+                    });
+                    cloned.set({
+                        top: top,
+                        left: left,
+                        id: curLayerSelected,
+                    });
+                    gridCanvas.add(cloned);
+                    currentTileset.discardActiveObject();
                 }
             });
-
-            var img = new fabric.Image.fromURL(currentTarget, function(im) {
-                im.scaleToWidth(tileW);
-                im.scaleToHeight(tileH);
-                im.set({
-                    top: top,
-                    left: left,
-                    selectable: true,
-                    hasControls: false,
-                    id: curLayerSelected, //set id to layer id
-                });
-                im.lockScalingX = true;
-                im.lockScalingY = true;
-                im.setCoords();
-                gridCanvas.add(im);
-                im.bringToFront();
-                gridCanvas.renderAll();
-                refreshData();
-            });
         }else{return;}
-        //get object id by iterating all objects on canvas
-        // var obj = gridCanvas.getObjects();
-        // obj.forEach(function(item, i) {
-        //     console.log(item.id);
-        // });
+        refreshData();
     }
 });
 
@@ -99,20 +115,29 @@ function closest(arr, closestTo){
 
 
 function eraseTile(){
-    var objs = gridCanvas.getActiveObjects();
-    objs.forEach(function(item, i) {
+    gridCanvas.getActiveObjects().forEach(item=>{
+        if(item.id === curLayerSelected){
             gridCanvas.remove(item);
-        });
+        }
+    });
     gridCanvas.renderAll();
     refreshData();
 }
 
+
 function clearUrl(){
-    currentTarget = null;
+    clonedObject = null;
 }
 
-document.getElementById("selectBtn").addEventListener("click", clearUrl);
-document.getElementById("eraseBtn").addEventListener("click", eraseTile);
+//check type so we can set object scalable or not
+function checkLayerType() {
+    let map = JSON.parse(localStorage.getItem('map'));
+    for(var i = 0; i < map.layers.length; i++){
+        if(map.layers[i].id === curLayerSelected){
+            return map.layers[i].type;
+        }
+    }
+}
 
 
 // function Copy() {
@@ -175,9 +200,13 @@ document.getElementById("eraseBtn").addEventListener("click", eraseTile);
 
 
 
-function refreshData(){
+export function refreshData(){
     //moved object loss their url
     let map = JSON.parse(localStorage.getItem("map"));
     map.canvas = gridCanvas.toJSON();
     localStorage.setItem("map", JSON.stringify(map));
 }
+
+
+document.getElementById("selectBtn").addEventListener("click", clearUrl);
+document.getElementById("eraseBtn").addEventListener("click", eraseTile);

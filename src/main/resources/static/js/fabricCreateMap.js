@@ -25,7 +25,7 @@ function createMap() {
         height: mapHeight,
         tileWidth: tileWidth,
         tileHeight: tileHeight,
-        nextTiledLayerid: 2,
+        nextLayerid: 2,
         nextObjectId: 1,
         gidCnt:1,
         canvas: null,
@@ -33,7 +33,7 @@ function createMap() {
             {
                 type: "tile",
                 id: 1,
-                name: "Tile Layer",
+                name: "Tile Layer1",
                 properties: [],
                 position: 1,//larger position index on top
                 visibility: true,
@@ -65,7 +65,7 @@ function drawGrids(){
         width: map.width * map.tileWidth,
         height: map.height *map.tileHeight,
         fill: "transparent",
-        stroke: "#EAEAEA",
+        stroke: "#c0c4c2",
         hasBorders: false,
         selectable: false,
         hasControl: false,
@@ -87,7 +87,7 @@ function drawGrids(){
         let b = boundBox.top + boundBox.height;
 
         lineY.push(new fabric.Line([l,t,l, b],{
-            stroke: "#EAEAEA",
+            stroke: "#c0c4c2",
             hasBorders: false,
             selectable: false,
             hasControl: false,
@@ -96,6 +96,7 @@ function drawGrids(){
         }));
 
         lineXN.push(l);//all left value
+
     }
 
 //add horizontal lines to canvas
@@ -110,7 +111,7 @@ function drawGrids(){
         let r = boundBox.left + boundBox.width;
 
         lineX.push(new fabric.Line([l,t,r,t],{
-            stroke: "#EAEAEA",
+            stroke: "#c0c4c2",
             hasBorders: false,
             selectable: false,
             hasControl: false,
@@ -164,7 +165,7 @@ var zoomhandler = function(event) {
 
         }
     }
-}
+};
 
 function loadMap(){
     let map = JSON.parse(localStorage.getItem("map"));

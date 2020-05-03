@@ -6,7 +6,9 @@ var img = new Image(),
 
 //draw with offset
 var offset = 1.1;
-var currentTarget;
+var clonedObject;
+var currentTileset;
+
 
 function addTileset(input){
     console.log("adding tileset...");
@@ -158,46 +160,46 @@ function drawTiles(tiles, fabricCanvas) {
             fabricCanvas.add(img);
             // img.bringToFront();
 
-            img.on("mouseup", function(e){
-                var target = e.target;
-                currentTarget = target._element.src;
-                // console.log(currentTarget);
-            });
-
             img.lockMovementX = true;
             img.lockMovementY = true;
             img.lockScalingX = true;
             img.lockScalingY = true;
             img.hasControls = false;
             img.setCoords();
-
-            // console.log(JSON.stringify(img));//good
-            fabricCanvas.on('selection:created',function(e){
-                //try group selection here
-                e.target.set({
-                    lockScalingX: true,
-                    lockScalingY: true,
-                    lockMovementX: true,
-                    lockMovementY: true,
-                    hasControls: false,
-                });
-                //get selected items and add to group
-                //clone group and placed on gridMap, ungroup the group
-                // fabricCanvas.getActiveObject().clone(function(cloned) {
-                //     _clipboard = cloned;
-                // });
-
-                // var group = new fabric.Group();
-                // var object = fabric.util.object.clone(fabricCanvas.getActiveObjects());
-
-            });
-
             c = null;
             $('#_temp_canvas').remove();
+
+            // console.log(JSON.stringify(img));//good
+
             // fabricCanvas.renderAll();
         });
     }
-    // console.log(JSON.stringify(fabricCanvas)); ---does not include image data
+
+    fabricCanvas.on('selection:created',function(e){
+        //try group selection here
+        currentTileset = fabricCanvas;
+        e.target.set({
+            lockScalingX: true,
+            lockScalingY: true,
+            lockMovementX: true,
+            lockMovementY: true,
+            hasControls: false,
+        });
+        //var obj = canvas2.getActiveObject();
+        fabricCanvas.getActiveObject().clone(function(cloned) {
+            clonedObject = cloned;
+        });
+        //get selected items and add to group
+        //clone group and placed on gridMap, ungroup the group
+        // fabricCanvas.getActiveObject().clone(function(cloned) {
+        //     _clipboard = cloned;
+        // });
+
+        // var group = new fabric.Group();
+        // var object = fabric.util.object.clone(fabricCanvas.getActiveObjects());
+
+    });
+
     // tiles.forEach((d,i) => ctx.putImageData(d, d.x * offset, d.x * offset));
 }
 
@@ -208,6 +210,8 @@ function drawTiles(tiles, fabricCanvas) {
 //     element.remove();
 // }
 //
+
+
 function addTileCanvas(id){
     $(".nav-tabs").append(`<li class="nav-item"><a class="nav-link" id = "tileset${id}" href="#tileset_${id}" data-toggle="tab">Tileset#${id}</a></li>`);
     $('.tab-content').append(`<div class="tab-pane" id="tileset_${id}" style="overflow: scroll;max-height:256px;"><canvas id ="canvas_${id}"/></div>`);
