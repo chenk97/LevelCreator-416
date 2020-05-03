@@ -1,5 +1,7 @@
 //extend image to be able to covert with canvas
 import {curLayerSelected} from "./layerController.js";
+var _clipboard;
+var ctrlDown = false;
 
 fabric.Image.prototype.toObject = (function(toObject) {
     return function() {
@@ -50,17 +52,17 @@ gridCanvas.on({
                     let width = cloned.width * cloned.scaleX;
                     let height = cloned.height * cloned.scaleY;
                     cloned.set({
-                        top: top-height/2,
-                        left: left-width/2,
+                        top: top-(height-height%tileH)/2,
+                        left: left-(width-width%tileW)/2,
                     });
                     cloned.forEachObject(function (obj) {
-                        obj.lockScalingX = true;
-                        obj.lockScalingY = true;
                         obj.set({
                             top: obj.top/offset,
                             left: obj.left/offset,
                             selectable: true,
                             hasControls: false,
+                            lockScalingX: true,
+                            lockScalingY: true,
                             id: curLayerSelected, //set id to layer id
                         });
                         obj.setCoords();
@@ -70,10 +72,16 @@ gridCanvas.on({
                     gridCanvas.discardActiveObject();
                     gridCanvas.getObjects().forEach(item=>{
                         if(item.id===curLayerSelected){
-                            item.set({
-                                top:closest(lineYN, item.top),
-                                left:closest(lineXN, item.left),
-                            });
+                            //remove out bounded tiles to avoid overlapping on same layer
+                            if(item.left<boundBox.left-tileW/2||item.left>boundBox.left+boundBox.width
+                                ||item.top<boundBox.top-tileH/2||item.top>boundBox.top+boundBox.height){
+                                gridCanvas.remove(item);
+                            }else{
+                                item.set({
+                                    top:closest(lineYN, item.top),
+                                    left:closest(lineXN, item.left),
+                                });
+                            }
                         }
                     });
                     gridCanvas.renderAll();
@@ -88,10 +96,13 @@ gridCanvas.on({
                     cloned.set({
                         top: top,
                         left: left,
+                        hasControls: false,
+                        lockScalingX: true,
+                        lockScalingY: true,
                         id: curLayerSelected,
                     });
                     gridCanvas.add(cloned);
-                    currentTileset.discardActiveObject();
+                    currentTileset.discardActiveObject();//so we can select next one
                 }
             });
         }else{return;}
@@ -140,63 +151,95 @@ function checkLayerType() {
 }
 
 
-// function Copy() {
-//     // Single Object
-//     if(gridCanvas.getActiveObject()) {
-//         // Does this object require an async clone?
-//         if(!fabric.util.getKlass(gridCanvas.getActiveObject().type).async) {
-//             clipboard = gridCanvas.getActiveObject().clone();
-//         } else {
-//             gridCanvas.getActiveObject().clone(function(clone) {
-//                 clipboard= clone;
-//             });
-//         }
-//     }
-//
-//     // Group of Objects (all groups require async clone)
-//     if(gridCanvas.getActiveGroup()) {
-//         gridCanvas.getActiveGroup().clone(function(clone) {
-//             clipboard = clone;
-//         });
-//     }
-// }
-//
-//
-// function Paste() {
-//     // Do we have an object in our clipboard?
-//     if(clipboard) {
-//         // Lets see if we need to clone async
-//         if(!fabric.util.getKlass(clipboard.type).async) {
-//             var obj = clipboard.clone();
-//             //need to get mouse position
-//             obj.setTop(obj.top += 10);
-//             obj.setLeft(obj.left += 10);
-//             gridCanvas.add(obj);
-//             // We do not need to clone async, all groups require async clone
-//             gridCanvas.setActiveObject(obj);
-//             clipboard = obj;
-//         }  else {
-//             clipboard.clone(function(clone) {
-//                 clone.setTop(clone.top += 10);
-//                 clone.setLeft(clone.left += 10);
-//                 clone.forEachObject(function(obj){
-//                     gridCanvas.add(obj);
-//                 });
-//
-//                 gridCanvas.deactivateAll();
-//
-//                 // We need to clone async, but this doesnt mean its a group
-//                 if(clipboard.isType("group")) {
-//                     gridCanvas.setActiveGroup(clone);
-//                 } else {
-//                     gridCanvas.setActiveObject(clone);
-//                 }
-//                 clipboard = clone;
-//             });
-//         }
-//     }
-//     canvas.renderAll();
-// }
+var canvasWrapper = document.getElementById('canvasStorage');
+canvasWrapper.tabIndex = 1000;
+
+canvasWrapper.addEventListener('keydown', function(e) {
+    //Copy paste function for canvas objects
+
+    //If ctrl is pressed, set ctrlDown to true
+    if (e.keyCode == 17) ctrlDown = true;
+
+    //Handle ctrl+c
+    if (ctrlDown && e.keyCode == 67) {
+        console.log("ctrl+c detected");
+        Copy();
+    }
+    //handle ctrl+v
+    if (ctrlDown && e.keyCode == 86) {
+        console.log("ctrl+v detected");
+        Paste();
+    }
+    //Delete selected items with the delete button
+    if(e.keyCode == 46){
+        console.log("delete key press detected");
+        eraseTile();
+    }
+}, false);
+
+//Set ctrlDown to false when we release the ctrl key
+canvasWrapper.addEventListener('keyup', function(e) {
+    if (e.keyCode == 17) {
+        console.log("key released");
+        ctrlDown = false;
+    }
+});
+
+
+
+
+//copy & paste!!!! still need to work on key short cut and positioning!!!!
+function Copy() {
+    // clone what are you copying since you
+    // may want copy and paste on different moment.
+    // and you do not want the changes happened
+    // later to reflect on the copy.
+    gridCanvas.getActiveObject().clone(function(cloned) {
+        _clipboard = cloned;
+    });
+}
+
+function Paste() {
+    // clone again, so you can do multiple copies.
+    _clipboard.clone(function(cloned) {
+        gridCanvas.discardActiveObject();
+        cloned.set({
+            top: cloned.top + tileH/2,
+            left: cloned.left + tileW/2,
+            evented: true,
+        });
+        if (cloned.type === 'activeSelection') {
+            // active selection needs a reference to the canvas.
+            cloned.canvas = gridCanvas;
+            cloned.forEachObject(function (obj) {
+                obj.set({
+                    selectable: true,
+                    hasControls: false,
+                    lockScalingX: true,
+                    lockScalingY: true,
+                    id: curLayerSelected, //set id to layer id
+                });
+                obj.setCoords();
+                gridCanvas.add(obj);
+            });
+            // // this should solve the unselectability
+            // cloned.setCoords();
+        } else {
+            cloned.set({
+                selectable: true,
+                hasControls: false,
+                lockScalingX: true,
+                lockScalingY: true,
+                id: curLayerSelected, //set id to layer id
+            });
+            gridCanvas.add(cloned);
+        }
+        _clipboard.top += tileH/2;
+        _clipboard.left += tileW/2;
+        gridCanvas.setActiveObject(cloned);
+        gridCanvas.requestRenderAll();
+    });
+}
 
 
 
