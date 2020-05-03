@@ -5,7 +5,7 @@ function moveLayerUp(){
     console.log("moveup layer:"+curLayerSelected);
     gridCanvas.getObjects().forEach(item=>{
         if(item.id===curLayerSelected){
-            item.bringToFront();
+            gridCanvas.bringForward(item,true);
         }
     });
     gridCanvas.renderAll();
@@ -17,7 +17,7 @@ function moveLayerDown(){
     console.log("movedown layer:"+curLayerSelected);
     gridCanvas.getObjects().forEach(item=>{
         if(item.id===curLayerSelected){
-            item.sendToBack();
+            gridCanvas.sendBackwards(item,true);
         }
     });
     gridCanvas.renderAll();

@@ -10,7 +10,6 @@ var lineY = [];
 var lineXN = [];
 var lineYN = [];
 var gridCanvas;
-var groupSelection = false;
 
 function createMap() {
     var mapOrientation = document.getElementById("orientation").value
@@ -58,6 +57,7 @@ function drawGrids(){
     let tileW = map.tileWidth;
     let tileH = map.tileHeight;
     gridCanvas = new fabric.Canvas('grid_canvas');
+    gridCanvas.preserveObjectStacking = true;
     gridCanvas.setWidth(parentw);
     gridCanvas.setHeight(parenth);
     // console.log(gridCanvas);

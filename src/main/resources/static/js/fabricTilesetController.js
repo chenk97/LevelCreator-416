@@ -159,7 +159,6 @@ function drawTiles(tiles, fabricCanvas) {
             img.top = d.y * offset;
             fabricCanvas.add(img);
             // img.bringToFront();
-
             img.lockMovementX = true;
             img.lockMovementY = true;
             img.lockScalingX = true;
@@ -168,8 +167,6 @@ function drawTiles(tiles, fabricCanvas) {
             img.setCoords();
             c = null;
             $('#_temp_canvas').remove();
-
-            // console.log(JSON.stringify(img));//good
 
             // fabricCanvas.renderAll();
         });
@@ -189,14 +186,6 @@ function drawTiles(tiles, fabricCanvas) {
         fabricCanvas.getActiveObject().clone(function(cloned) {
             clonedObject = cloned;
         });
-        //get selected items and add to group
-        //clone group and placed on gridMap, ungroup the group
-        // fabricCanvas.getActiveObject().clone(function(cloned) {
-        //     _clipboard = cloned;
-        // });
-
-        // var group = new fabric.Group();
-        // var object = fabric.util.object.clone(fabricCanvas.getActiveObjects());
 
     });
 
@@ -204,12 +193,12 @@ function drawTiles(tiles, fabricCanvas) {
 }
 
 
-// function removeElement(elementId) {
-//     // Removes an element from the document
-//     var element = document.getElementById(elementId);
-//     element.remove();
-// }
-//
+function removeElement(elementId) {
+    // Removes an element from the document
+    var element = document.getElementById(elementId);
+    element.remove();
+}
+
 
 
 function addTileCanvas(id){
