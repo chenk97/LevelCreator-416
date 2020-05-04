@@ -9,8 +9,8 @@ var lineX = [];
 var lineY = [];
 var lineXN = [];
 var lineYN = [];
+var isoLines = [];
 var gridCanvas;
-var groupSelection = false;
 
 function createMap() {
     var mapOrientation = document.getElementById("orientation").value;
@@ -25,8 +25,7 @@ function createMap() {
         height: mapHeight,
         tileWidth: tileWidth,
         tileHeight: tileHeight,
-        nextTiledLayerid: 2,
-        nextObjectId: 1,
+        nextLayerid: 2,
         gidCnt:1,
         canvas: null,
         layers: [
@@ -130,7 +129,7 @@ function drawGrids(){
          boundBox = new fabric.Rect({
             width: map.width * map.tileWidth,
             height: map.height *map.tileHeight,
-            stroke: '#EAEAEA',
+            stroke: "#c0c4c2",
             fill: 'transparent',
             hasBorders: false,
             selectable: false,
@@ -155,7 +154,7 @@ function drawGrids(){
                 var top =  y;
 
                 let lefttop = new fabric.Line([left,top, x - map.tileWidth, y + map.tileHeight/2],{
-                    stroke: "#EAEAEA",
+                    stroke: "#c0c4c2",
                     hasBorders: false,
                     selectable: false,
                     hasControl: false,
@@ -164,7 +163,7 @@ function drawGrids(){
                 });
 
                 let leftbottom = new fabric.Line([x - map.tileWidth,y + map.tileHeight/2, x - map.tileWidth/2, y + map.tileHeight],{
-                    stroke: "#EAEAEA",
+                    stroke: "#c0c4c2",
                     hasBorders: false,
                     selectable: false,
                     hasControl: false,
@@ -173,7 +172,7 @@ function drawGrids(){
                 });
 
                 let rightbottom = new fabric.Line([x - map.tileWidth/2,y + map.tileHeight, x, y + map.tileHeight/2],{
-                    stroke: "#EAEAEA",
+                    stroke: "#c0c4c2",
                     hasBorders: false,
                     selectable: false,
                     hasControl: false,
@@ -182,7 +181,7 @@ function drawGrids(){
                 });
 
                 let righttop = new fabric.Line([x, y + map.tileHeight/2, x - map.tileWidth/2, y ],{
-                    stroke: "#EAEAEA",
+                    stroke: "#c0c4c2",
                     hasBorders: false,
                     selectable: false,
                     hasControl: false,
