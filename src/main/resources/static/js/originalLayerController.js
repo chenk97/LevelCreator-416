@@ -1,10 +1,5 @@
 //Global variable to be used to indicate the currently selected layers id
 import {addTransactions} from "./redoAndUndo.js";
-import {makeLayerVisible} from "./fabricLayerController.js";
-import {makeLayerInvisible} from "./fabricLayerController.js";
-import {lockLayer} from "./fabricLayerController.js";
-import {unlockLayer} from "./fabricLayerController.js";
-
 export var curLayerSelected
 var firstLoad = true
 var justAddedNewLayer = false
@@ -54,24 +49,6 @@ function changeLockStatus(layerId) {
     loadLayer()
 }
 
-function checkVisibility(layerId){
-    let map = JSON.parse(localStorage.getItem("map"));
-    for(let i = 0; i < map.layers.length; i++){
-        if (map.layers[i].id == layerId) {
-            return map.layers[i].visibility;
-        }
-    }
-}
-
-function checkLockStatus(layerId){
-    let map = JSON.parse(localStorage.getItem("map"));
-    for(let i = 0; i < map.layers.length; i++){
-        if (map.layers[i].id == layerId) {
-            return map.layers[i].locked;
-        }
-    }
-}
-
 //Creates a layer to be added to layer panel
 function createLayer(theLayerId, type, name, visibility, locked) {
 
@@ -80,15 +57,8 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     visibility == true ? visIcon.setAttribute("class", "fas fa-eye liItems") : visIcon.setAttribute("class", "fas fa-eye-slash liItems")
 
     visIcon.addEventListener("click", function () {
-        if(checkVisibility(theLayerId)){
-            makeLayerInvisible();
-            changeVisbility(theLayerId);
-        }else{
-            makeLayerVisible();
-            changeVisbility(theLayerId);
-        }
-
-    });
+        changeVisbility(theLayerId)
+    })
 
     // Change Icon Base on Layer or Object Layer
     let typeIcon = document.createElement("i")
@@ -98,13 +68,7 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     let lockIcon = document.createElement("i")
     locked == false ? lockIcon.setAttribute("class", "fas fa-lock-open liItems") : lockIcon.setAttribute("class", "fas fa-lock liItems")
     lockIcon.addEventListener("click", function () {
-        if(checkLockStatus(theLayerId)){
-            unlockLayer();
-            changeLockStatus(theLayerId);
-        }else{
-            lockLayer();
-            changeLockStatus(theLayerId);
-        }
+        changeLockStatus(theLayerId)
     })
 
     //Create Li Element
@@ -178,10 +142,12 @@ function deleteLayer() {
 //Adds a new tile layer to layer panel
 function newTileLayer() {
     let map = JSON.parse(localStorage.getItem('map'));
+    var dataArray = new Array(map.width * map.height).fill(0)
     let newTileLayer = {
         type: "tile",
         id: map.nextLayerid,
         name: "Tile Layer"+map.nextLayerid,
+        data: dataArray,
         properties: [],
         visibility: true,
         locked: false,
@@ -205,6 +171,7 @@ function newObjectLayer() {
         type: "object",
         id: map.nextLayerid,
         name: "Object Layer"+map.nextLayerid,
+        objects: [],
         visibility: true,
         locked: false,
         x: 0,

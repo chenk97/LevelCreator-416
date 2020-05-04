@@ -34,7 +34,6 @@ function createMap() {
                 id: 1,
                 name: "Tile Layer1",
                 properties: [],
-                position: 1,//larger position index on top
                 visibility: true,
                 locked: false,
                 height: mapHeight,

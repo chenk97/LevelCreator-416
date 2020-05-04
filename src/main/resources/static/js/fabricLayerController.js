@@ -25,7 +25,7 @@ function moveLayerDown(){
 }
 
 
-function makeLayerInvisible(){
+export function makeLayerInvisible(){
     gridCanvas.getObjects().forEach(item=>{
         if(item.id===curLayerSelected){
             item.set({opacity: 0});
@@ -35,7 +35,7 @@ function makeLayerInvisible(){
 }
 
 
-function makeLayerVisible(){
+export function makeLayerVisible(){
     gridCanvas.getObjects().forEach(item=>{
         if(item.id===curLayerSelected){
             item.set({opacity: 1});
@@ -45,7 +45,7 @@ function makeLayerVisible(){
 }
 
 
-function lockLayer(){
+export function lockLayer(){
     gridCanvas.getObjects().forEach(item=>{
         if(item.id===curLayerSelected){
             item.set({selectable:false});
@@ -55,7 +55,7 @@ function lockLayer(){
 }
 
 
-function unlockLayer(){
+export function unlockLayer(){
     gridCanvas.getObjects().forEach(item=>{
         if(item.id===curLayerSelected){
             item.set({selectable:true});
@@ -64,7 +64,7 @@ function unlockLayer(){
     gridCanvas.renderAll();
 }
 
-function removeLayer(layerId){
+export function removeLayer(layerId){
     gridCanvas.getActiveObjects().forEach(item=>{
         if(item.id===layerId){
             gridCanvas.remove(item);
