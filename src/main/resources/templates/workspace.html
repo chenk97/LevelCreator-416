@@ -96,12 +96,15 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body"style="padding:0px !important;">
+                                <div class="modal-body" style="padding:0px !important;">
                                     <div class="my-drawing"></div>
                                 </div>
                                 <div class="modal-footer" style="padding:1rem !important;">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save Tileset</button>
+                                    <button type="button" class="btn btn-primary" onclick="saveDrawnTileset()">Save
+                                        Tileset
+                                    </button>
+
                                 </div>
                             </div>
                         </div>
@@ -116,10 +119,11 @@
                 <div class="col">
                     <i class="fas fa-info-circle icon" data-toggle="modal" data-target="#infoPopup"></i>
 
-                    <div class="modal fade" id="infoPopup" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="infoPopupModal" aria-hidden="true">
+                    <div class="modal fade" id="infoPopup" tabindex="-1" role="dialog" data-backdrop="static"
+                         aria-labelledby="infoPopupModal" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
-                                <div class="modal-header" >
+                                <div class="modal-header">
                                     <h2 class="modal-title" id="infoPopupModal">INFORMATION TAB</h2>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -128,7 +132,7 @@
                                 <div class="modal-body" style="padding:0px !important; overflow: auto">
                                     <header th:insert="info.html :: information"></header>
                                 </div>
-                                <div class="modal-footer"style="padding:1rem !important;">
+                                <div class="modal-footer" style="padding:1rem !important;">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Exit</button>
                                 </div>
                             </div>
@@ -209,10 +213,10 @@
                         <input type="file" id="fileBtn" hidden="hidden" onclick="this.value = null"
                                onchange="addTileset(this);">
                         <div class="float-right ml-auto">
-                            <i href="#"class="fas fa-plus tileSetIcon" id="plusBtn"></i>
+                            <i href="#" class="fas fa-plus tileSetIcon" id="plusBtn"></i>
                             <i href="#" class="fas fa-minus tileSetIcon" id="minusBtn"></i>
-<!--                            <a href="#" class="add-tileset float-right my-1 ml-lg-5" id="plusBtn"><span class="fas fa-plus"></span></a>-->
-<!--                            <a href="#" class="remove-tileset float-right my-1 ml-4" id="minusBtn"><span class="fas fa-minus"></span></a>-->
+                            <!--                            <a href="#" class="add-tileset float-right my-1 ml-lg-5" id="plusBtn"><span class="fas fa-plus"></span></a>-->
+                            <!--                            <a href="#" class="remove-tileset float-right my-1 ml-4" id="minusBtn"><span class="fas fa-minus"></span></a>-->
                         </div>
                     </div>
                 </div>
@@ -240,7 +244,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.2/fabric.min.js"></script>
 
 <script>
-    var canvas = LC.init(
+    var lc = LC.init(
         document.getElementsByClassName('my-drawing')[0],
         {
             imageURLPrefix: 'images'
@@ -248,8 +252,13 @@
     );
 
     $('#exampleModal').on('shown.bs.modal', function () {
-        canvas.respondToSizeChange();
+        lc.respondToSizeChange();
     });
+
+    function saveDrawnTileset() {
+        let image = lc.getImage().toDataURL()
+    }
+
 </script>
 
 <!-- Optional JavaScript-->
