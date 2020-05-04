@@ -36,7 +36,6 @@ function changeVisbility(layerId) {
     map.layers = mapLayers
     localStorage.setItem('map', JSON.stringify(map));
     loadLayer()
-    createMap()
 }
 
 //Change layer lock status

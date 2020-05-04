@@ -12,11 +12,11 @@ var lineYN = [];
 var gridCanvas;
 
 function createMap() {
-    var mapOrientation = document.getElementById("orientation").value
-    var mapWidth = Number(document.getElementById("mapWidth").value)
-    var mapHeight = Number(document.getElementById("mapHeight").value)
-    var tileWidth = Number(document.getElementById("tileWidth").value)
-    var tileHeight = Number(document.getElementById("tileHeight").value)
+    var mapOrientation = document.getElementById("orientation").value;
+    var mapWidth = Number(document.getElementById("mapWidth").value);
+    var mapHeight = Number(document.getElementById("mapHeight").value);
+    var tileWidth = Number(document.getElementById("tileWidth").value);
+    var tileHeight = Number(document.getElementById("tileHeight").value);
 
     var map = {
         orientation: mapOrientation,
