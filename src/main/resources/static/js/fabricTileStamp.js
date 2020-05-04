@@ -241,98 +241,105 @@ function Copy() {
     }
     else if(checkLayerType() === "object"){
         var obj = gridCanvas.getActiveObject();
-        objScaleX = obj.scaleX;
-        objScaleY = obj.scaleY;
-        if(obj.width*objScaleX !== tileW || obj.height*objScaleY !== tileH){
-            console.log("scaled!");
-            obj.set({
-                scaleX: 1,
-                scaleY: 1,
-            });
-            gridCanvas.renderAll();
-            obj.clone(function(cloned) {
-                _clipboard = cloned;
-            });
-            obj.set({
-                scaleX: objScaleX,
-                scaleY: objScaleY,
-            });
-            gridCanvas.renderAll();
+        if(gridCanvas.getActiveObject().type !== 'activeSelection'){
+            objScaleX = obj.scaleX;
+            objScaleY = obj.scaleY;
+            if(obj.width*objScaleX !== tileW || obj.height*objScaleY !== tileH){
+                console.log("scaled!");
+                obj.set({
+                    scaleX: 1,
+                    scaleY: 1,
+                });
+                gridCanvas.renderAll();
+                obj.clone(function(cloned) {
+                    _clipboard = cloned;
+                });
+                obj.set({
+                    scaleX: objScaleX,
+                    scaleY: objScaleY,
+                });
+                gridCanvas.renderAll();
+            }else{
+                gridCanvas.getActiveObject().clone(function(cloned) {
+                    _clipboard = cloned;
+                });
+            }
         }else{
-            gridCanvas.getActiveObject().clone(function(cloned) {
-                _clipboard = cloned;
-            });
+            gridCanvas.discardActiveObject();
         }
     }
 }
 
 function Paste() {
     // clone again, so you can do multiple copies.
-    _clipboard.clone(function(cloned) {
-        gridCanvas.discardActiveObject();
-        cloned.set({
-            top: cloned.top + tileH/2,
-            left: cloned.left + tileW/2,
-            evented: true,
-        });
-        if (cloned.type === 'activeSelection') {
-            // active selection needs a reference to the canvas.
-            cloned.canvas = gridCanvas;
-            if(checkLayerType() === "tile"){
-                cloned.forEachObject(function (obj) {
-                    obj.set({
+    if(_clipboard){
+        _clipboard.clone(function(cloned) {
+            gridCanvas.discardActiveObject();
+            cloned.set({
+                top: cloned.top + tileH/2,
+                left: cloned.left + tileW/2,
+                evented: true,
+            });
+            if (cloned.type === 'activeSelection') {
+                // active selection needs a reference to the canvas.
+                cloned.canvas = gridCanvas;
+                if(checkLayerType() === "tile"){
+                    cloned.forEachObject(function (obj) {
+                        obj.set({
+                            selectable: true,
+                            hasControls: false,
+                            lockScalingX: true,
+                            lockScalingY: true,
+                            id: curLayerSelected, //set id to layer id
+                        });
+                        obj.setCoords();
+                        gridCanvas.add(obj);
+                    });
+                }
+                // else if(checkLayerType() === "object"){
+                //     cloned.forEachObject(function (obj) {
+                //         obj.set({
+                //             selectable: true,
+                //             id: curLayerSelected, //set id to layer id
+                //         });
+                //         obj.setCoords();
+                //         gridCanvas.add(obj);
+                //     });
+                // }
+                // // this should solve the unselectability
+                // cloned.setCoords();
+            } else {
+                if(checkLayerType() === "tile"){
+                    cloned.set({
                         selectable: true,
                         hasControls: false,
                         lockScalingX: true,
                         lockScalingY: true,
                         id: curLayerSelected, //set id to layer id
                     });
-                    obj.setCoords();
-                    gridCanvas.add(obj);
-                });
-            }else if(checkLayerType() === "object"){
-                cloned.forEachObject(function (obj) {
-                    obj.set({
+                    cloned.setCoords();
+                    gridCanvas.add(cloned);
+                }else if(checkLayerType() === "object"){
+                    cloned.set({
                         selectable: true,
                         id: curLayerSelected, //set id to layer id
                     });
-                    obj.setCoords();
-                    gridCanvas.add(obj);
-                });
-            }
-            // // this should solve the unselectability
-            // cloned.setCoords();
-        } else {
-            if(checkLayerType() === "tile"){
-                cloned.set({
-                    selectable: true,
-                    hasControls: false,
-                    lockScalingX: true,
-                    lockScalingY: true,
-                    id: curLayerSelected, //set id to layer id
-                });
-                cloned.setCoords();
-                gridCanvas.add(cloned);
-            }else if(checkLayerType() === "object"){
-                cloned.set({
-                    selectable: true,
-                    id: curLayerSelected, //set id to layer id
-                });
-                if(objScaleX !== 1 || objScaleY !== 1){
-                    cloned.set({
-                        scaleX: objScaleX,
-                        scaleY: objScaleY,
-                    });
+                    if(objScaleX !== 1 || objScaleY !== 1){
+                        cloned.set({
+                            scaleX: objScaleX,
+                            scaleY: objScaleY,
+                        });
+                    }
+                    cloned.setCoords();
+                    gridCanvas.add(cloned);
                 }
-                cloned.setCoords();
-                gridCanvas.add(cloned);
             }
-        }
-        _clipboard.top += tileH/2;
-        _clipboard.left += tileW/2;
-        gridCanvas.setActiveObject(cloned);
-        gridCanvas.requestRenderAll();
-    });
+            _clipboard.top += tileH/2;
+            _clipboard.left += tileW/2;
+            gridCanvas.setActiveObject(cloned);
+            gridCanvas.requestRenderAll();
+        });
+    }else{console.log("empty clipboard");}
 }
 
 
