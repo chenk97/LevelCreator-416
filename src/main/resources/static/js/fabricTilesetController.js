@@ -14,33 +14,23 @@ function addTileset(input){
     fakeCanvas.setAttribute('id', '_fake_canvas');
     var ctx = fakeCanvas.getContext("2d");
     let map = JSON.parse(localStorage.getItem('map'));
-    //create new tileset object
-    var id;
-    if(map.tilesets.length === 0){
-        id = 1;
-    }else{
-        id = map.tilesets[map.tilesets.length - 1].id + 1;
-    }
-    var canvas = addTileCanvas(id);
+    var canvas = addTileCanvas(newCanvasId());
     let newTileset = {
-        id: id,
+        id: newCanvasId(),
         image: null,
         canvasId : canvas.id,
     };
     //get file name, the tab name ll be the same as it
     // var fileInput = document.getElementById('fileBtn');
     // newTileset.source = fileInput.value.split(/(\\|\/)/g).pop();
-    // console.log(newTileset.source);
     //import image to local storage and load to table
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
             // Save image into localStorage
             newTileset.image = e.target.result;//save image to localstorage
+            img.src = newTileset.image;
             img.onload = function(){
-                console.log("onload"+img.width);
-                // newTileset.imageW = img.width;
-                // newTileset.imageH = img.height;
                 init(fakeCanvas, ctx);
                 var tiles = getTiles();
                 var fabricCanvas = new fabric.Canvas(canvas.id,{
@@ -49,22 +39,52 @@ function addTileset(input){
                     selectable:false,
                 });
                 drawTiles(tiles, fabricCanvas);
-                try {
-                    map.tilesets.push(newTileset);
-                    localStorage.setItem("map", JSON.stringify(map));
-                    console.log("Storage success");
-                }
-                catch (e) {
-                    console.log("Storage failed: " + e);
-                }
                 fakeCanvas = null;
                 $('#_fake_canvas').remove();
             };
-            img.src = newTileset.image;
-
+            try {
+                map.tilesets.push(newTileset);
+                localStorage.setItem("map", JSON.stringify(map));
+                console.log("Storage success");
+            }
+            catch (e) {
+                console.log("Storage failed: " + e);
+            }
         };
         reader.readAsDataURL(input.files[0]);
     }
+}
+
+
+function saveDrawnTileset() {
+    let customizedImg = lc.getImage().toDataURL();
+    let fakeCanvas = document.createElement('canvas');
+    fakeCanvas.setAttribute('id', '_fake_canvas');
+    let ctx = fakeCanvas.getContext("2d");
+    let map = JSON.parse(localStorage.getItem('map'));
+    let canvas = addTileCanvas(newCanvasId());
+    let newTileset = {
+        id: newCanvasId(),
+        image: null,
+        canvasId : canvas.id,
+    };
+    newTileset.image = customizedImg;
+    img.src = customizedImg;
+    img.onload = function(){
+        init(fakeCanvas, ctx);
+        var tiles = getTiles();
+        var fabricCanvas = new fabric.Canvas(canvas.id,{
+            width: tileW*tileCountX + (tileCountX-1)* (tileW*(offset-1)),
+            height: tileH*tileCountY + (tileCountY-1)* (tileH*(offset-1)),
+            selectable:false,
+        });
+        drawTiles(tiles, fabricCanvas);
+
+        fakeCanvas = null;
+        $('#_fake_canvas').remove();
+    };
+    map.tilesets.push(newTileset);
+    localStorage.setItem("map", JSON.stringify(map));
 }
 
 
@@ -91,6 +111,7 @@ function init(canvas, ctx) {
     imgData = ctx.getImageData(0, 0, imgW, imgH).data;
     // ctx.clearRect(0, 0, imgW, imgH);
 }
+
 
 //get imgdata index from img px positions
 function indexX(x) {
@@ -125,6 +146,7 @@ function getTile(x, y) {
     return tile;
 }
 
+
 //generate all tiles
 function getTiles() {
     var tiles = [];
@@ -139,7 +161,6 @@ function getTiles() {
 
 function drawTiles(tiles, fabricCanvas) {
     //loop through each tile in array
-    console.log(tiles.length);
     let map = JSON.parse(localStorage.getItem('map'));
     for(var i = 0; i < tiles.length; i++){
         var c = document.createElement('canvas');
@@ -200,6 +221,17 @@ function removeElement(elementId) {
 }
 
 
+function newCanvasId(){
+    let map = JSON.parse(localStorage.getItem('map'));
+    var id;
+    if(map.tilesets.length === 0){
+        id = 1;
+    }else{
+        id = map.tilesets[map.tilesets.length - 1].id + 1;
+    }
+    return id;
+}
+
 
 function addTileCanvas(id){
     $(".nav-tabs").append(`<li class="nav-item"><a class="nav-link" id = "tileset${id}" href="#tileset_${id}" data-toggle="tab">Tileset#${id}</a></li>`);
@@ -212,24 +244,26 @@ function addTileCanvas(id){
 
 function reloadTileset(){
     let map = JSON.parse(localStorage.getItem('map'));
-    var fakeCanvas = document.createElement('canvas');
-    fakeCanvas.setAttribute('id', '_fake_canvas');
-    var ctx = fakeCanvas.getContext("2d");
     for(var i = 0; i < map.tilesets.length; i++ ){
+        var fakeCanvas = document.createElement('canvas');
+        fakeCanvas.setAttribute('id', '_fake_canvas');
+        var ctx = fakeCanvas.getContext("2d");
         var tileset = map.tilesets[i];
         var canvas = addTileCanvas(tileset.id);
         img.src = tileset.image;
-        init(fakeCanvas, ctx);
-        var tiles = getTiles();
-        var fabricCanvas = new fabric.Canvas(canvas.id,{
-            width: tileW*tileCountX + (tileCountX-1)* (tileW*(offset-1)),
-            height: tileH*tileCountY + (tileCountY-1)* (tileH*(offset-1)),
-            selectable:false,
-        });
-        drawTiles(tiles, fabricCanvas);
+        img.onload = function(){
+            init(fakeCanvas, ctx);
+            var tiles = getTiles();
+            var fabricCanvas = new fabric.Canvas(canvas.id,{
+                width: tileW*tileCountX + (tileCountX-1)* (tileW*(offset-1)),
+                height: tileH*tileCountY + (tileCountY-1)* (tileH*(offset-1)),
+                selectable:false,
+            });
+            drawTiles(tiles, fabricCanvas);
+        };
+        fakeCanvas = null;
+        $('#_fake_canvas').remove();
     }
-    fakeCanvas = null;
-    $('#_fake_canvas').remove();
 }
 
 

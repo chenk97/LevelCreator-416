@@ -1,5 +1,7 @@
 //extend image to be able to covert with canvas
 import {curLayerSelected} from "./layerController.js";
+import {checkLockStatus} from "./layerController.js";
+
 var _clipboard;
 var ctrlDown = false;
 var objScaleX = 1;
@@ -53,7 +55,7 @@ gridCanvas.on({
             ||cursorX<boundBox.left ||cursorX>boundBox.left+boundBox.width){
             return;
         }
-        if(checkLayerType() === "tile"){
+        if(checkLayerType() === "tile" && !checkLockStatus()){
             if(clonedObject){
                 if(shapeFillOn){
                     shapeFillTool();
@@ -117,7 +119,7 @@ gridCanvas.on({
                     });
                 }
             }else{return;}
-        }else if(checkLayerType() === "object"){
+        }else if(checkLayerType() === "object" && !checkLockStatus()){
             let top = cursorY-tileH/2;
             let left = cursorX-tileW/2;
             if(clonedObject){
@@ -307,12 +309,12 @@ function Copy() {
     // may want copy and paste on different moment.
     // and you do not want the changes happened
     // later to reflect on the copy.
-    if(checkLayerType() === "tile"){
+    if(checkLayerType() === "tile" && !checkLockStatus()){
         gridCanvas.getActiveObject().clone(function(cloned) {
             _clipboard = cloned;
         });
     }
-    else if(checkLayerType() === "object"){
+    else if(checkLayerType() === "object" && !checkLockStatus()){
         var obj = gridCanvas.getActiveObject();
         if(gridCanvas.getActiveObject().type !== 'activeSelection'){
             objScaleX = obj.scaleX;
@@ -354,7 +356,7 @@ function Paste() {
                 evented: true,
             });
             //group clone - only for tile layer
-            if (cloned.type === 'activeSelection' && checkLayerType() === "tile") {
+            if (cloned.type === 'activeSelection' && checkLayerType() === "tile" && !checkLockStatus()) {
                 // active selection needs a reference to the canvas.
                 cloned.canvas = gridCanvas;
                 cloned.forEachObject(function (obj) {
@@ -370,7 +372,7 @@ function Paste() {
                 });
             //single clone
             } else {
-                if(checkLayerType() === "tile"){
+                if(checkLayerType() === "tile" && !checkLockStatus()){
                     cloned.set({
                         selectable: true,
                         hasControls: false,
@@ -380,7 +382,7 @@ function Paste() {
                     });
                     cloned.setCoords();
                     gridCanvas.add(cloned);
-                }else if(checkLayerType() === "object"){
+                }else if(checkLayerType() === "object" && !checkLockStatus()){
                     cloned.set({
                         selectable: true,
                         id: curLayerSelected, //set id to layer id

@@ -53,19 +53,19 @@ function changeLockStatus(layerId) {
     loadLayer()
 }
 
-function checkVisibility(layerId){
+function checkVisibility(){
     let map = JSON.parse(localStorage.getItem("map"));
     for(let i = 0; i < map.layers.length; i++){
-        if (map.layers[i].id == layerId) {
+        if (map.layers[i].id == curLayerSelected) {
             return map.layers[i].visibility;
         }
     }
 }
 
-function checkLockStatus(layerId){
+export function checkLockStatus(){
     let map = JSON.parse(localStorage.getItem("map"));
     for(let i = 0; i < map.layers.length; i++){
-        if (map.layers[i].id == layerId) {
+        if (map.layers[i].id == curLayerSelected) {
             return map.layers[i].locked;
         }
     }
@@ -79,7 +79,7 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     visibility == true ? visIcon.setAttribute("class", "fas fa-eye liItems") : visIcon.setAttribute("class", "fas fa-eye-slash liItems")
 
     visIcon.addEventListener("click", function () {
-        if(checkVisibility(theLayerId)){
+        if(checkVisibility()){
             makeLayerInvisible();
             changeVisbility(theLayerId);
         }else{
@@ -97,7 +97,7 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     let lockIcon = document.createElement("i")
     locked == false ? lockIcon.setAttribute("class", "fas fa-lock-open liItems") : lockIcon.setAttribute("class", "fas fa-lock liItems")
     lockIcon.addEventListener("click", function () {
-        if(checkLockStatus(theLayerId)){
+        if(checkLockStatus()){//true-locked
             unlockLayer();
             changeLockStatus(theLayerId);
         }else{

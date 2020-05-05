@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<header th:insert="fragments.html :: nav"></header>
+<div th:insert="fragments.html :: nav"></div>
 
 <div class="container" style="max-width: 100%">
     <div class=" row firstRow">
@@ -83,7 +83,7 @@
             </div>
             <div class="row iconrow">
                 <div class="col">
-                    <a data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit icon"></i></a>
+                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit icon"></i></a>
 
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" data-backdrop="static"
                          aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -116,7 +116,7 @@
             </div>
             <div class="row iconrow">
                 <div class="col">
-                    <i class="fas fa-info-circle icon"></i>
+                    <a href="#" data-toggle="modal" data-target="#infoPopup"><i class="fas fa-info-circle icon"></i></a>
 
                     <div class="modal fade" id="infoPopup" tabindex="-1" role="dialog" data-backdrop="static"
                          aria-labelledby="infoPopupModal" aria-hidden="true">
@@ -129,7 +129,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body" style="padding:0px !important; overflow: auto">
-                                    <header th:insert="info.html :: information"></header>
+                                    <div th:insert="info.html::information"></div>
                                 </div>
                                 <div class="modal-footer" style="padding:1rem !important;">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Exit</button>
@@ -194,7 +194,7 @@
                             <!--                            </li>-->
                         </ul>
                     </div>
-                    <div class="card-body" style="padding:5px;min-height: 300px;">
+                    <div class="card-body" style="padding:unset;min-height: 300px;">
                         <div class="tab-content mt-3">
                             <!--                            <div class="tab-pane active" id="Tileset#1" role="tabpanel">-->
                             <!--                                <input type="file" id="realBtn" hidden="hidden" onchange="addFirstTileset(this);">-->
@@ -208,8 +208,7 @@
                     <div class="card-footer form-inline d-flex">
                         <h3 class="my-1 mr-lg-5">Tilesets</h3>
                         <!--                        <h5 class = "my-1 ml-lg-5 mr-lg-5"></h5>-->
-                        <input type="file" id="fileBtn" hidden="hidden" onclick="this.value = null"
-                               onchange="addTileset(this);">
+                        <input type="file" id="fileBtn" hidden="hidden" onclick="this.value = null" onchange="addTileset(this);">
                         <div class="float-right ml-auto">
                             <i href="#" class="fas fa-plus tileSetIcon" id="plusBtn"></i>
                             <i href="#" class="fas fa-minus tileSetIcon" id="minusBtn"></i>
@@ -254,11 +253,6 @@
     $('#exampleModal').on('shown.bs.modal', function () {
         lc.respondToSizeChange();
     });
-
-    function saveDrawnTileset() {
-        let image = lc.getImage().toDataURL()
-    }
-
 </script>
 
 <!--<script type="text/javascript">-->
