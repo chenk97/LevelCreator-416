@@ -1,7 +1,8 @@
 
-html,body{
+html, body {
     height: 100%;
 }
+
 .col {
     padding: 2%;
 }
@@ -34,13 +35,14 @@ html,body{
     font-size: 1.9rem;
 }
 
-.myImage{
+.myImage {
     height: 700px;
 }
 
-.test1{
+.test1 {
     height: 200px;
 }
+
 .box {
     background: #fff;
     border: 1px solid #999;
@@ -48,26 +50,27 @@ html,body{
 
 
 }
-.canvas-container{
+
+.canvas-container {
     margin: 0 auto;
 }
 
 
-.tools{
+.tools {
     border: solid;
     border-color: #BBF8FC;
-    border-radius: 20px;
+    border-radius: .5rem;
 }
 
-.firstRow{
-    padding:10px;
+.firstRow {
+    padding: 10px;
 }
 
-.panels{
+.panels {
     margin-left: 20px;
 }
 
-.card1{
+.card1 {
     width: 100%
 }
 
@@ -75,7 +78,7 @@ html,body{
     position: relative;
 }
 
-.tools{
+.tools {
     margin-left: 20px;
     margin-right: 20px;
 }
@@ -91,29 +94,42 @@ body {
 }
 
 
-.layerIcon{
+.layerIcon {
     padding: 10px;
+    color: #1abc9c;
 }
 
-.liItems{
+.liItems {
     padding-left: 5px;
 }
 
-.liInputTag{
-    width: auto ;
+.liInputTag {
+    width: auto;
 }
 
-.typeIcon{
+.typeIcon {
     padding: 5px;
 }
 
-.liTag{
+.liTag {
     text-align: center;
 }
 
-.canvasPosition{
+.canvasPosition {
     position: absolute;
     left: 0px;
     top: 0px;
 }
 
+#layerList {
+    background: #ebebeb;
+}
+
+.tileSetIcon {
+    padding: 10px;
+    color: #1abc9c;
+}
+
+.infoTab {
+    color: #1abc9c;
+}

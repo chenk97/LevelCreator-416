@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="information">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h3>TOOLS</h3>
+                <div class="accordion" id="accordionExample" style="overflow: auto; height: 600px">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                        data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <h2><i class="fas fa-save icon"></i>Save</h2>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                Saves the current project.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <h2><i class="fas fa-file-import icon"></i>Import</h2>
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                Import maps.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingThree">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseThree" aria-expanded="false"
+                                        aria-controls="collapseThree">
+                                    <div class="d-inline-flex">
+
+                                        <h2><i class="fas fa-undo icon"></i>Redo And <i class="fas fa-redo icon"></i>
+                                            Undo</h2>
+                                    </div>
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                Allows the user to undo and redo any action performed.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingFour">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseFour" aria-expanded="false"
+                                        aria-controls="collapseFour">
+                                    <div class="d-inline-flex">
+
+                                        <h2><i class="fas fa-fill-drip icon"></i>Bucket Fill Tool</h2>
+                                    </div>
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                Provides a quick way of filling empty areas or areas covered with
+                                the same tiles.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingFive">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseFive" aria-expanded="false"
+                                        aria-controls="collapseFive">
+                                    <div class="d-inline-flex">
+                                        <h2><i class="fas fa-download icon"></i>Download</h2>
+
+                                    </div>
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                Download allows users to download the current map that they are working on.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingSix">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseSix" aria-expanded="false"
+                                        aria-controls="collapseSix">
+                                    <div class="d-inline-flex">
+                                        <h2><i class="fas fa-object-group icon"></i>Select Tool</h2>
+                                    </div>
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseSix" class="collapse" aria-labelledby="headingSix"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                Allows users to select tiles on the map.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingSeven">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseSeven" aria-expanded="false"
+                                        aria-controls="collapseSeven">
+                                    <div class="d-inline-flex">
+                                        <h2><i class="fas fa-eraser icon"></i>Eraser</h2>
+                                    </div>
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                Allows users to erase tiles on the map.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingEight">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseEight" aria-expanded="false"
+                                        aria-controls="collapseEight">
+                                    <div class="d-inline-flex">
+                                        <h2><i class="fas fa-edit icon"></i>Drawing Tool</h2>
+                                    </div>
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseEight" class="collapse" aria-labelledby="headingEight"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                Allow users to draw there own tileset on a canvas.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingNine">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseNine" aria-expanded="false"
+                                        aria-controls="collapseNine">
+                                    <div class="d-inline-flex">
+                                        <h2><i class="fas fa-users icon"></i>Collaborators</h2>
+                                    </div>
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseNine" class="collapse" aria-labelledby="headingNine"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                Allows user to add collaborators to their project.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingTen">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseTen" aria-expanded="false"
+                                        aria-controls="collapseTen">
+                                    <div class="d-inline-flex">
+                                        <h2><i class="far fa-file-image icon"></i>Preview Tool</h2>
+                                    </div>
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseTen" class="collapse" aria-labelledby="headingTen"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                Shows a preview of the map currently being worked on.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <h3>KEYBOARD SHORTCUTS</h3>
+                <div style="height: 600px; overflow: auto">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="mb-0">
+                                <h2 class="infoTab">Save: Ctrl+S</h2>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="mb-0">
+                                <h2 class="infoTab">Erase: Delete</h2>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="mb-0">
+                                <h2 class="infoTab">Undo: Ctrl+Z</h2>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="mb-0">
+                                <h2 class="infoTab">Redo: Ctrl+Y</h2>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="mb-0">
+                                <h2 class="infoTab">Copy: Ctrl+C</h2>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="mb-0">
+                                <h2 class="infoTab">Paste: Ctrl+V</h2>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="mb-0">
+                                <h2 class="infoTab">Drag Map: Alt+Mouse Drag</h2>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="mb-0">
+                                <h2 class="infoTab">Zoom In and Out: Ctrl+Mouse Wheel Up and Down</h2>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

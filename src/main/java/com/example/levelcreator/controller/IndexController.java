@@ -34,6 +34,11 @@ public class IndexController {
         return "registration.html";
     }
 
+    @RequestMapping("/following")
+    public String following(){
+        return "following.html";
+    }
+
     @RequestMapping("/levelcreator")
     public String levelcreator(){
         //if logged in goto home

@@ -20,6 +20,7 @@ public class ProjectController {
         return "mywork.html";
     }
 
+
 //    submitting the form with map preferences directs the user to the workspace page where
 //    they are able to start creating
     @RequestMapping("/workspace")
