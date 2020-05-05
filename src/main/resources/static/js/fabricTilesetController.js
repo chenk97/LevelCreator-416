@@ -7,8 +7,6 @@ var img = new Image(),
 //draw with offset
 var offset = 1.1;
 var clonedObject;
-var currentTileset;
-
 
 function addTileset(input){
     console.log("adding tileset...");
@@ -171,17 +169,22 @@ function drawTiles(tiles, fabricCanvas) {
 
     fabricCanvas.on('selection:created',function(e){
         //try group selection here
-        currentTileset = fabricCanvas;
         e.target.set({
+            selectable: true,
             lockScalingX: true,
             lockScalingY: true,
             lockMovementX: true,
             lockMovementY: true,
             hasControls: false,
         });
-        //var obj = canvas2.getActiveObject();
-        fabricCanvas.getActiveObject().clone(function(cloned) {
+
+        let obj = fabricCanvas.getActiveObject();
+
+        obj.clone(function(cloned) {
             clonedObject = cloned;
+            if(obj.type !== 'activeSelection'){
+                fabricCanvas.discardActiveObject();
+            }
         });
 
     });
