@@ -26,7 +26,6 @@ function createMap() {
         tileWidth: tileWidth,
         tileHeight: tileHeight,
         nextLayerid: 2,
-        gidCnt:1,
         canvas: null,
         layers: [
             {
@@ -129,7 +128,7 @@ function drawGrids(){
          boundBox = new fabric.Rect({
             width: map.width * map.tileWidth,
             height: map.height *map.tileHeight,
-            stroke: "#c0c4c2",
+            stroke: 'transparent',
             fill: 'transparent',
             hasBorders: false,
             selectable: false,

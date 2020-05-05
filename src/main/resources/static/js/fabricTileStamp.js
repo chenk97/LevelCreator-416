@@ -36,7 +36,6 @@ gridCanvas.on({
                 top: top,
                 left: left,
             });
-
         }
         refreshData();
     }
@@ -56,14 +55,19 @@ gridCanvas.on({
         if(checkLayerType() === "tile"){
             let top = closest(lineYN, cursorY-tileH/2);
             let left = closest(lineXN, cursorX-tileW/2);
+            //need to clean the area
             if(clonedObject){
                 clonedObject.clone(function(cloned) {
                     if (cloned.type === 'activeSelection') {
                         let width = cloned.width * cloned.scaleX;
                         let height = cloned.height * cloned.scaleY;
+                        //clean area
+                        let cloneTop = top-(Math.floor(height/tileH)*tileH)/2;
+                        let cloneLeft = left-(Math.floor(width/tileW)*tileW)/2;
+                        areaClean(width, height, closest(lineXN,cloneLeft+tileW/2), closest(lineYN,cloneTop+tileH/2));
                         cloned.set({
-                            top: top-(height-height%tileH)/2,
-                            left: left-(width-width%tileW)/2,
+                            top: cloneTop,
+                            left: cloneLeft,
                         });
                         cloned.forEachObject(function (obj) {
                             obj.set({
@@ -145,10 +149,30 @@ gridCanvas.on({
                 });
             }else{return;}
         }
-
+        //refresh canvas data after change
         refreshData();
     }
 });
+
+
+function areaClean(width, height, left, top){
+    let col = Math.floor((width+tileW*(offset-1))/offset/tileW);
+    let row = Math.floor((height+tileH*(offset-1))/offset/tileH);
+    console.log("columns to clean:" + col);
+    console.log("rows to clean:" + row);
+    for(var i = 0; i < row; i++){
+        for(var j = 0; j < col; j++){
+            console.log("row:"+i+", col:"+j);
+            gridCanvas.getObjects().forEach(item=>{
+                if((item.id === curLayerSelected) && (item.left === left+j*tileW)
+                    && (item.top === top + i*tileH)){
+                    gridCanvas.remove(item);
+                    gridCanvas.requestRenderAll();
+                }
+            });
+        }
+    }
+}
 
 
 function closest(arr, closestTo){
@@ -280,34 +304,22 @@ function Paste() {
                 left: cloned.left + tileW/2,
                 evented: true,
             });
-            if (cloned.type === 'activeSelection') {
+            //group clone - only for tile layer
+            if (cloned.type === 'activeSelection' && checkLayerType() === "tile") {
                 // active selection needs a reference to the canvas.
                 cloned.canvas = gridCanvas;
-                if(checkLayerType() === "tile"){
-                    cloned.forEachObject(function (obj) {
-                        obj.set({
-                            selectable: true,
-                            hasControls: false,
-                            lockScalingX: true,
-                            lockScalingY: true,
-                            id: curLayerSelected, //set id to layer id
-                        });
-                        obj.setCoords();
-                        gridCanvas.add(obj);
+                cloned.forEachObject(function (obj) {
+                    obj.set({
+                        selectable: true,
+                        hasControls: false,
+                        lockScalingX: true,
+                        lockScalingY: true,
+                        id: curLayerSelected, //set id to layer id
                     });
-                }
-                // else if(checkLayerType() === "object"){
-                //     cloned.forEachObject(function (obj) {
-                //         obj.set({
-                //             selectable: true,
-                //             id: curLayerSelected, //set id to layer id
-                //         });
-                //         obj.setCoords();
-                //         gridCanvas.add(obj);
-                //     });
-                // }
-                // // this should solve the unselectability
-                // cloned.setCoords();
+                    obj.setCoords();
+                    gridCanvas.add(obj);
+                });
+            //single clone
             } else {
                 if(checkLayerType() === "tile"){
                     cloned.set({
@@ -324,6 +336,7 @@ function Paste() {
                         selectable: true,
                         id: curLayerSelected, //set id to layer id
                     });
+                    //rescale
                     if(objScaleX !== 1 || objScaleY !== 1){
                         cloned.set({
                             scaleX: objScaleX,

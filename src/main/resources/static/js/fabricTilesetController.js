@@ -25,16 +25,14 @@ function addTileset(input){
     }
     var canvas = addTileCanvas(id);
     let newTileset = {
-        firstgid : map.gidCnt,
         id: id,
-        source: null,
         image: null,
         canvasId : canvas.id,
     };
     //get file name, the tab name ll be the same as it
-    var fileInput = document.getElementById('fileBtn');
-    newTileset.source = fileInput.value.split(/(\\|\/)/g).pop();
-    console.log(newTileset.source);
+    // var fileInput = document.getElementById('fileBtn');
+    // newTileset.source = fileInput.value.split(/(\\|\/)/g).pop();
+    // console.log(newTileset.source);
     //import image to local storage and load to table
     if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -86,12 +84,11 @@ function init(canvas, ctx) {
     canvas.height = tileH*tileCountY + (tileCountY-1)* (tileH*(offset-1));
     //check how many full tiles we can fit
     //right and bottom sides of the image will get cropped
-    map.gidCnt += tileCountX * tileCountY;
-    localStorage.setItem('map', JSON.stringify(map));
+    // map.gidCnt += tileCountX * tileCountY;
+    // localStorage.setItem('map', JSON.stringify(map));
     console.log("xcount: " + tileCountX);
     console.log("ycount: " + tileCountY);
     console.log("counts: " + tileCountX * tileCountY);
-    console.log("gid: " + map.gidCnt);
     ctx.drawImage(img, 0, 0);
     imgData = ctx.getImageData(0, 0, imgW, imgH).data;
     // ctx.clearRect(0, 0, imgW, imgH);
