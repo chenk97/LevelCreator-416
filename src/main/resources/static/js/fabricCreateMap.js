@@ -161,7 +161,8 @@ function drawGrids(){
                     lockMovementX: true,
                     lockMovementY: true,
                 });
-                /*
+
+
                 let leftbottom = new fabric.Line([x - map.tileWidth,y + map.tileHeight/2, x - map.tileWidth/2, y + map.tileHeight],{
                     stroke: "#c0c4c2",
                     hasBorders: false,
@@ -171,6 +172,7 @@ function drawGrids(){
                     lockMovementY: true,
                 });
 
+
                 let rightbottom = new fabric.Line([x - map.tileWidth/2,y + map.tileHeight, x, y + map.tileHeight/2],{
                     stroke: "#c0c4c2",
                     hasBorders: false,
@@ -179,7 +181,8 @@ function drawGrids(){
                     lockMovementX: true,
                     lockMovementY: true,
                 });
-                */
+
+
                 let righttop = new fabric.Line([x, y + map.tileHeight/2, x - map.tileWidth/2, y ],{
                     stroke: "#c0c4c2",
                     hasBorders: false,
@@ -189,19 +192,22 @@ function drawGrids(){
                     lockMovementY: true,
                 });
 
-                var points =[
-                    {x: left, y: top},
-                    {x: x - map.tileWidth, y: y + map.tileHeight/2},
-                    {x: x, y: y + map.tileHeight/2}
-                 ];
 
-                 isoPoints.push(points);
+                let a = new fabric.Point(x - map.tileWidth, y + map.tileHeight/2);
+                let b = new fabric.Point(x - map.tileWidth/2,y + map.tileHeight);
+                let c = new fabric.Point(x, y + map.tileHeight/2);
+                let d = new fabric.Point(x - map.tileWidth/2, y);
 
 
                 isoLines.push(lefttop);
-                //isoLines.push(leftbottom);
-                //isoLines.push(rightbottom);
+                isoLines.push(leftbottom);
+                isoLines.push(rightbottom);
                 isoLines.push(righttop);
+
+                checkDupPush(isoPoints,a);
+                checkDupPush(isoPoints,b);
+                checkDupPush(isoPoints,c);
+                checkDupPush(isoPoints,d);
 
             }
         }
@@ -210,12 +216,30 @@ function drawGrids(){
             gridCanvas.add(line);
         });
 
-        isoPoints.forEach((point) => {
-            console.log(point);
-        });
+
+        console.log(isoPoints);
+
     }
 
 }
+
+function checkDupPush(arr, newItem){
+    let isDuplicated = false;
+    arr.forEach(function (element) {
+        if (element.eq(newItem)) {
+            isDuplicated = true;
+        }
+    });
+    if(!isDuplicated){
+        arr.push(newItem)
+    }
+}
+
+// function removeLargest(numbers) {
+//     const largest = Math.max.apply(null, numbers);
+//     const pos = numbers.indexOf(largest);
+//     return numbers.slice(0, pos).concat(numbers.slice(pos + 1));
+// }
 
 /////////////// zoom and panning function start from here //////////////////////
 var zoomhandler = function(event) {
