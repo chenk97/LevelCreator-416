@@ -10,6 +10,7 @@ var lineY = [];
 var lineXN = [];
 var lineYN = [];
 var isoLines = [];
+var isoPoints =[];
 var gridCanvas;
 
 function createMap() {
@@ -160,7 +161,7 @@ function drawGrids(){
                     lockMovementX: true,
                     lockMovementY: true,
                 });
-
+                /*
                 let leftbottom = new fabric.Line([x - map.tileWidth,y + map.tileHeight/2, x - map.tileWidth/2, y + map.tileHeight],{
                     stroke: "#c0c4c2",
                     hasBorders: false,
@@ -178,7 +179,7 @@ function drawGrids(){
                     lockMovementX: true,
                     lockMovementY: true,
                 });
-
+                */
                 let righttop = new fabric.Line([x, y + map.tileHeight/2, x - map.tileWidth/2, y ],{
                     stroke: "#c0c4c2",
                     hasBorders: false,
@@ -188,9 +189,18 @@ function drawGrids(){
                     lockMovementY: true,
                 });
 
+                var points =[
+                    {x: left, y: top},
+                    {x: x - map.tileWidth, y: y + map.tileHeight/2},
+                    {x: x, y: y + map.tileHeight/2}
+                 ];
+
+                 isoPoints.push(points);
+
+
                 isoLines.push(lefttop);
-                isoLines.push(leftbottom);
-                isoLines.push(rightbottom);
+                //isoLines.push(leftbottom);
+                //isoLines.push(rightbottom);
                 isoLines.push(righttop);
 
             }
@@ -198,6 +208,10 @@ function drawGrids(){
 
         isoLines.forEach((line) => {
             gridCanvas.add(line);
+        });
+
+        isoPoints.forEach((point) => {
+            console.log(point);
         });
     }
 
