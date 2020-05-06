@@ -20,6 +20,7 @@ function changeLayerName(theLayerId) {
 
 //Change layer visibility status
 function changeVisbility(layerId) {
+
     let map = JSON.parse(localStorage.getItem('map'));
     let mapLayers = map.layers
 
@@ -31,7 +32,6 @@ function changeVisbility(layerId) {
     map.layers = mapLayers
     localStorage.setItem('map', JSON.stringify(map));
     loadLayer()
-    createMap()
 }
 
 //Change layer lock status
@@ -71,6 +71,13 @@ function createLayer(theLayerId, type, name, visibility, locked) {
         changeLockStatus(theLayerId)
     })
 
+    let propertyIcon = document.createElement("i")
+    propertyIcon.setAttribute("class","fas fa-th-list")
+    propertyIcon.addEventListener("click",function () {
+        $("#propertyPanelModal").modal({show:true})
+    })
+
+
     //Create Li Element
     let li = document.createElement("li");
     li.setAttribute("class", "list-group-item liTag")
@@ -92,6 +99,7 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     li.appendChild(x)
     li.appendChild(visIcon)
     li.appendChild(lockIcon)
+    li.appendChild(propertyIcon)
 
     return li
 }

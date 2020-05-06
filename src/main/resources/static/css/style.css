@@ -133,3 +133,36 @@ body {
 .infoTab {
     color: #1abc9c;
 }
+
+#propertyPanelModal {
+    width: 350px;
+    height: 700px;
+}
+
+.propertyModalTitles {
+    background: #337ab7;
+    color: white;
+    padding: 10px;
+}
+
+.propertyModalButtons {
+    border: 2px solid;
+    background: #337ab7;
+    color: white;
+}
+
+.propertyModalFooter{
+    padding: 5px;
+}
+
+.propertyModalBody{
+    padding:10px;
+}
+
+.setBodySize{
+    padding: 5px;
+    height: 535px;
+}
+
+
+

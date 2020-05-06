@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body th:fragment="tileProperties">
+
+<div id="propertyPanelModal" class="modal fade" data-keyboard="false" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header propertyPanelModalHeader propertyModalTitles">
+                <h4>Properties - LevelCreator</h4>
+
+            </div>
+            <div class="modal-body setBodySize">
+                <h5>Custom Properties</h5>
+                <ul class="list-group" style="overflow: auto; height: 500px">
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Morbi leo risus</li>
+                    <li class="list-group-item">Porta ac consectetur ac</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Morbi leo risus</li>
+                    <li class="list-group-item">Porta ac consectetur ac</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Morbi leo risus</li>
+                    <li class="list-group-item">Porta ac consectetur ac</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Morbi leo risus</li>
+                    <li class="list-group-item">Porta ac consectetur ac</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                </ul>
+
+            </div>
+            <div class="modal-footer propertyModalFooter">
+                <button type="button" class="btn btn-default propertyModalButtons" data-toggle="modal"
+                        data-target="#addPropertyModal">
+                    Add Custom Property
+                </button>
+                <button type="button" class="btn btn-secondary" data-number="1">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addPropertyModal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header  propertyModalTitles">
+                <h3>Add Property</h3>
+            </div>
+            <div class="modal-body propertyModalBody">
+                <input type="text" style="width: 70%" placeholder="Property Name">
+                <select style="padding: 5px; width: 29%">
+                    <option value="boolProperty">bool</option>
+                    <option value="colorProperty">color</option>
+                    <option value="floatProperty">float</option>
+                    <option value="intProperty">int</option>
+                    <option value="stringProperty">string</option>
+                </select>
+            </div>
+            <div class="modal-footer propertyModalFooter">
+                <button type="button" class="btn btn-primary propertyModalButtons">OK</button>
+                <button type="button" class="btn btn-secondary" data-number="2">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
