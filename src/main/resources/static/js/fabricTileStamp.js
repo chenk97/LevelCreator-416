@@ -40,7 +40,7 @@ gridCanvas.on({
                 left: left,
             });
         }else if(checkLayerType() === "tile" && checkMapType() === "Isometric"){
-            let point = closestPoint(isoPoints, cursorY-tileH/2, cursorX-tileW/2);
+            let point = closestPoint(isoPoints, e.target.top, e.target.left);
             let top = point.y;
             let left = point.x-tileW/2;
             e.target.set({
