@@ -128,7 +128,7 @@ function drawGrids(){
          boundBox = new fabric.Rect({
             width: map.width * map.tileWidth,
             height: map.height *map.tileHeight,
-            stroke: 'transparent',
+            stroke: "#c0c4c2",
             fill: 'transparent',
             hasBorders: false,
             selectable: false,

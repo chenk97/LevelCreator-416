@@ -34,8 +34,8 @@ function addTileset(input){
                 init(fakeCanvas, ctx);
                 var tiles = getTiles();
                 var fabricCanvas = new fabric.Canvas(canvas.id,{
-                    width: tileW*tileCountX + (tileCountX-1)* (tileW*(offset-1)),
-                    height: tileH*tileCountY + (tileCountY-1)* (tileH*(offset-1)),
+                    width: tileW*tileCountX + (tileCountX-1)* (tileW*(offset-1)) + 20,
+                    height: tileH*tileCountY + (tileCountY-1)* (tileH*(offset-1)) + 20,
                     selectable:false,
                 });
                 drawTiles(tiles, fabricCanvas);
@@ -74,8 +74,8 @@ function saveDrawnTileset() {
         init(fakeCanvas, ctx);
         var tiles = getTiles();
         var fabricCanvas = new fabric.Canvas(canvas.id,{
-            width: tileW*tileCountX + (tileCountX-1)* (tileW*(offset-1)),
-            height: tileH*tileCountY + (tileCountY-1)* (tileH*(offset-1)),
+            width: tileW*tileCountX + (tileCountX-1)* (tileW*(offset-1)) + 20,
+            height: tileH*tileCountY + (tileCountY-1)* (tileH*(offset-1)) + 20,
             selectable:false,
         });
         drawTiles(tiles, fabricCanvas);
@@ -171,8 +171,8 @@ function drawTiles(tiles, fabricCanvas) {
         let d = tiles[i];
         c.getContext('2d').putImageData(d, 0, 0);
         var image = fabric.Image.fromURL(c.toDataURL(), function(img) {
-            img.left = d.x * offset;
-            img.top = d.y * offset;
+            img.left = d.x * offset + 10;
+            img.top = d.y * offset + 10;
             fabricCanvas.add(img);
             // img.bringToFront();
             img.lockMovementX = true;
@@ -183,7 +183,6 @@ function drawTiles(tiles, fabricCanvas) {
             img.setCoords();
             c = null;
             $('#_temp_canvas').remove();
-
             // fabricCanvas.renderAll();
         });
     }
@@ -235,7 +234,7 @@ function newCanvasId(){
 
 function addTileCanvas(id){
     $(".nav-tabs").append(`<li class="nav-item"><a class="nav-link" id = "tileset${id}" href="#tileset_${id}" data-toggle="tab">Tileset#${id}</a></li>`);
-    $('.tab-content').append(`<div class="tab-pane" id="tileset_${id}" style="overflow: scroll;max-height:256px;"><canvas id ="canvas_${id}"/></div>`);
+    $('.tab-content').append(`<div class="tab-pane" id="tileset_${id}" style="overflow: scroll;max-height:300px;"><canvas id ="canvas_${id}"/></div>`);
     $(`a[href="#tileset_${id}"]`).click();
     var canvas = document.getElementById("canvas_"+id);
     return canvas;
@@ -255,8 +254,8 @@ function reloadTileset(){
             init(fakeCanvas, ctx);
             var tiles = getTiles();
             var fabricCanvas = new fabric.Canvas(canvas.id,{
-                width: tileW*tileCountX + (tileCountX-1)* (tileW*(offset-1)),
-                height: tileH*tileCountY + (tileCountY-1)* (tileH*(offset-1)),
+                width: tileW*tileCountX + (tileCountX-1)* (tileW*(offset-1)) + 20,
+                height: tileH*tileCountY + (tileCountY-1)* (tileH*(offset-1)) + 20,
                 selectable:false,
             });
             drawTiles(tiles, fabricCanvas);
