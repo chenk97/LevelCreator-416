@@ -335,7 +335,6 @@ function changeProperty(type, propertyIndex) {
     }
 
     for (let x = 0; x < currentLayerProperties.length; x++) {
-
         if (x == propertyIndex) {
             if (type == "name") {
                 currentLayerProperties[x].name = event.target.value
@@ -350,6 +349,25 @@ function changeProperty(type, propertyIndex) {
     }
     map.layers[theLayerNumber].properties = currentLayerProperties
     localStorage.setItem('map', JSON.stringify(map));
+}
+
+function deleteProperty(propertyIndex){
+    let map = JSON.parse(localStorage.getItem('map'));
+    let mapLayer = map.layers
+    let currentLayerProperties
+    let theLayerNumber
+    for (let p = 0; p < mapLayer.length; p++) {
+        if (mapLayer[p].id == curLayerSelected) {
+            currentLayerProperties = mapLayer[p].properties
+            theLayerNumber = p
+        }
+    }
+
+    currentLayerProperties.splice(propertyIndex,1)
+
+    map.layers[theLayerNumber].properties = currentLayerProperties
+    localStorage.setItem('map', JSON.stringify(map));
+    loadLayerProperty(curLayerSelected)
 }
 
 function loadLayerProperty(currentLayerId) {
@@ -370,13 +388,16 @@ function loadLayerProperty(currentLayerId) {
         li.setAttribute("class", "list-group-item propertyListItem")
 
         let rowDiv = document.createElement("div")
-        rowDiv.setAttribute("class", "row")
+        rowDiv.setAttribute("class", "row propertyRow")
 
         let nameDiv = document.createElement("div")
-        nameDiv.setAttribute("class", "col-5")
+        nameDiv.setAttribute("class", "col-4 propertyNameCol")
 
         let valueDiv = document.createElement("div")
-        valueDiv.setAttribute("class", "col-7")
+        valueDiv.setAttribute("class", "col-7 propertyValueCol")
+
+        let deleteDiv = document.createElement("div")
+        deleteDiv.setAttribute("class", "col-md-auto propertyDeleteCol")
 
         let nameInput = document.createElement("INPUT")
         nameInput.setAttribute("value", currentLayerProperties[c].name)
@@ -417,11 +438,20 @@ function loadLayerProperty(currentLayerId) {
             changeProperty("value", c)
         })
 
+        let deleteIcon = document.createElement("i")
+        deleteIcon.setAttribute("class","fas fa-trash-alt")
+
+        deleteIcon.addEventListener("click",function () {
+            deleteProperty(c)
+        })
+
         nameDiv.appendChild(nameInput)
         valueDiv.appendChild(valueInput)
+        deleteDiv.appendChild(deleteIcon)
 
         rowDiv.appendChild(nameDiv)
         rowDiv.appendChild(valueDiv)
+        rowDiv.appendChild(deleteDiv)
 
         li.appendChild(rowDiv)
 

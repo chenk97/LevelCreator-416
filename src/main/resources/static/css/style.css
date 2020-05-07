@@ -178,5 +178,22 @@ body {
     height: 100%;
 }
 
+.propertyRow{
+    margin:0;
+}
+
+.propertyNameCol{
+    padding:0px;
+}
+
+.propertyValueCol{
+    padding-right: 0px;
+}
+
+.propertyDeleteCol{
+    padding: 0px;
+    font-size: 25px;
+    padding-left: 10px;
+}
 
 
