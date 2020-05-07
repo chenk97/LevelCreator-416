@@ -41,6 +41,7 @@ gridCanvas.on({
             });
         }else if(checkLayerType() === "tile" && checkMapType() === "Isometric"){
             if(e.target.type === 'activeSelection'){
+                //try search for existing point on right top corner, return
                 let corSet = closestPoint(isoPoints, e.target.top, e.target.left + tileW/2);
                 let top = corSet.top;
                 let left = corSet.left;
@@ -134,7 +135,6 @@ gridCanvas.on({
                                     lockScalingY: true,
                                     id: curLayerSelected,
                                 });
-                                console.log(cloned);
                                 gridCanvas.add(cloned);
                             }
                         });
@@ -242,18 +242,20 @@ function areaClean(width, height, top, left){
     let row = Math.floor((height+tileH*(offset-1))/offset/tileH);
     console.log("columns to clean:" + col);
     console.log("rows to clean:" + row);
-    for(var i = 0; i < row; i++){
-        for(var j = 0; j < col; j++){
-            console.log("row:"+i+", col:"+j);
+    for(let i = 0; i < row; i++){
+        for(let j = 0; j < col; j++){
             gridCanvas.getObjects().forEach(item=>{
                 if((item.id === curLayerSelected) && (item.top === top + i*tileH)
-                    && (item.left === left+j*tileW)){
+                    && (item.left === left + j*tileW)){
                     gridCanvas.remove(item);
                     gridCanvas.requestRenderAll();
                 }
             });
         }
     }
+    // if(checkMapType() === "Orthogonal"){
+    // }else if(checkMapType() === "Isometric"){
+    // }
 }
 
 
@@ -338,14 +340,46 @@ function shapeFill(){
 
 //only for tiled layer and only when there is one cloned object
 function shapeFillTool(){
-    for(let i = 0; i < lineYN.length; i++){
-        for(let j = 0; j < lineXN.length; j++){
-            let top = lineYN[i];
-            let left = lineXN[j];
-            let skip = false;
+    let skip = false;
+    if(checkMapType() === "Orthogonal"){
+        for(let i = 0; i < lineYN.length; i++){
+            for(let j = 0; j < lineXN.length; j++){
+                let top = lineYN[i];
+                let left = lineXN[j];
+                gridCanvas.getObjects().forEach(item=>{//check if there is an object at the same layer and position
+                    if (item.selectable && item.id === curLayerSelected) {
+                        if(item.top === top && item.left ===left){
+                            skip = true;
+                        }
+                    }
+                });
+                if(skip){
+                    skip = false;//reset skip
+                    continue;
+                }
+                clonedObject.clone(function(cloned) {
+                    if (cloned.type !== 'activeSelection') {
+                        cloned.set({
+                            top: top,
+                            left: left,
+                            hasControls: false,
+                            lockScalingX: true,
+                            lockScalingY: true,
+                            id: curLayerSelected,
+                        });
+                        cloned.setCoords();
+                        gridCanvas.add(cloned);
+                        gridCanvas.setActiveObject(cloned);
+                    }
+                });
+            }
+        }
+    }else if(checkMapType() === "Isometric"){
+        for(let i = 0; i < isoPoints.length; i++){
+            if(isoPoints[i].y === leftMostPt.y && isoPoints[i].x === leftMostPt.x){continue;}
             gridCanvas.getObjects().forEach(item=>{//check if there is an object at the same layer and position
                 if (item.selectable && item.id === curLayerSelected) {
-                    if(item.top === top && item.left ===left){
+                    if(item.top === isoPoints[i].y && item.left === isoPoints[i].x - tileW/2){
                         skip = true;
                     }
                 }
@@ -357,8 +391,8 @@ function shapeFillTool(){
             clonedObject.clone(function(cloned) {
                 if (cloned.type !== 'activeSelection') {
                     cloned.set({
-                        top: top,
-                        left: left,
+                        top: isoPoints[i].y,
+                        left: isoPoints[i].x - tileW/2,
                         hasControls: false,
                         lockScalingX: true,
                         lockScalingY: true,
@@ -439,7 +473,7 @@ function Copy() {
         });
     }
     else if(checkLayerType() === "object" && !checkLockStatus()){
-        var obj = gridCanvas.getActiveObject();
+        let obj = gridCanvas.getActiveObject();
         if(gridCanvas.getActiveObject().type !== 'activeSelection'){
             objScaleX = obj.scaleX;
             objScaleY = obj.scaleY;

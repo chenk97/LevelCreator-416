@@ -12,6 +12,7 @@ var lineYN = [];
 var isoLines = [];
 var isoPoints =[];
 var gridCanvas;
+var leftMostPt;
 
 function createMap() {
     var mapOrientation = document.getElementById("orientation").value;
@@ -195,7 +196,6 @@ function drawGrids(){
 
                 let d = new fabric.Point(x - map.tileWidth/2, y);//top vertex
 
-
                 isoLines.push(lefttop);
                 isoLines.push(leftbottom);
                 isoLines.push(rightbottom);
@@ -210,7 +210,8 @@ function drawGrids(){
             gridCanvas.add(line);
         });
 
-        isoPoints.push(new fabric.Point(boundBox.left, boundBox.top + boundBox.height/2));//most left point
+        leftMostPt = new fabric.Point(boundBox.left, boundBox.top + boundBox.height/2);
+        isoPoints.push(leftMostPt);//most left point
     }
 
 }
