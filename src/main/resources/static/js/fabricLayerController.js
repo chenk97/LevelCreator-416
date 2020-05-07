@@ -25,9 +25,9 @@ function moveLayerDown(){
 }
 
 
-export function makeLayerInvisible(){
+export function makeLayerInvisible(layerId){
     gridCanvas.getObjects().forEach(item=>{
-        if(item.id===curLayerSelected){
+        if(item.id==layerId){
             item.set({opacity: 0});
         }
     });
@@ -35,9 +35,9 @@ export function makeLayerInvisible(){
 }
 
 
-export function makeLayerVisible(){
+export function makeLayerVisible(layerId){
     gridCanvas.getObjects().forEach(item=>{
-        if(item.id===curLayerSelected){
+        if(item.id==layerId){
             item.set({opacity: 1});
         }
     });
@@ -45,9 +45,9 @@ export function makeLayerVisible(){
 }
 
 
-export function lockLayer(){
+export function lockLayer(layerId){
     gridCanvas.getObjects().forEach(item=>{
-        if(item.id===curLayerSelected){
+        if(item.id==layerId){
             item.set({selectable:false});
         }
     });
@@ -55,9 +55,9 @@ export function lockLayer(){
 }
 
 
-export function unlockLayer(){
+export function unlockLayer(layerId){
     gridCanvas.getObjects().forEach(item=>{
-        if(item.id===curLayerSelected){
+        if(item.id==layerId){
             item.set({selectable:true});
         }
     });

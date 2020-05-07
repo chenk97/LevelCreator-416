@@ -78,12 +78,12 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     let visIcon = document.createElement("i")
     visibility == true ? visIcon.setAttribute("class", "fas fa-eye liItems") : visIcon.setAttribute("class", "fas fa-eye-slash liItems")
 
-    visIcon.addEventListener("click", function () {
+    visIcon.addEventListener("click", function (e) {
         if(checkVisibility()){
-            makeLayerInvisible();
+            makeLayerInvisible(e.target.parentElement.id);
             changeVisbility(theLayerId);
         }else{
-            makeLayerVisible();
+            makeLayerVisible(e.target.parentElement.id);
             changeVisbility(theLayerId);
         }
 
@@ -96,12 +96,12 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     // Add Lock Icon
     let lockIcon = document.createElement("i")
     locked == false ? lockIcon.setAttribute("class", "fas fa-lock-open liItems") : lockIcon.setAttribute("class", "fas fa-lock liItems")
-    lockIcon.addEventListener("click", function () {
+    lockIcon.addEventListener("click", function (e) {
         if(checkLockStatus()){//true-locked
-            unlockLayer();
+            unlockLayer(e.target.parentElement.id);
             changeLockStatus(theLayerId);
         }else{
-            lockLayer();
+            lockLayer(e.target.parentElement.id);
             changeLockStatus(theLayerId);
         }
     })
@@ -145,7 +145,6 @@ function setCurrentSelectedLayer(layerId) {
     for (let i = 0; i < layer.length; i++) {
         layer[i].id != layerId ? layer[i].style.backgroundColor = "white" : layer[i].style.backgroundColor = "#a8d1ff"
     }
-
     console.log("Layer selected with layer Id: " + layerId)
     curLayerSelected = layerId
 }
@@ -244,7 +243,14 @@ export function loadLayer() {
         //Adds a eventlistener for the li when clicked
         theLayer.addEventListener("click", function () {
             setCurrentSelectedLayer(mapLayers[i].id)
-        })
+            if(!checkLockStatus()){//if notLocked
+                gridCanvas.forEachObject(obj=>{
+                    if(obj.id === curLayerSelected){
+                        obj.set({selectable:true});
+                    }
+                });
+            }
+        });
 
 
         //Appends the li to the ul

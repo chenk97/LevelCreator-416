@@ -8,6 +8,7 @@ var objScaleX = 1;
 var objScaleY = 1;
 var shapeFillOn = false;
 
+//extend image class so it can be recovered
 fabric.Image.prototype.toObject = (function(toObject) {
     return function() {
         return fabric.util.object.extend(toObject.call(this), {
@@ -72,6 +73,7 @@ gridCanvas.on({
                     });
                 }
             }else{
+
                 let top = closest(lineYN, e.target.top);
                 let left = closest(lineXN, e.target.left);
                 e.target.set({
@@ -92,6 +94,12 @@ gridCanvas.on({
             // }
             // else{
             // }
+        }else if(checkLayerType() === "object"){
+            gridCanvas.forEachObject(obj=>{
+                if(obj.id !== curLayerSelected){
+                    obj.set({selectable:false});
+                }
+            });
         }
         refreshData();
     }
@@ -233,13 +241,13 @@ gridCanvas.on({
             if(clonedObject){
                 clonedObject.clone(function(cloned) {
                     if (cloned.type !== 'activeSelection') {
-                        gridCanvas.getObjects().forEach(item=>{//check if there is an object at the same layer and position
-                            if (item.selectable && item.id === curLayerSelected) {
-                                if(item.top === top && item.left ===left){
-                                    gridCanvas.remove(item);
-                                }
-                            }
-                        });
+                        // gridCanvas.getObjects().forEach(item=>{//check if there is an object at the same layer and position
+                        //     if (item.selectable && item.id === curLayerSelected) {
+                        //         if(item.top === top && item.left ===left){
+                        //             gridCanvas.remove(item);
+                        //         }
+                        //     }
+                        // });
                         cloned.set({
                             top: top,
                             left: left,
