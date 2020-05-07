@@ -193,10 +193,7 @@ function drawGrids(){
                 });
 
 
-                let a = new fabric.Point(x - map.tileWidth, y + map.tileHeight/2);
-                let b = new fabric.Point(x - map.tileWidth/2,y + map.tileHeight);
-                let c = new fabric.Point(x, y + map.tileHeight/2);
-                let d = new fabric.Point(x - map.tileWidth/2, y);
+                let d = new fabric.Point(x - map.tileWidth/2, y);//top vertex
 
 
                 isoLines.push(lefttop);
@@ -204,10 +201,7 @@ function drawGrids(){
                 isoLines.push(rightbottom);
                 isoLines.push(righttop);
 
-                checkDupPush(isoPoints,a);
-                checkDupPush(isoPoints,b);
-                checkDupPush(isoPoints,c);
-                checkDupPush(isoPoints,d);
+                isoPoints.push(d);
 
             }
         }
@@ -216,24 +210,22 @@ function drawGrids(){
             gridCanvas.add(line);
         });
 
-
-        console.log(isoPoints);
-
+        isoPoints.push(new fabric.Point(boundBox.left, boundBox.top + boundBox.height/2));//most left point
     }
 
 }
 
-function checkDupPush(arr, newItem){
-    let isDuplicated = false;
-    arr.forEach(function (element) {
-        if (element.eq(newItem)) {
-            isDuplicated = true;
-        }
-    });
-    if(!isDuplicated){
-        arr.push(newItem)
-    }
-}
+// function checkDupPush(arr, newItem){
+//     let isDuplicated = false;
+//     arr.forEach(function (element) {
+//         if (element.eq(newItem)) {
+//             isDuplicated = true;
+//         }
+//     });
+//     if(!isDuplicated){
+//         arr.push(newItem)
+//     }
+// }
 
 // function removeLargest(numbers) {
 //     const largest = Math.max.apply(null, numbers);

@@ -40,13 +40,24 @@ gridCanvas.on({
                 left: left,
             });
         }else if(checkLayerType() === "tile" && checkMapType() === "Isometric"){
-            let point = closestPoint(isoPoints, e.target.top, e.target.left);
-            let top = point.y;
-            let left = point.x-tileW/2;
-            e.target.set({
-                top: top,
-                left: left,
-            });
+            if(e.target.type === 'activeSelection'){
+                let corSet = closestPoint(isoPoints, e.target.top, e.target.left + tileW/2);
+                let top = corSet.top;
+                let left = corSet.left;
+                e.target.set({
+                    top: top,
+                    left: left,
+                });
+            }
+            else{
+                let corSet = closestPoint(isoPoints, e.target.top, e.target.left + tileW/2);
+                let top = corSet.top;
+                let left = corSet.left;
+                e.target.set({
+                    top: top,
+                    left: left,
+                });
+            }
         }
         refreshData();
     }
@@ -128,51 +139,45 @@ gridCanvas.on({
                             }
                         });
                     }else if(checkMapType() === "Isometric"){
-                        let point = closestPoint(isoPoints, cursorY-tileH/2, cursorX-tileW/2);
-                        let top = point.y;
-                        let left = point.x-tileW/2;
+                        let corSet = closestPoint(isoPoints, cursorY-tileH/2, cursorX);
+                        let top = corSet.top;
+                        let left = corSet.left;
                         clonedObject.clone(function(cloned) {
                             if (cloned.type === 'activeSelection') {
-                                // let width = cloned.width * cloned.scaleX;
-                                // let height = cloned.height * cloned.scaleY;
-                                // //clean area
-                                // let cloneTop = top-(Math.floor(height/tileH)*tileH)/2;
-                                // let cloneLeft = left-(Math.floor(width/tileW)*tileW)/2;
-                                // areaClean(width, height, closest(lineYN,cloneTop+tileH/2), closest(lineXN,cloneLeft+tileW/2));
-                                // cloned.set({
-                                //     top: cloneTop,
-                                //     left: cloneLeft,
-                                // });
-                                // cloned.forEachObject(function (obj) {
-                                //     obj.set({
-                                //         top: obj.top/offset,
-                                //         left: obj.left/offset,
-                                //         selectable: true,
-                                //         hasControls: false,
-                                //         lockScalingX: true,
-                                //         lockScalingY: true,
-                                //         id: curLayerSelected, //set id to layer id
-                                //     });
-                                //     obj.setCoords();
-                                //     gridCanvas.add(obj);
-                                // });
-                                // gridCanvas.setActiveObject(cloned);
-                                // gridCanvas.discardActiveObject();
-                                // gridCanvas.getObjects().forEach(item=>{
-                                //     if(item.id===curLayerSelected){
-                                //         //remove out bounded tiles to avoid overlapping on same layer
-                                //         if(item.left<boundBox.left-tileW/2||item.left>boundBox.left+boundBox.width
-                                //             ||item.top<boundBox.top-tileH/2||item.top>boundBox.top+boundBox.height){
-                                //             gridCanvas.remove(item);
-                                //         }else{
-                                //             item.set({
-                                //                 top:closest(isoPointsY, item.top),
-                                //                 left:closest(isoPointsX, item.left),
-                                //             });
-                                //         }
-                                //     }
-                                // });
-                                // gridCanvas.renderAll();
+                                let width = cloned.width * cloned.scaleX;
+                                let height = cloned.height * cloned.scaleY;
+                                //clean area
+                                let cloneTop = top-(Math.floor(height/tileH)*tileH)/2;
+                                let cloneLeft = left-(Math.floor(width/tileW)*tileW)/2;
+                                cloned.set({
+                                    top: cloneTop,
+                                    left: cloneLeft,
+                                });
+                                cloned.forEachObject(function (obj) {
+                                    obj.set({
+                                        top: obj.top/offset,
+                                        left: obj.left/offset,
+                                        selectable: true,
+                                        hasControls: false,
+                                        lockScalingX: true,
+                                        lockScalingY: true,
+                                        id: curLayerSelected, //set id to layer id
+                                    });
+                                    obj.setCoords();
+                                    gridCanvas.add(obj);
+                                });
+                                gridCanvas.setActiveObject(cloned);
+                                gridCanvas.discardActiveObject();
+                                gridCanvas.getObjects().forEach(item=>{
+                                    if(item.id===curLayerSelected){
+                                        let corSet = closestPoint(isoPoints, item.top, item.left + tileW/2);
+                                        item.set({
+                                            top:corSet.top,
+                                            left:corSet.left,
+                                        });
+                                    }
+                                });
+                                gridCanvas.renderAll();
                             }else{
                                 removeDup(top, left);
                                 cloned.set({
@@ -267,12 +272,11 @@ function closest(arr, closestTo){
 
 
 function closestPoint(arr, closestToY, closestToX){
-    console.log("closestToY"+closestToY);
-    console.log("closestToX"+closestToX);
     let smallestYs = [];
     let smallestY = Math.abs(closestToY - arr[0].y);
     let c = 0;
     let d = 0;
+    let k = 0;
     for(let i = 1; i < arr.length; i++){
         let closestY = Math.abs(closestToY - arr[i].y);
         if (closestY < smallestY){
@@ -286,7 +290,6 @@ function closestPoint(arr, closestToY, closestToX){
             smallestYs.push(arr[i]);
         }
     }
-    console.log(smallestYs);
     let smallestX = Math.abs(closestToX - smallestYs[0].x);
     for(let i = 1; i < smallestYs.length; i++){
         let closestX = Math.abs(closestToX - smallestYs[i].x);
@@ -294,9 +297,20 @@ function closestPoint(arr, closestToY, closestToX){
             smallestX = closestX;
             d = i;
         }
-
     }
-    return smallestYs[d];
+    let nearestX = smallestYs[d].x-tileW/2;
+    let smallestXs = [];
+    for(let i = 0; i < arr.length; i++){
+        if(arr[i].x === nearestX){
+            smallestXs.push(arr[i]);
+        }
+    }
+    for(let i = 0; i < smallestXs.length; i++){
+        if(smallestXs[i].y === nearestY-tileH/2){
+            k = i;
+        }
+    }
+    return {top: smallestYs[d].y, left: smallestXs[k].x};
 }
 
 
@@ -403,6 +417,7 @@ canvasWrapper.addEventListener('keydown', function(e) {
     }
 }, false);
 
+
 //Set ctrlDown to false when we release the ctrl key
 canvasWrapper.addEventListener('keyup', function(e) {
     if (e.keyCode === 17) {
@@ -412,7 +427,7 @@ canvasWrapper.addEventListener('keyup', function(e) {
 });
 
 
-//copy & paste!!!! still need to work on key short cut and positioning!!!!
+//copy & paste!!!! group copy & paste of objects is not allowed!!!!
 function Copy() {
     // clone what are you copying since you
     // may want copy and paste on different moment.
@@ -453,6 +468,7 @@ function Copy() {
         }
     }
 }
+
 
 function Paste() {
     // clone again, so you can do multiple copies.
