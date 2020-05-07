@@ -33,32 +33,65 @@ gridCanvas.on('selection:created',function(e){
 gridCanvas.on({
     'object:moving':(e)=>{
         if(checkLayerType() === "tile" && checkMapType() === "Orthogonal"){
-            let top = closest(lineYN, e.target.top);
-            let left = closest(lineXN, e.target.left);
+            if(e.target.type === 'activeSelection'){
+                //try search for existing point on right top corner, return
+                if(e.target.top+e.target.height>boundBox.top+boundBox.height){
+                    let top = closest(lineYN, e.target.top-((e.target.top+e.target.height)-(boundBox.top+boundBox.height)));
+                    let left = closest(lineXN, e.target.left);
+                    e.target.set({
+                        top: top,
+                        left: left,
+                    });
+                    if(e.target.left+e.target.width>boundBox.left+boundBox.left) {
+                        let left = closest(lineXN, e.target.left - ((e.target.left + e.target.width) - (boundBox.left + boundBox.width)));
+                        e.target.set({
+                            left: left,
+                        });
+                    }
+                }
+                else if(e.target.left+e.target.width>boundBox.left+boundBox.left){
+                    let top = closest(lineYN, e.target.top);
+                    let left = closest(lineXN, e.target.left-((e.target.left+e.target.width)-(boundBox.left+boundBox.width)));
+                    e.target.set({
+                        top: top,
+                        left: left,
+                    });
+                    if(e.target.top+e.target.height>boundBox.top+boundBox.height){
+                        let top = closest(lineYN, e.target.top-((e.target.top+e.target.height)-(boundBox.top+boundBox.height)));
+                        e.target.set({
+                            top: top,
+                        });
+                    }
+                }
+                else{
+                    let top = closest(lineYN, e.target.top);
+                    let left = closest(lineXN, e.target.left);
+                    e.target.set({
+                        top: top,
+                        left: left,
+                    });
+                }
+            }else{
+                let top = closest(lineYN, e.target.top);
+                let left = closest(lineXN, e.target.left);
+                e.target.set({
+                    top: top,
+                    left: left,
+                });
+            }
+        }else if(checkLayerType() === "tile" && checkMapType() === "Isometric"){
+            let corSet = closestPoint(isoPoints, e.target.top, e.target.left + tileW/2);
+            let top = corSet.top;
+            let left = corSet.left;
             e.target.set({
                 top: top,
                 left: left,
             });
-        }else if(checkLayerType() === "tile" && checkMapType() === "Isometric"){
-            if(e.target.type === 'activeSelection'){
-                //try search for existing point on right top corner, return
-                let corSet = closestPoint(isoPoints, e.target.top, e.target.left + tileW/2);
-                let top = corSet.top;
-                let left = corSet.left;
-                e.target.set({
-                    top: top,
-                    left: left,
-                });
-            }
-            else{
-                let corSet = closestPoint(isoPoints, e.target.top, e.target.left + tileW/2);
-                let top = corSet.top;
-                let left = corSet.left;
-                e.target.set({
-                    top: top,
-                    left: left,
-                });
-            }
+            // if(e.target.type === 'activeSelection'){
+            //     //try search for existing point on right top corner, return
+            // }
+            // else{
+            // }
         }
         refreshData();
     }
