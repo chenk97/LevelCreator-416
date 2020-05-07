@@ -135,7 +135,7 @@ body {
 }
 
 #propertyPanelModal {
-    width: 350px;
+    width: 600px;
     height: 700px;
 }
 
@@ -162,6 +162,20 @@ body {
 .setBodySize{
     padding: 5px;
     height: 535px;
+}
+
+.propertyListItem{
+    padding: 0px;
+    border-radius: 0px !important;
+}
+
+.propertyTextInput{
+    width: 100%;
+    height: 100%;
+}
+
+.checkBoxAndColorBox{
+    height: 100%;
 }
 
 

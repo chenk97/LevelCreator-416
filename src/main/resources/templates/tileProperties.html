@@ -15,33 +15,38 @@
             </div>
             <div class="modal-body setBodySize">
                 <h5>Custom Properties</h5>
-                <ul class="list-group" style="overflow: auto; height: 500px">
-                    <li class="list-group-item">Cras justo odio</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Morbi leo risus</li>
-                    <li class="list-group-item">Porta ac consectetur ac</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
-                    <li class="list-group-item">Cras justo odio</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Morbi leo risus</li>
-                    <li class="list-group-item">Porta ac consectetur ac</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
-                    <li class="list-group-item">Cras justo odio</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Morbi leo risus</li>
-                    <li class="list-group-item">Porta ac consectetur ac</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
-                    <li class="list-group-item">Cras justo odio</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Morbi leo risus</li>
-                    <li class="list-group-item">Porta ac consectetur ac</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
+                <ul class="list-group" id="propertyList" style="height: 500px; overflow: auto">
+<!--                    <li class="list-group-item propertyListItem">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-4"><input type="text" class="propertyTextInput"></div>-->
+<!--                            <div class="col-8"><input type="checkbox" class="checkBoxAndColorBox"></div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li class="list-group-item propertyListItem">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-4"><input type="text" class="propertyTextInput"></div>-->
+<!--                            <div class="col-8"><input type="color" class="checkBoxAndColorBox"></div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+
+<!--                    <li class="list-group-item propertyListItem">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-4"><input type="text" class="propertyTextInput"></div>-->
+<!--                            <div class="col-8"><input type="number" step="any" class="propertyTextInput"></div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li class="list-group-item propertyListItem">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-4"><input type="text" class="propertyTextInput"></div>-->
+<!--                            <div class="col-8"><input type="text" class="propertyTextInput"></div>-->
+<!--                        </div>-->
+<!--                    </li>-->
                 </ul>
 
             </div>
             <div class="modal-footer propertyModalFooter">
                 <button type="button" class="btn btn-default propertyModalButtons" data-toggle="modal"
-                        data-target="#addPropertyModal">
+                        data-target="#addPropertyModal" id="openAddPropertyModal">
                     Add Custom Property
                 </button>
                 <button type="button" class="btn btn-secondary" data-number="1">Cancel</button>
@@ -57,17 +62,29 @@
                 <h3>Add Property</h3>
             </div>
             <div class="modal-body propertyModalBody">
-                <input type="text" style="width: 70%" placeholder="Property Name">
-                <select style="padding: 5px; width: 29%">
-                    <option value="boolProperty">bool</option>
-                    <option value="colorProperty">color</option>
-                    <option value="floatProperty">float</option>
-                    <option value="intProperty">int</option>
-                    <option value="stringProperty">string</option>
+                <input type="text" style="width: 70%" placeholder="Property Name" id="newPropertyName"
+                       onkeyup="success()">
+                <script>
+                    function success() {
+                        if (document.getElementById("newPropertyName").value === "") {
+                            document.getElementById('addNewPropertyButton').disabled = true;
+                        } else {
+                            document.getElementById('addNewPropertyButton').disabled = false;
+                        }
+                    }
+                </script>
+                <select style="padding: 5px; width: 29%" id="newPropertyType">
+                    <option value="bool">bool</option>
+                    <option value="color">color</option>
+                    <option value="number">Number</option>
+                    <option value="string">string</option>
                 </select>
             </div>
             <div class="modal-footer propertyModalFooter">
-                <button type="button" class="btn btn-primary propertyModalButtons">OK</button>
+                <button type="button" class="btn btn-primary propertyModalButtons" id="addNewPropertyButton"  data-number="3" disabled>
+                    OK
+                </button>
+
                 <button type="button" class="btn btn-secondary" data-number="2">Cancel</button>
             </div>
         </div>
