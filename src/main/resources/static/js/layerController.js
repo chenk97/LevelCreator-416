@@ -321,8 +321,8 @@ function addNewProperty() {
     loadLayerProperty(curLayerSelected)
 }
 
-//function to change property name
-function changeProperty(type,propertyIndex) {
+// Allow change to properties if user make any
+function changeProperty(type, propertyIndex) {
     let map = JSON.parse(localStorage.getItem('map'));
     let mapLayer = map.layers
     let currentLayerProperties
@@ -337,51 +337,20 @@ function changeProperty(type,propertyIndex) {
     for (let x = 0; x < currentLayerProperties.length; x++) {
 
         if (x == propertyIndex) {
-            if(type=="name"){
+            if (type == "name") {
                 currentLayerProperties[x].name = event.target.value
-
-            }else{
-                if(event.target.type=="checkbox"){
-                    currentLayerProperties[x].value=event.target.checked
-                }else{
+            } else {
+                if (event.target.type == "checkbox") {
+                    currentLayerProperties[x].value = event.target.checked
+                } else {
                     currentLayerProperties[x].value = event.target.value
-
                 }
-
             }
         }
     }
-
     map.layers[theLayerNumber].properties = currentLayerProperties
     localStorage.setItem('map', JSON.stringify(map));
-
 }
-
-//function to change property name
-// function changePropertyValue(propertyIndex){
-//     let map = JSON.parse(localStorage.getItem('map'));
-//     let mapLayer = map.layers
-//     let currentLayerProperties
-//     let theLayerNumber
-//     for (let p = 0; p < mapLayer.length; p++) {
-//         if (mapLayer[p].id == curLayerSelected) {
-//             currentLayerProperties = mapLayer[p].properties
-//             theLayerNumber = p
-//         }
-//     }
-//
-//     for (let x = 0; x < currentLayerProperties.length; x++) {
-//         console.log(currentLayerProperties[x].name)
-//         if (x == propertyIndex) {
-//             currentLayerProperties[x].value = event.target.value
-//         }
-//     }
-//
-//     map.layers[theLayerNumber].properties = currentLayerProperties
-//     localStorage.setItem('map', JSON.stringify(map));
-// }
-
-
 
 function loadLayerProperty(currentLayerId) {
     resetPropertyList()
@@ -415,7 +384,7 @@ function loadLayerProperty(currentLayerId) {
         nameInput.setAttribute("class", "propertyTextInput")
 
         nameInput.addEventListener("input", function () {
-            changeProperty("name",c)
+            changeProperty("name", c)
         })
 
         let valueInput
@@ -424,7 +393,7 @@ function loadLayerProperty(currentLayerId) {
             valueInput = document.createElement("INPUT")
             valueInput.setAttribute("type", "checkbox")
             // valueInput.setAttribute("value", currentLayerProperties[c].value)
-            valueInput.checked=currentLayerProperties[c].value
+            valueInput.checked = currentLayerProperties[c].value
             valueInput.setAttribute("class", "checkBoxAndColorBox")
         } else if (currentLayerProperties[c].type == "color") {
             valueInput = document.createElement("INPUT")
@@ -444,9 +413,10 @@ function loadLayerProperty(currentLayerId) {
             valueInput.setAttribute("class", "propertyTextInput")
         }
 
-        valueInput.addEventListener("input",function(){
-            changeProperty("value",c)
+        valueInput.addEventListener("input", function () {
+            changeProperty("value", c)
         })
+
         nameDiv.appendChild(nameInput)
         valueDiv.appendChild(valueInput)
 
