@@ -109,7 +109,7 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     })
 
     let propertyIcon = document.createElement("i")
-    propertyIcon.setAttribute("class", "fas fa-th-list")
+    propertyIcon.setAttribute("class", "fas fa-clipboard-list propertyIcon")
     propertyIcon.addEventListener("click", function () {
         $("#propertyPanelModal").modal({show: true})
     })
@@ -156,8 +156,9 @@ function setCurrentSelectedLayer(layerId) {
         layer[i].id != layerId ? layer[i].style.backgroundColor = "white" : layer[i].style.backgroundColor = "#a8d1ff"
     }
     console.log("Layer selected with layer Id: " + layerId)
-    loadLayerProperty(layerId)
+
     curLayerSelected = layerId
+    loadLayerProperty(curLayerSelected)
 }
 
 //Delete the current that is selected base on the global variable curLayerSelected
@@ -180,6 +181,8 @@ function deleteLayer() {
     }
     map.layers = mapLayers
     localStorage.setItem('map', JSON.stringify(map));
+    curLayerSelected=""
+    loadLayerProperty()
     addTransactions("layer")
     loadLayer()
 }
@@ -409,6 +412,10 @@ function deleteProperty(propertyIndex){
 
 function loadLayerProperty(currentLayerId) {
     resetPropertyList()
+
+    if(curLayerSelected==""){
+       return
+    }
     let map = JSON.parse(localStorage.getItem('map'));
     let mapLayer = map.layers
     let currentLayerProperties
@@ -500,7 +507,14 @@ function loadLayerProperty(currentLayerId) {
 }
 
 
-document.getElementById("addNewPropertyButton").addEventListener("click", addNewProperty)
+document.getElementById("addNewPropertyButton").addEventListener("click", function(){
+
+    if(curLayerSelected!=""){
+        addNewProperty()
+    }else{
+        window.alert("No Layer Selected!")
+    }
+})
 document.getElementById("openAddPropertyModal").addEventListener("click", resetNewPropertyModal)
 
 
