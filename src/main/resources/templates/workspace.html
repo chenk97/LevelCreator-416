@@ -53,11 +53,11 @@
             <!--            this is test icons-->
             <div class="row iconrow">
                 <div class="col">
-<!--                    <a href="#" id="undoBtn"></a>-->
+                    <!--                    <a href="#" id="undoBtn"></a>-->
                     <i class="fas fa-undo icon" id="undo"></i>
                 </div>
                 <div class="col">
-<!--                    <a href="#" id="redoBtn"></a>-->
+                    <!--                    <a href="#" id="redoBtn"></a>-->
                     <i class="fas fa-redo icon" id="redo"></i>
                 </div>
             </div>
@@ -144,10 +144,35 @@
 
                 </div>
                 <div class="col">
-                    <i class="far fa-file-image icon"></i>
+
+                    <a href="" data-toggle="modal" data-target="#previewModal"><i class="far fa-file-image icon"></i></a>
+
+                    <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" data-backdrop="static"
+                         aria-labelledby="previewModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="previewModalLabel">Preview</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="padding:0px !important;">
+                                    <img src = "" id = "previewImg" style ="margin: 0 auto !important; width: 100%; height: 100%;">
+                                </div>
+                                <div class="modal-footer" style="padding:1rem !important;">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
                 </div>
             </div>
-        </div>
+
 
         <div class="col-8 middle">
             <div class="box" id="canvasStorage"
@@ -281,10 +306,12 @@
 <!--<script src="js/addProject.js"></script>-->
 <script src="js/fabricNumberedImage.js"></script>
 <script src="js/fabricCreateMap.js"></script>
+<script src="js/previewController.js"></script>
 <script type="module" src="js/fabricLayerController.js"></script>
 <script type="module" src="js/layerController.js"></script>
 <script src="js/fabricTilesetController.js"></script>
 <script type="module" src="js/fabricTileStamp.js"></script>
+
 <!--<script src="js/tileSelection.js"></script>-->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
