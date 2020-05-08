@@ -332,6 +332,7 @@ function addNewProperty() {
     let nameExist = checkIfPropertyNameExist(name) // Checks if name exist already or not. True if exist and false if doesnt exist
     if (nameExist == true) {
         console.log("Property name already exist!")
+        window.alert("Property name already exist!")
         return
     }
     let type = document.getElementById("newPropertyType").value
