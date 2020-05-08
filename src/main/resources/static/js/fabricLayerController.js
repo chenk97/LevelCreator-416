@@ -74,9 +74,9 @@ export function removeLayer(layerId){
     refreshData();
 }
 
-document.getElementById("lockBtn").addEventListener("click", lockLayer);
-document.getElementById("unlockBtn").addEventListener("click", unlockLayer);
-document.getElementById("trasBtn").addEventListener("click", makeLayerInvisible);
-document.getElementById("noTrasBtn").addEventListener("click", makeLayerVisible);
+// document.getElementById("lockBtn").addEventListener("click", lockLayer);
+// document.getElementById("unlockBtn").addEventListener("click", unlockLayer);
+// document.getElementById("trasBtn").addEventListener("click", makeLayerInvisible);
+// document.getElementById("noTrasBtn").addEventListener("click", makeLayerVisible);
 document.getElementById("upBtn").addEventListener("click", moveLayerUp);
 document.getElementById("downBtn").addEventListener("click", moveLayerDown);
