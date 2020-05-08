@@ -58,11 +58,12 @@ function drawGrids(){
     let tileW = map.tileWidth;
     let tileH = map.tileHeight;
     gridCanvas = new fabric.Canvas('grid_canvas');
+    // gridCanvas._historyInit();
     gridCanvas.preserveObjectStacking = true;
     gridCanvas.setWidth(divw);
     gridCanvas.setHeight(divh);
     // console.log(gridCanvas);
-    if (map.orientation == "Orthogonal"){
+    if (map.orientation === "Orthogonal"){
         boundBox = new fabric.Rect({
             width: map.width * map.tileWidth,
             height: map.height *map.tileHeight,
@@ -126,7 +127,7 @@ function drawGrids(){
         gridCanvas.add(line);
     });
 
-    }else if(map.orientation == "Isometric"){
+    }else if(map.orientation === "Isometric"){
          boundBox = new fabric.Rect({
             width: map.width * map.tileWidth,
             height: map.height *map.tileHeight,

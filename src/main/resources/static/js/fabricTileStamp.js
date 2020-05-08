@@ -619,3 +619,9 @@ export function refreshData(){
 document.getElementById("selectBtn").addEventListener("click", clearUrl);
 document.getElementById("eraseBtn").addEventListener("click", eraseTile);
 document.getElementById("shapeFillBtn").addEventListener("click", shapeFill);
+// $("#undoBtn").click(function () {
+//     gridCanvas.undo();
+// })
+// $("#redoBtn").click(function () {
+//     gridCanvas.redo();
+// })
