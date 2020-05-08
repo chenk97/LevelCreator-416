@@ -111,6 +111,10 @@ body {
     padding: 5px;
 }
 
+.propertyIcon{
+    padding-left: 5px;
+}
+
 .liTag {
     text-align: center;
 }
@@ -133,3 +137,67 @@ body {
 .infoTab {
     color: #1abc9c;
 }
+
+#propertyPanelModal {
+    width: 600px;
+    height: 700px;
+}
+
+.propertyModalTitles {
+    background: #337ab7;
+    color: white;
+    padding: 10px;
+}
+
+.propertyModalButtons {
+    border: 2px solid;
+    background: #337ab7;
+    color: white;
+}
+
+.propertyModalFooter{
+    padding: 5px;
+}
+
+.propertyModalBody{
+    padding:10px;
+}
+
+.setBodySize{
+    padding: 5px;
+    height: 535px;
+}
+
+.propertyListItem{
+    padding: 0px;
+    border-radius: 0px !important;
+}
+
+.propertyTextInput{
+    width: 100%;
+    height: 100%;
+}
+
+.checkBoxAndColorBox{
+    height: 100%;
+}
+
+.propertyRow{
+    margin:0;
+}
+
+.propertyNameCol{
+    padding:0px;
+}
+
+.propertyValueCol{
+    padding-right: 0px;
+}
+
+.propertyDeleteCol{
+    padding: 0px;
+    font-size: 25px;
+    padding-left: 10px;
+}
+
+

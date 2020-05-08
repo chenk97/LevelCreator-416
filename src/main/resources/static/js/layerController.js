@@ -25,6 +25,7 @@ function changeLayerName(theLayerId) {
 
 //Change layer visibility status
 function changeVisbility(layerId) {
+
     let map = JSON.parse(localStorage.getItem('map'));
     let mapLayers = map.layers
 
@@ -36,6 +37,7 @@ function changeVisbility(layerId) {
     map.layers = mapLayers
     localStorage.setItem('map', JSON.stringify(map));
     loadLayer()
+    createMap()
 }
 
 //Change layer lock status
@@ -106,6 +108,13 @@ function createLayer(theLayerId, type, name, visibility, locked) {
         }
     })
 
+    let propertyIcon = document.createElement("i")
+    propertyIcon.setAttribute("class", "fas fa-clipboard-list propertyIcon")
+    propertyIcon.addEventListener("click", function () {
+        $("#propertyPanelModal").modal({show: true})
+    })
+
+
     //Create Li Element
     let li = document.createElement("li");
     li.setAttribute("class", "list-group-item liTag")
@@ -127,6 +136,7 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     li.appendChild(x)
     li.appendChild(visIcon)
     li.appendChild(lockIcon)
+    li.appendChild(propertyIcon)
 
     return li
 }
@@ -146,7 +156,9 @@ function setCurrentSelectedLayer(layerId) {
         layer[i].id != layerId ? layer[i].style.backgroundColor = "white" : layer[i].style.backgroundColor = "#a8d1ff"
     }
     console.log("Layer selected with layer Id: " + layerId)
+
     curLayerSelected = layerId
+    loadLayerProperty(curLayerSelected)
 }
 
 //Delete the current that is selected base on the global variable curLayerSelected
@@ -169,6 +181,8 @@ function deleteLayer() {
     }
     map.layers = mapLayers
     localStorage.setItem('map', JSON.stringify(map));
+    curLayerSelected=""
+    loadLayerProperty()
     addTransactions("layer")
     loadLayer()
 }
@@ -203,6 +217,7 @@ function newObjectLayer() {
         type: "object",
         id: map.nextLayerid,
         name: "Object Layer"+map.nextLayerid,
+        properties: [],
         visibility: true,
         locked: false,
         x: 0,
@@ -259,7 +274,7 @@ export function loadLayer() {
         //Checks if a new layers has been added or if the project was loaded for the first time
         //If so we set the first layers to be the current selected one
         if (justAddedNewLayer == true || firstLoad == true) {
-            if(firstLoad==true){
+            if (firstLoad == true) {
                 addTransactions("layer")
             }
             setCurrentSelectedLayer(mapLayers[0].id)
@@ -273,109 +288,235 @@ document.getElementById("addObjectLayer").addEventListener("click",newObjectLaye
 document.getElementById("deleteLayer").addEventListener("click",deleteLayer)
 
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// CODE FROM HERE ON DEALS WITH MAPS
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// CODE FROM HERE ON DEALS WITH PROPERTIES
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-//Draws out the grids for orthogonal map
-// function initializeMapGridForOrth(mapHeight, mapWidth, tileHeight, tileWidth) {
-//
-//     var canvas = document.getElementById("canvas")
-//     canvas.width = mapWidth * tileWidth
-//     canvas.height = mapHeight * tileHeight
-//
-//     var ctx = canvas.getContext('2d')
-//     ctx.strokeStyle = 'black'
-//     ctx.lineWidth = 1
-//     ctx.setLineDash([1, 1]);
-//
-//     for (i = tileWidth; i < tileWidth * mapWidth; i = i + tileWidth) {
-//
-//         ctx.moveTo(i, 0)
-//         ctx.lineTo(i, tileHeight * mapHeight)
-//         ctx.stroke()
-//
-//     }
-//     for (j = tileHeight; j < tileHeight * mapHeight; j = j + tileHeight) {
-//         ctx.moveTo(0, j)
-//         ctx.lineTo(tileWidth * mapWidth, j)
-//         ctx.stroke()
-//     }
-// }
-//
-// function initializeMapGridForIso(mapHeight, mapWidth, tileHeight, tileWidth){
-//     var canvas = document.getElementById("canvas")
-//     canvas.width = mapWidth * tileWidth *2
-//     canvas.height = mapHeight * tileHeight *2
-//
-//     var ctx = canvas.getContext('2d')
-//     ctx.strokeStyle = 'black'
-//     ctx.lineWidth = 1
-//     ctx.setLineDash([1, 1]);
-//
-//     for (i = 0; i < mapWidth; i++) {
-//         for (j = 0; j < mapHeight; j++) {
-//             // calculate coordinates
-//             var init_xPos = canvas.width/2
-//             var init_yPos = tileHeight
-//             var x = (i-j) * tileWidth / 2 + init_xPos
-//             var y = (i+j) * tileHeight / 2 + init_yPos
-//
-//             // begin drawing
-//             ctx.beginPath()
-//
-//             // move to start point
-//             ctx.moveTo(x - tileWidth / 2, y)
-//
-//             /**
-//              *  need to draw each diamond shaped tile
-//              *   /\
-//              *   \/
-//              */
-//
-//             //draws '/' on top
-//             ctx.lineTo(x - tileWidth, y + tileHeight / 2)
-//             //draws '\' on bottom
-//             ctx.lineTo(x - tileWidth / 2, y + tileHeight)
-//             //draws '/' on bottom
-//             ctx.lineTo(x, y + tileHeight / 2)
-//             //draws '\' on top
-//             ctx.lineTo(x - tileWidth / 2,  y)
-//
-//             // draw path
-//             ctx.stroke()
-//         }
-//     }
-//
-// }
-// // Setups the map either isometric or orthogonal and setup grid
-// function createMap() {
-//     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//     // Have to Create a canvas in here and use this function in load layer
-//     clearCanvas()
-//     var project = JSON.parse(localStorage.getItem('project'));
-//     var porjectLayers = project.layers
-//
-//     var mapHeight = parseInt(project.height)
-//     var mapWidth = parseInt(project.width)
-//     var tileHeight = parseInt(project.tileHeight)
-//     var tileWidth = parseInt(project.tileWidth)
-//
-//     if (project.orientation == "Orthogonal") {
-//
-//         initializeMapGridForOrth(mapHeight, mapWidth, tileHeight, tileWidth)
-//
-//     }  else if(project.orientation=="Isometric"){
-//
-//         initializeMapGridForIso(mapHeight, mapWidth, tileHeight, tileWidth)
-//
-//     }  else{
-//
-//         console.log("Some error has occurred")
-//
-//     }
-//
-// }
-//
-// createMap()
+//Reset the property list
+function resetPropertyList() {
+    document.getElementById("propertyList").innerHTML = ""
+}
+
+// Reset the name input and drop down to default value
+function resetNewPropertyModal() {
+    document.getElementById('addNewPropertyButton').disabled = true;
+    document.getElementById("newPropertyName").value = ""
+    document.getElementById("newPropertyType").value = "bool"
+}
+
+//Checks if the property name the user is trying to add already exist or not for that layer
+function checkIfPropertyNameExist(name) {
+    let map = JSON.parse(localStorage.getItem('map'));
+    let mapLayer = map.layers
+    let currentLayerProperties
+
+    for (let p = 0; p < mapLayer.length; p++) {
+        if (mapLayer[p].id == curLayerSelected) {
+            currentLayerProperties = mapLayer[p].properties
+        }
+    }
+
+    for (let x = 0; x < currentLayerProperties.length; x++) {
+        if (currentLayerProperties[x].name == name) {
+            return true
+        }
+    }
+    return false
+}
+
+
+// Adds a new property to current selected layer
+function addNewProperty() {
+
+    let name = document.getElementById("newPropertyName").value
+    let nameExist = checkIfPropertyNameExist(name) // Checks if name exist already or not. True if exist and false if doesnt exist
+    if (nameExist == true) {
+        console.log("Property name already exist!")
+        window.alert("Property name already exist!")
+        return
+    }
+    let type = document.getElementById("newPropertyType").value
+    let value = ""
+    if (type == "bool") {
+        value = false
+    }
+    if (type == "number") {
+        value = 0
+    }
+
+    let newProperty = {
+        name: name,
+        type: type,
+        value: value
+    }
+
+    let map = JSON.parse(localStorage.getItem('map'));
+    let mapLayer = map.layers
+    for (let x = 0; x < mapLayer.length; x++) {
+        if (mapLayer[x].id == curLayerSelected) {
+            mapLayer[x].properties.push(newProperty)
+        }
+    }
+    map.layers = mapLayer
+    localStorage.setItem('map', JSON.stringify(map));
+    loadLayerProperty(curLayerSelected)
+}
+
+// Allow change to properties if user make any
+function changeProperty(type, propertyIndex) {
+    let map = JSON.parse(localStorage.getItem('map'));
+    let mapLayer = map.layers
+    let currentLayerProperties
+    let theLayerNumber
+    for (let p = 0; p < mapLayer.length; p++) {
+        if (mapLayer[p].id == curLayerSelected) {
+            currentLayerProperties = mapLayer[p].properties
+            theLayerNumber = p
+        }
+    }
+
+    for (let x = 0; x < currentLayerProperties.length; x++) {
+        if (x == propertyIndex) {
+            if (type == "name") {
+                currentLayerProperties[x].name = event.target.value
+            } else {
+                if (event.target.type == "checkbox") {
+                    currentLayerProperties[x].value = event.target.checked
+                } else {
+                    currentLayerProperties[x].value = event.target.value
+                }
+            }
+        }
+    }
+    map.layers[theLayerNumber].properties = currentLayerProperties
+    localStorage.setItem('map', JSON.stringify(map));
+}
+
+function deleteProperty(propertyIndex){
+    let map = JSON.parse(localStorage.getItem('map'));
+    let mapLayer = map.layers
+    let currentLayerProperties
+    let theLayerNumber
+    for (let p = 0; p < mapLayer.length; p++) {
+        if (mapLayer[p].id == curLayerSelected) {
+            currentLayerProperties = mapLayer[p].properties
+            theLayerNumber = p
+        }
+    }
+
+    currentLayerProperties.splice(propertyIndex,1)
+
+    map.layers[theLayerNumber].properties = currentLayerProperties
+    localStorage.setItem('map', JSON.stringify(map));
+    loadLayerProperty(curLayerSelected)
+}
+
+function loadLayerProperty(currentLayerId) {
+    resetPropertyList()
+
+    if(curLayerSelected==""){
+       return
+    }
+    let map = JSON.parse(localStorage.getItem('map'));
+    let mapLayer = map.layers
+    let currentLayerProperties
+
+    for (let p = 0; p < mapLayer.length; p++) {
+        if (mapLayer[p].id == currentLayerId) {
+            currentLayerProperties = mapLayer[p].properties
+        }
+    }
+
+    for (let c = 0; c < currentLayerProperties.length; c++) {
+
+        let li = document.createElement("li")
+        li.setAttribute("class", "list-group-item propertyListItem")
+
+        let rowDiv = document.createElement("div")
+        rowDiv.setAttribute("class", "row propertyRow")
+
+        let nameDiv = document.createElement("div")
+        nameDiv.setAttribute("class", "col-4 propertyNameCol")
+
+        let valueDiv = document.createElement("div")
+        valueDiv.setAttribute("class", "col-7 propertyValueCol")
+
+        let deleteDiv = document.createElement("div")
+        deleteDiv.setAttribute("class", "col-md-auto propertyDeleteCol")
+
+        let nameInput = document.createElement("INPUT")
+        nameInput.setAttribute("value", currentLayerProperties[c].name)
+        nameInput.setAttribute("type", "text")
+        nameInput.setAttribute("class", "propertyTextInput")
+
+        nameInput.addEventListener("input", function () {
+            changeProperty("name", c)
+        })
+
+        let valueInput
+
+        if (currentLayerProperties[c].type == "bool") {
+            valueInput = document.createElement("INPUT")
+            valueInput.setAttribute("type", "checkbox")
+            // valueInput.setAttribute("value", currentLayerProperties[c].value)
+            valueInput.checked = currentLayerProperties[c].value
+            valueInput.setAttribute("class", "checkBoxAndColorBox")
+        } else if (currentLayerProperties[c].type == "color") {
+            valueInput = document.createElement("INPUT")
+            valueInput.setAttribute("type", "color")
+            valueInput.setAttribute("value", currentLayerProperties[c].value)
+            valueInput.setAttribute("class", "checkBoxAndColorBox")
+        } else if (currentLayerProperties[c].type == "number") {
+            valueInput = document.createElement("INPUT")
+            valueInput.setAttribute("type", "number")
+            valueInput.setAttribute("value", currentLayerProperties[c].value)
+            valueInput.setAttribute("step", "any")
+            valueInput.setAttribute("class", "propertyTextInput")
+        } else {
+            valueInput = document.createElement("INPUT")
+            valueInput.setAttribute("type", "text")
+            valueInput.setAttribute("value", currentLayerProperties[c].value)
+            valueInput.setAttribute("class", "propertyTextInput")
+        }
+
+        valueInput.addEventListener("input", function () {
+            changeProperty("value", c)
+        })
+
+        let deleteIcon = document.createElement("i")
+        deleteIcon.setAttribute("class","fas fa-trash-alt")
+
+        deleteIcon.addEventListener("click",function () {
+            deleteProperty(c)
+        })
+
+        nameDiv.appendChild(nameInput)
+        valueDiv.appendChild(valueInput)
+        deleteDiv.appendChild(deleteIcon)
+
+        rowDiv.appendChild(nameDiv)
+        rowDiv.appendChild(valueDiv)
+        rowDiv.appendChild(deleteDiv)
+
+        li.appendChild(rowDiv)
+
+        let propList = document.getElementById("propertyList")
+        propList.appendChild(li)
+
+
+    }
+}
+
+
+document.getElementById("addNewPropertyButton").addEventListener("click", function(){
+
+    if(curLayerSelected!=""){
+        addNewProperty()
+    }else{
+        window.alert("No Layer Selected!")
+    }
+})
+document.getElementById("openAddPropertyModal").addEventListener("click", resetNewPropertyModal)
+
+
 loadLayer()
