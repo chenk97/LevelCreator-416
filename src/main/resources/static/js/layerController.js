@@ -4,8 +4,11 @@ import {makeLayerVisible} from "./fabricLayerController.js";
 import {makeLayerInvisible} from "./fabricLayerController.js";
 import {lockLayer} from "./fabricLayerController.js";
 import {unlockLayer} from "./fabricLayerController.js";
+import {removeLayer} from "./fabricLayerController.js";
+import {moveMapLayerDown} from "./fabricLayerController.js";
+import {moveMapLayerUp} from "./fabricLayerController.js";
 
-export var curLayerSelected
+export var curLayerSelected = ""
 var firstLoad = true
 var justAddedNewLayer = false
 
@@ -55,18 +58,18 @@ function changeLockStatus(layerId) {
     loadLayer()
 }
 
-function checkVisibility(){
+function checkVisibility() {
     let map = JSON.parse(localStorage.getItem("map"));
-    for(let i = 0; i < map.layers.length; i++){
+    for (let i = 0; i < map.layers.length; i++) {
         if (map.layers[i].id == curLayerSelected) {
             return map.layers[i].visibility;
         }
     }
 }
 
-export function checkLockStatus(){
+export function checkLockStatus() {
     let map = JSON.parse(localStorage.getItem("map"));
-    for(let i = 0; i < map.layers.length; i++){
+    for (let i = 0; i < map.layers.length; i++) {
         if (map.layers[i].id == curLayerSelected) {
             return map.layers[i].locked;
         }
@@ -81,10 +84,10 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     visibility == true ? visIcon.setAttribute("class", "fas fa-eye liItems") : visIcon.setAttribute("class", "fas fa-eye-slash liItems")
 
     visIcon.addEventListener("click", function (e) {
-        if(checkVisibility()){
+        if (checkVisibility()) {
             makeLayerInvisible(e.target.parentElement.id);
             changeVisbility(theLayerId);
-        }else{
+        } else {
             makeLayerVisible(e.target.parentElement.id);
             changeVisbility(theLayerId);
         }
@@ -99,10 +102,10 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     let lockIcon = document.createElement("i")
     locked == false ? lockIcon.setAttribute("class", "fas fa-lock-open liItems") : lockIcon.setAttribute("class", "fas fa-lock liItems")
     lockIcon.addEventListener("click", function (e) {
-        if(checkLockStatus()){//true-locked
+        if (checkLockStatus()) {//true-locked
             unlockLayer(e.target.parentElement.id);
             changeLockStatus(theLayerId);
-        }else{
+        } else {
             lockLayer(e.target.parentElement.id);
             changeLockStatus(theLayerId);
         }
@@ -164,7 +167,7 @@ function setCurrentSelectedLayer(layerId) {
 //Delete the current that is selected base on the global variable curLayerSelected
 function deleteLayer() {
 
-    if (curLayerSelected == undefined) {
+    if (curLayerSelected == "") {
         console.log("No layer was selected")
         return
     }
@@ -181,10 +184,14 @@ function deleteLayer() {
     }
     map.layers = mapLayers
     localStorage.setItem('map', JSON.stringify(map));
-    curLayerSelected=""
-    loadLayerProperty()
+
+
     addTransactions("layer")
+
+    removeLayer(curLayerSelected)
     loadLayer()
+    curLayerSelected = ""
+    loadLayerProperty()
 }
 
 //Adds a new tile layer to layer panel
@@ -193,7 +200,7 @@ function newTileLayer() {
     let newTileLayer = {
         type: "tile",
         id: map.nextLayerid,
-        name: "Tile Layer"+map.nextLayerid,
+        name: "Tile Layer" + map.nextLayerid,
         properties: [],
         visibility: true,
         locked: false,
@@ -216,7 +223,7 @@ function newObjectLayer() {
     let newObjectLayer = {
         type: "object",
         id: map.nextLayerid,
-        name: "Object Layer"+map.nextLayerid,
+        name: "Object Layer" + map.nextLayerid,
         properties: [],
         visibility: true,
         locked: false,
@@ -229,6 +236,68 @@ function newObjectLayer() {
     justAddedNewLayer = true
     addTransactions("layer")
     loadLayer()
+}
+
+function moveLayerUp() {
+    if (curLayerSelected == "") {
+        console.log("No layer has been selected")
+        return
+    }
+
+    let map = JSON.parse(localStorage.getItem('map'));
+    let mapLayers = map.layers
+
+    let indexOfLayer
+    for (let x = 0; x < mapLayers.length; x++) {
+        if (mapLayers[x].id == curLayerSelected) {
+            indexOfLayer = x
+            break
+        }
+    }
+    if (indexOfLayer > 0) {
+        let sub = mapLayers[indexOfLayer]
+        mapLayers[indexOfLayer] = mapLayers[indexOfLayer - 1]
+        mapLayers[indexOfLayer - 1] = sub
+    }
+
+    map.layers = mapLayers
+    localStorage.setItem('map', JSON.stringify(map));
+
+    loadLayer()
+    moveMapLayerUp()
+    setCurrentSelectedLayer(curLayerSelected)
+}
+
+function moveLayerDown() {
+    if (curLayerSelected == "") {
+        console.log("No layer has been selected")
+        return
+    }
+    let map = JSON.parse(localStorage.getItem('map'));
+    let mapLayers = map.layers
+
+    let indexOfLayer
+    for (let x = 0; x < mapLayers.length; x++) {
+        if (mapLayers[x].id == curLayerSelected) {
+            indexOfLayer = x
+            break
+        }
+    }
+
+    if (indexOfLayer != -1 && indexOfLayer < mapLayers.length - 1) {
+        let sub = mapLayers[indexOfLayer]
+        mapLayers[indexOfLayer] = mapLayers[indexOfLayer + 1]
+        mapLayers[indexOfLayer + 1] = sub
+    }
+
+    map.layers = mapLayers
+    localStorage.setItem('map', JSON.stringify(map));
+
+    loadLayer()
+    moveMapLayerDown()
+    setCurrentSelectedLayer(curLayerSelected)
+
+
 }
 
 //Function for removing all layers from layer panel
@@ -258,10 +327,10 @@ export function loadLayer() {
         //Adds a eventlistener for the li when clicked
         theLayer.addEventListener("click", function () {
             setCurrentSelectedLayer(mapLayers[i].id)
-            if(!checkLockStatus()){//if notLocked
-                gridCanvas.forEachObject(obj=>{
-                    if(obj.id === curLayerSelected){
-                        obj.set({selectable:true});
+            if (!checkLockStatus()) {//if notLocked
+                gridCanvas.forEachObject(obj => {
+                    if (obj.id === curLayerSelected) {
+                        obj.set({selectable: true});
                     }
                 });
             }
@@ -283,10 +352,12 @@ export function loadLayer() {
         }
     }
 }
-document.getElementById("addTileLayer").addEventListener("click",newTileLayer)
-document.getElementById("addObjectLayer").addEventListener("click",newObjectLayer)
-document.getElementById("deleteLayer").addEventListener("click",deleteLayer)
 
+document.getElementById("addTileLayer").addEventListener("click", newTileLayer)
+document.getElementById("addObjectLayer").addEventListener("click", newObjectLayer)
+document.getElementById("deleteLayer").addEventListener("click", deleteLayer)
+document.getElementById("upBtn").addEventListener("click", moveLayerUp)
+document.getElementById("downBtn").addEventListener("click", moveLayerDown)
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // CODE FROM HERE ON DEALS WITH PROPERTIES
@@ -392,7 +463,7 @@ function changeProperty(type, propertyIndex) {
     localStorage.setItem('map', JSON.stringify(map));
 }
 
-function deleteProperty(propertyIndex){
+function deleteProperty(propertyIndex) {
     let map = JSON.parse(localStorage.getItem('map'));
     let mapLayer = map.layers
     let currentLayerProperties
@@ -404,7 +475,7 @@ function deleteProperty(propertyIndex){
         }
     }
 
-    currentLayerProperties.splice(propertyIndex,1)
+    currentLayerProperties.splice(propertyIndex, 1)
 
     map.layers[theLayerNumber].properties = currentLayerProperties
     localStorage.setItem('map', JSON.stringify(map));
@@ -414,8 +485,8 @@ function deleteProperty(propertyIndex){
 function loadLayerProperty(currentLayerId) {
     resetPropertyList()
 
-    if(curLayerSelected==""){
-       return
+    if (curLayerSelected == "") {
+        return
     }
     let map = JSON.parse(localStorage.getItem('map'));
     let mapLayer = map.layers
@@ -484,9 +555,9 @@ function loadLayerProperty(currentLayerId) {
         })
 
         let deleteIcon = document.createElement("i")
-        deleteIcon.setAttribute("class","fas fa-trash-alt")
+        deleteIcon.setAttribute("class", "fas fa-trash-alt")
 
-        deleteIcon.addEventListener("click",function () {
+        deleteIcon.addEventListener("click", function () {
             deleteProperty(c)
         })
 
@@ -508,11 +579,11 @@ function loadLayerProperty(currentLayerId) {
 }
 
 
-document.getElementById("addNewPropertyButton").addEventListener("click", function(){
+document.getElementById("addNewPropertyButton").addEventListener("click", function () {
 
-    if(curLayerSelected!=""){
+    if (curLayerSelected != "") {
         addNewProperty()
-    }else{
+    } else {
         window.alert("No Layer Selected!")
     }
 })
