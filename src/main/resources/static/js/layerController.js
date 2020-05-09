@@ -39,8 +39,7 @@ function changeVisbility(layerId) {
     }
     map.layers = mapLayers
     localStorage.setItem('map', JSON.stringify(map));
-    loadLayer()
-    createMap()
+
 }
 
 //Change layer lock status
@@ -55,7 +54,6 @@ function changeLockStatus(layerId) {
     }
     map.layers = mapLayers
     localStorage.setItem('map', JSON.stringify(map));
-    loadLayer()
 }
 
 function checkVisibility() {
@@ -84,12 +82,17 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     visibility == true ? visIcon.setAttribute("class", "fas fa-eye liItems") : visIcon.setAttribute("class", "fas fa-eye-slash liItems")
 
     visIcon.addEventListener("click", function (e) {
+        event.stopPropagation()
         if (checkVisibility()) {
             makeLayerInvisible(e.target.parentElement.id);
             changeVisbility(theLayerId);
+            loadLayer()
+            setCurrentSelectedLayer(curLayerSelected)
         } else {
             makeLayerVisible(e.target.parentElement.id);
             changeVisbility(theLayerId);
+            loadLayer()
+            setCurrentSelectedLayer(curLayerSelected)
         }
 
     });
@@ -102,12 +105,17 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     let lockIcon = document.createElement("i")
     locked == false ? lockIcon.setAttribute("class", "fas fa-lock-open liItems") : lockIcon.setAttribute("class", "fas fa-lock liItems")
     lockIcon.addEventListener("click", function (e) {
+        event.stopPropagation()
         if (checkLockStatus()) {//true-locked
             unlockLayer(e.target.parentElement.id);
             changeLockStatus(theLayerId);
+            loadLayer()
+            setCurrentSelectedLayer(curLayerSelected)
         } else {
             lockLayer(e.target.parentElement.id);
             changeLockStatus(theLayerId);
+            loadLayer()
+            setCurrentSelectedLayer(curLayerSelected)
         }
     })
 
@@ -184,14 +192,6 @@ function deleteLayer() {
     }
     map.layers = mapLayers
     localStorage.setItem('map', JSON.stringify(map));
-
-
-    addTransactions("layer")
-
-    removeLayer(curLayerSelected)
-    loadLayer()
-    curLayerSelected = ""
-    loadLayerProperty()
 }
 
 //Adds a new tile layer to layer panel
@@ -213,8 +213,6 @@ function newTileLayer() {
     map.layers.unshift(newTileLayer)
     localStorage.setItem('map', JSON.stringify(map));
     justAddedNewLayer = true
-    addTransactions("layer")
-    loadLayer()
 }
 
 //Adds a new object layer to layer panel
@@ -234,8 +232,7 @@ function newObjectLayer() {
     map.layers.unshift(newObjectLayer)
     localStorage.setItem('map', JSON.stringify(map));
     justAddedNewLayer = true
-    addTransactions("layer")
-    loadLayer()
+
 }
 
 function moveLayerUp() {
@@ -263,9 +260,6 @@ function moveLayerUp() {
     map.layers = mapLayers
     localStorage.setItem('map', JSON.stringify(map));
 
-    loadLayer()
-    moveMapLayerUp()
-    setCurrentSelectedLayer(curLayerSelected)
 }
 
 function moveLayerDown() {
@@ -292,11 +286,6 @@ function moveLayerDown() {
 
     map.layers = mapLayers
     localStorage.setItem('map', JSON.stringify(map));
-
-    loadLayer()
-    moveMapLayerDown()
-    setCurrentSelectedLayer(curLayerSelected)
-
 
 }
 
@@ -353,11 +342,38 @@ export function loadLayer() {
     }
 }
 
-document.getElementById("addTileLayer").addEventListener("click", newTileLayer)
-document.getElementById("addObjectLayer").addEventListener("click", newObjectLayer)
-document.getElementById("deleteLayer").addEventListener("click", deleteLayer)
-document.getElementById("upBtn").addEventListener("click", moveLayerUp)
-document.getElementById("downBtn").addEventListener("click", moveLayerDown)
+document.getElementById("addTileLayer").addEventListener("click", function () {
+    newTileLayer()
+    addTransactions("layer")
+    loadLayer()
+})
+document.getElementById("addObjectLayer").addEventListener("click", function () {
+    newObjectLayer()
+    addTransactions("layer")
+    loadLayer()
+})
+
+document.getElementById("deleteLayer").addEventListener("click", function(){
+    deleteLayer()
+    addTransactions("layer")
+    loadLayer()
+    removeLayer(curLayerSelected)
+    curLayerSelected = ""
+    loadLayerProperty()
+})
+
+document.getElementById("upBtn").addEventListener("click", function () {
+    moveLayerUp()
+    loadLayer()
+    moveMapLayerUp()
+    setCurrentSelectedLayer(curLayerSelected)
+})
+document.getElementById("downBtn").addEventListener("click", function () {
+    moveLayerDown()
+    loadLayer()
+    moveMapLayerDown()
+    setCurrentSelectedLayer(curLayerSelected)
+})
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // CODE FROM HERE ON DEALS WITH PROPERTIES
