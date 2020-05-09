@@ -321,7 +321,7 @@ export function loadLayer() {
         //Adds a eventlistener for the li when clicked
         theLayer.addEventListener("click", function () {
             setCurrentSelectedLayer(mapLayers[i].id)
-            if (!checkLockStatus()) {//if notLocked
+            if (!checkLockStatus(curLayerSelected)) {//if notLocked
                 gridCanvas.forEachObject(obj => {
                     if (obj.id === curLayerSelected) {
                         obj.set({selectable: true});
