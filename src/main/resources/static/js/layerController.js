@@ -59,7 +59,7 @@ function changeLockStatus(layerId) {
 function checkVisibility() {
     let map = JSON.parse(localStorage.getItem("map"));
     for (let i = 0; i < map.layers.length; i++) {
-        if (map.layers[i].id == curLayerSelected) {
+        if (map.layers[i].id == event.target.parentElement.id) {
             return map.layers[i].visibility;
         }
     }
@@ -68,7 +68,7 @@ function checkVisibility() {
 export function checkLockStatus() {
     let map = JSON.parse(localStorage.getItem("map"));
     for (let i = 0; i < map.layers.length; i++) {
-        if (map.layers[i].id == curLayerSelected) {
+        if (map.layers[i].id == event.target.parentElement.id) {
             return map.layers[i].locked;
         }
     }
@@ -89,6 +89,7 @@ function createLayer(theLayerId, type, name, visibility, locked) {
             loadLayer()
             setCurrentSelectedLayer(curLayerSelected)
         } else {
+            console.log(checkVisibility())
             makeLayerVisible(e.target.parentElement.id);
             changeVisbility(theLayerId);
             loadLayer()
@@ -106,12 +107,16 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     locked == false ? lockIcon.setAttribute("class", "fas fa-lock-open liItems") : lockIcon.setAttribute("class", "fas fa-lock liItems")
     lockIcon.addEventListener("click", function (e) {
         event.stopPropagation()
-        if (checkLockStatus()) {//true-locked
+        if (checkLockStatus()) {//true= layer is locked
+            console.log(checkLockStatus())
+            console.log("unlocking the layer")
             unlockLayer(e.target.parentElement.id);
             changeLockStatus(theLayerId);
             loadLayer()
             setCurrentSelectedLayer(curLayerSelected)
-        } else {
+        } else { //false = layer is unlocked
+            console.log(checkLockStatus())
+            console.log("locking the layer")
             lockLayer(e.target.parentElement.id);
             changeLockStatus(theLayerId);
             loadLayer()

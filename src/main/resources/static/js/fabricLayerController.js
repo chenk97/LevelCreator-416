@@ -27,7 +27,9 @@ export function moveMapLayerDown() {
 
 export function makeLayerInvisible(layerId) {
     gridCanvas.getObjects().forEach(item => {
+
         if (item.id == layerId) {
+            console.log(item.id)
             item.set({opacity: 0});
         }
     });
@@ -58,6 +60,7 @@ export function lockLayer(layerId) {
 export function unlockLayer(layerId) {
     gridCanvas.getObjects().forEach(item => {
         if (item.id == layerId) {
+
             item.set({selectable: true});
         }
     });
