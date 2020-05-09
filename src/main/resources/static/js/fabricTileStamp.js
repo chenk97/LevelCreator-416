@@ -179,7 +179,7 @@ gridCanvas.on({
                                 gridCanvas.add(cloned);
                             }
                         });
-                    }else if(checkMapType() === "Isometric"){
+                    }else if(checkMapType() === "Isometric" &&!checkLockStatus()){
                         let corSet = closestPoint(isoPoints, cursorY-tileH/2, cursorX);
                         let top = corSet.top;
                         let left = corSet.left;
