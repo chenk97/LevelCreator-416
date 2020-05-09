@@ -65,10 +65,10 @@ function checkVisibility() {
     }
 }
 
-export function checkLockStatus() {
+export function checkLockStatus(layerId) {
     let map = JSON.parse(localStorage.getItem("map"));
     for (let i = 0; i < map.layers.length; i++) {
-        if (map.layers[i].id == event.target.parentElement.id) {
+        if (map.layers[i].id == layerId) {
             return map.layers[i].locked;
         }
     }
@@ -107,15 +107,15 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     locked == false ? lockIcon.setAttribute("class", "fas fa-lock-open liItems") : lockIcon.setAttribute("class", "fas fa-lock liItems")
     lockIcon.addEventListener("click", function (e) {
         event.stopPropagation()
-        if (checkLockStatus()) {//true= layer is locked
-            console.log(checkLockStatus())
+        if (checkLockStatus(e.target.parentElement.id)) {//true= layer is locked
+            console.log(checkLockStatus(e.target.parentElement.id))
             console.log("unlocking the layer")
             unlockLayer(e.target.parentElement.id);
             changeLockStatus(theLayerId);
             loadLayer()
             setCurrentSelectedLayer(curLayerSelected)
         } else { //false = layer is unlocked
-            console.log(checkLockStatus())
+            console.log(checkLockStatus(e.target.parentElement.id))
             console.log("locking the layer")
             lockLayer(e.target.parentElement.id);
             changeLockStatus(theLayerId);

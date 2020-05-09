@@ -116,7 +116,7 @@ gridCanvas.on({
             ||cursorX<boundBox.left ||cursorX>boundBox.left+boundBox.width){
             return;
         }
-        if(checkLayerType() === "tile" && !checkLockStatus()){
+        if(checkLayerType() === "tile" && !checkLockStatus(curLayerSelected)){
             if(clonedObject){
                 if(shapeFillOn){
                     shapeFillTool();
@@ -179,7 +179,7 @@ gridCanvas.on({
                                 gridCanvas.add(cloned);
                             }
                         });
-                    }else if(checkMapType() === "Isometric" &&!checkLockStatus()){
+                    }else if(checkMapType() === "Isometric" && !checkLockStatus(curLayerSelected)){
                         let corSet = closestPoint(isoPoints, cursorY-tileH/2, cursorX);
                         let top = corSet.top;
                         let left = corSet.left;
@@ -235,7 +235,7 @@ gridCanvas.on({
                     }
                 }
             }else{return;}
-        }else if(checkLayerType() === "object" && !checkLockStatus()){
+        }else if(checkLayerType() === "object" && !checkLockStatus(curLayerSelected)){
             let top = cursorY-tileH/2;
             let left = cursorX-tileW/2;
             if(clonedObject){
@@ -508,12 +508,12 @@ function Copy() {
     // may want copy and paste on different moment.
     // and you do not want the changes happened
     // later to reflect on the copy.
-    if(checkLayerType() === "tile" && !checkLockStatus()){
+    if(checkLayerType() === "tile" && !checkLockStatus(curLayerSelected)){
         gridCanvas.getActiveObject().clone(function(cloned) {
             _clipboard = cloned;
         });
     }
-    else if(checkLayerType() === "object" && !checkLockStatus()){
+    else if(checkLayerType() === "object" && !checkLockStatus(curLayerSelected)){
         let obj = gridCanvas.getActiveObject();
         if(gridCanvas.getActiveObject().type !== 'activeSelection'){
             objScaleX = obj.scaleX;
@@ -556,7 +556,7 @@ function Paste() {
                 evented: true,
             });
             //group clone - only for tile layer
-            if (cloned.type === 'activeSelection' && checkLayerType() === "tile" && !checkLockStatus()) {
+            if (cloned.type === 'activeSelection' && checkLayerType() === "tile" && !checkLockStatus(curLayerSelected)) {
                 // active selection needs a reference to the canvas.
                 cloned.canvas = gridCanvas;
                 cloned.forEachObject(function (obj) {
@@ -572,7 +572,7 @@ function Paste() {
                 });
             //single clone
             } else {
-                if(checkLayerType() === "tile" && !checkLockStatus()){
+                if(checkLayerType() === "tile" && !checkLockStatus(curLayerSelected)){
                     cloned.set({
                         selectable: true,
                         hasControls: false,
@@ -582,7 +582,7 @@ function Paste() {
                     });
                     cloned.setCoords();
                     gridCanvas.add(cloned);
-                }else if(checkLayerType() === "object" && !checkLockStatus()){
+                }else if(checkLayerType() === "object" && !checkLockStatus(curLayerSelected)){
                     cloned.set({
                         selectable: true,
                         id: curLayerSelected, //set id to layer id
