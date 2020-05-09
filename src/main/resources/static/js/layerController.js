@@ -595,7 +595,6 @@ function loadLayerProperty(currentLayerId) {
     }
 }
 
-
 document.getElementById("addNewPropertyButton").addEventListener("click", function () {
 
     if (curLayerSelected != "") {

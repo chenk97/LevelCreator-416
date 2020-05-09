@@ -234,7 +234,7 @@ function newCanvasId(){
 
 function addTileCanvas(id){
     $(".nav-tabs").append(`<li class="nav-item"><a class="nav-link" id = "tileset${id}" href="#tileset_${id}" data-toggle="tab">Tileset#${id}</a></li>`);
-    $('.tab-content').append(`<div class="tab-pane" id="tileset_${id}" style="overflow: scroll;max-height:300px;"><canvas id ="canvas_${id}"/></div>`);
+    $('.tab-content').append(`<div class="tab-pane" id="tileset_${id}" style="overflow: auto;max-height:300px;"><canvas id ="canvas_${id}"/></div>`);
     $(`a[href="#tileset_${id}"]`).click();
     var canvas = document.getElementById("canvas_"+id);
     return canvas;
