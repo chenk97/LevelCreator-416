@@ -60,8 +60,8 @@ function drawGrids(){
     gridCanvas = new fabric.Canvas('grid_canvas');
     // gridCanvas._historyInit();
     gridCanvas.preserveObjectStacking = true;
-    gridCanvas.setWidth(divw);
-    gridCanvas.setHeight(divh);
+    gridCanvas.setWidth(map.width * map.tileWidth);
+    gridCanvas.setHeight(map.height * map.tileHeight);
     // console.log(gridCanvas);
     if (map.orientation === "Orthogonal"){
         boundBox = new fabric.Rect({
