@@ -26,11 +26,13 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String submit(@ModelAttribute("user") User user, HttpServletRequest request) {
+    public String submit(@ModelAttribute("user") User user, HttpServletRequest request, Model model) {
         System.out.println(user);
         if(userService.register(request, user)!=null) {
+            model.addAttribute("registerSuccess", true);
             return "home.html";
         }else{
+            model.addAttribute("registerFail", true);
             return "registration.html";
         }
     }

@@ -53,6 +53,7 @@ public class UserService{
         //check username and email uniqueness
         if (userRepo.findByUsername(user.getUsername()) != null ||
                 userRepo.findByEmail(user.getEmail()) != null || password.equals("")) {
+            //user or email already exist
             return null;
         } else {
             System.out.println("UserService: user validated: " + user);

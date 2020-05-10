@@ -1,5 +1,6 @@
 import {curLayerSelected} from "./layerController.js";
 import {refreshData} from "./fabricTileStamp.js";
+import {checkMapType} from "./fabricTileStamp.js";
 
 export function moveMapLayerUp() {
     console.log("moveup layer:" + curLayerSelected);
@@ -27,7 +28,6 @@ export function moveMapLayerDown() {
 
 export function makeLayerInvisible(layerId) {
     gridCanvas.getObjects().forEach(item => {
-
         if (item.id == layerId) {
             console.log(item.id)
             item.set({opacity: 0});
@@ -67,17 +67,70 @@ export function unlockLayer(layerId) {
     gridCanvas.renderAll();
 }
 
-export function removeLayer(layerId) {
-    gridCanvas.getActiveObjects().forEach(item => {
-        if (item.id === layerId) {
+export function removeLayer() {
+    gridCanvas.getObjects().forEach(item => {
+        if (item.id === curLayerSelected) {
+            console.log(item);
             gridCanvas.remove(item);
         }
     });
     gridCanvas.renderAll();
-    refreshData();
+    // refreshData();
 }
 
-// document.getElementById("lockBtn").addEventListener("click", lockLayer);
+
+export function getLayerStack(){
+    let layerStack = [];
+    $('ul#layerList').each(function() {
+        $(this).find('li').each(function(){
+            layerStack.push( $(this).attr('id') );
+        });
+    });
+    return layerStack;
+}
+
+
+function checkPrint(){
+    console.log(getLayerStack());
+}
+
+
+export function restackLayer() {
+    let layerStack = getLayerStack();
+    for(let i = 0; i < layerStack.length; i++){
+        gridCanvas.getObjects().forEach(item => {
+            if(item.id==layerStack[i]){
+                gridCanvas.sendToBack(item);
+            }
+        });
+        if(checkMapType() === "Orthogonal"){
+            lineX.forEach(line=>{
+                gridCanvas.sendToBack(line);
+            });
+            lineY.forEach(line=>{
+                gridCanvas.sendToBack(line);
+            });
+        }else if(checkMapType() === "Isometric"){
+            isoLines.forEach(line=>{
+                gridCanvas.sendToBack(line);
+            });
+        }
+    }
+    gridCanvas.renderAll();
+}
+
+// function trans(){
+//     boundBox.set({stroke:'transparent'});
+//     lineX.forEach(line=>{
+//         line.set({stroke:'transparent'});
+//     });
+//     lineY.forEach(line=>{
+//         line.set({stroke:'transparent'});
+//     });
+//     gridCanvas.renderAll();
+// }
+
+// document.getElementById("lockBtn").addEventListener("click", trans);
 // document.getElementById("unlockBtn").addEventListener("click", unlockLayer);
 // document.getElementById("trasBtn").addEventListener("click", makeLayerInvisible);
 // document.getElementById("noTrasBtn").addEventListener("click", makeLayerVisible);

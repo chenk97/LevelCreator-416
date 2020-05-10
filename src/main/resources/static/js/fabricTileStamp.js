@@ -460,7 +460,7 @@ function checkLayerType() {
     }
 }
 
-function checkMapType() {
+export function checkMapType() {
     let map = JSON.parse(localStorage.getItem('map'));
     return map.orientation;
 }

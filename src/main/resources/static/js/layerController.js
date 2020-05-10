@@ -7,6 +7,7 @@ import {unlockLayer} from "./fabricLayerController.js";
 import {removeLayer} from "./fabricLayerController.js";
 import {moveMapLayerDown} from "./fabricLayerController.js";
 import {moveMapLayerUp} from "./fabricLayerController.js";
+import {restackLayer} from "./fabricLayerController.js";
 
 export var curLayerSelected = ""
 var firstLoad = true
@@ -321,6 +322,12 @@ export function loadLayer() {
         //Adds a eventlistener for the li when clicked
         theLayer.addEventListener("click", function () {
             setCurrentSelectedLayer(mapLayers[i].id)
+            restackLayer();//reset the previously moved layer to right spot
+            gridCanvas.getObjects().forEach(item => {
+                if(item.id==curLayerSelected){
+                    gridCanvas.bringToFront(item);
+                }
+            });
             if (!checkLockStatus(curLayerSelected)) {//if notLocked
                 gridCanvas.forEachObject(obj => {
                     if (obj.id === curLayerSelected) {
@@ -362,22 +369,25 @@ document.getElementById("deleteLayer").addEventListener("click", function(){
     deleteLayer()
     addTransactions("layer")
     loadLayer()
-    removeLayer(curLayerSelected)
+    removeLayer()
     curLayerSelected = ""
     loadLayerProperty()
+    restackLayer()
 })
 
 document.getElementById("upBtn").addEventListener("click", function () {
     moveLayerUp()
     loadLayer()
-    moveMapLayerUp()
+    // moveMapLayerUp()
     setCurrentSelectedLayer(curLayerSelected)
+    restackLayer();
 })
 document.getElementById("downBtn").addEventListener("click", function () {
     moveLayerDown()
     loadLayer()
-    moveMapLayerDown()
+    // moveMapLayerDown()
     setCurrentSelectedLayer(curLayerSelected)
+    restackLayer();
 })
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
