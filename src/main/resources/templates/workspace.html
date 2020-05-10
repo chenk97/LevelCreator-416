@@ -177,8 +177,12 @@
 
 
         <div class="col-8 middle">
-            <div class="box" id="canvasStorage">
-                <canvas id="grid_canvas"></canvas>
+            <div class="box" id="canvasStorage"
+                 style="height:900px; width: 100%; position:relative; overflow: auto; background-color: gray;">
+                <div class="canvasGird" id="testGirdy">
+                    <canvas id="grid_canvas" class="text-center"></canvas>
+
+                </div>
             </div>
         </div>
 
@@ -328,7 +332,7 @@
     })
 </script>
 
-<script src = "js/zoom.js"></script>
+<!--<script src = "js/zoom.js"></script>-->
 <script src="js/tabs.js"></script>
 <!--<script src="js/addProject.js"></script>-->
 <script src="js/fabricNumberedImage.js"></script>

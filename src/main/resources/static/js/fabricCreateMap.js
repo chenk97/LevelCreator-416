@@ -1,9 +1,9 @@
 // $(document).ready(function(){
 var boundBox;
 //var canvas = document.getElementById("grid_canvas");
-//var divw = document.getElementById("canvasStorage").offsetWidth;
-//var divh = document.getElementById("canvasStorage").offsetHeight;
-
+var divw = document.getElementById("canvasStorage").offsetWidth;
+var divh = document.getElementById("canvasStorage").offsetHeight;
+var outerCanvisDiv = document.getElementById("testGirdy")
 // var square;
 var lineX = [];
 var lineY = [];
@@ -48,6 +48,7 @@ function createMap() {
     };
 
     localStorage.setItem('map', JSON.stringify(map));
+
 }
 
 
@@ -61,6 +62,8 @@ function drawGrids(){
     gridCanvas.preserveObjectStacking = true;
     gridCanvas.setWidth(map.width * map.tileWidth);
     gridCanvas.setHeight(map.height * map.tileHeight);
+    outerCanvisDiv.style.width=map.width * map.tileWidth +"px"
+    outerCanvisDiv.style.height=map.height * map.tileHeight+"px"
     // console.log(gridCanvas);
     if (map.orientation === "Orthogonal"){
         boundBox = new fabric.Rect({
@@ -79,7 +82,7 @@ function drawGrids(){
 
         gridCanvas.add(boundBox);
 
-        gridCanvas.centerObject(boundBox);
+    gridCanvas.centerObject(boundBox);
 
 
     //vertical lines
@@ -139,7 +142,6 @@ function drawGrids(){
             lockMovementY: true,
             lockScalingX: true,
             lockScalingY: true,
-
         });
 
         gridCanvas.add(boundBox);
@@ -217,8 +219,6 @@ function drawGrids(){
 
 }
 
-
-
 // function checkDupPush(arr, newItem){
 //     let isDuplicated = false;
 //     arr.forEach(function (element) {
@@ -237,7 +237,6 @@ function drawGrids(){
 //     return numbers.slice(0, pos).concat(numbers.slice(pos + 1));
 // }
 
-/*
 /////////////// zoom and panning function start from here //////////////////////
 var zoomhandler = function(event) {
     if (event.e.ctrlKey) {
@@ -277,7 +276,7 @@ var zoomhandler = function(event) {
 
         }
     }
-};*/
+};
 
 function loadMap(){
     let map = JSON.parse(localStorage.getItem("map"));
@@ -288,4 +287,28 @@ function loadMap(){
 
 drawGrids();
 loadMap();
-//gridCanvas.on('mouse:wheel', zoomhandler);
+gridCanvas.on('mouse:wheel', zoomhandler);
+
+gridCanvas.on('mouse:down', function(event) {
+    if (event.e.altKey) {
+        var evt = event.e;
+        this.isDragging = true;
+        this.selection = false;
+        this.lastPosX = evt.clientX;
+        this.lastPosY = evt.clientY;
+    }
+});
+gridCanvas.on('mouse:move', function(event) {
+    if (this.isDragging) {
+        var evt = event.e;
+        this.viewportTransform[4] += evt.clientX - this.lastPosX;
+        this.viewportTransform[5] += evt.clientY - this.lastPosY;
+        this.requestRenderAll();
+        this.lastPosX = evt.clientX;
+        this.lastPosY = evt.clientY;
+    }
+});
+gridCanvas.on('mouse:up', function(event) {
+    this.isDragging = false;
+    this.selection = true;
+});
