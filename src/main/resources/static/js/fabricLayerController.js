@@ -67,15 +67,14 @@ export function unlockLayer(layerId) {
     gridCanvas.renderAll();
 }
 
-export function removeLayer() {
+export function removeLayer(layerId) {
     gridCanvas.getObjects().forEach(item => {
-        if (item.id === curLayerSelected) {
+        if (item.id === layerId) {
             console.log(item);
             gridCanvas.remove(item);
         }
     });
     gridCanvas.renderAll();
-    // refreshData();
 }
 
 

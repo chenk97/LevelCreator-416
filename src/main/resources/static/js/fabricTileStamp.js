@@ -82,9 +82,9 @@ gridCanvas.on({
                 });
             }
         }else if(checkLayerType() === "tile" && checkMapType() === "Isometric"){
-            let corSet = closestPoint(isoPoints, e.target.top, e.target.left + tileW/2);
-            let top = corSet.top;
-            let left = corSet.left;
+            let corSet = closestPoint(isoMapY, isoMapX, e.target.top, e.target.left + tileW/2);
+            let top = Number(corSet.top);
+            let left = Number(corSet.left);
             e.target.set({
                 top: top,
                 left: left,
@@ -180,9 +180,9 @@ gridCanvas.on({
                             }
                         });
                     }else if(checkMapType() === "Isometric" && !checkLockStatus(curLayerSelected)){
-                        let corSet = closestPoint(isoPoints, cursorY-tileH/2, cursorX);
-                        let top = corSet.top;
-                        let left = corSet.left;
+                        let corSet = closestPoint(isoMapY, isoMapX, cursorY-tileH/2, cursorX);
+                        let top = Number(corSet.top);
+                        let left = Number(corSet.left);
                         clonedObject.clone(function(cloned) {
                             if (cloned.type === 'activeSelection') {
                                 let width = cloned.width * cloned.scaleX;
@@ -211,10 +211,10 @@ gridCanvas.on({
                                 gridCanvas.discardActiveObject();
                                 gridCanvas.getObjects().forEach(item=>{
                                     if(item.id===curLayerSelected){
-                                        let corSet = closestPoint(isoPoints, item.top, item.left + tileW/2);
+                                        let corSet = closestPoint(isoMapY, isoMapX, item.top, item.left + tileW/2);
                                         item.set({
-                                            top:corSet.top,
-                                            left:corSet.left,
+                                            top:Number(corSet.top),
+                                            left:Number(corSet.left),
                                         });
                                     }
                                 });
@@ -314,47 +314,48 @@ function closest(arr, closestTo){
 }
 
 
-function closestPoint(arr, closestToY, closestToX){
-    let smallestYs = [];
-    let smallestY = Math.abs(closestToY - arr[0].y);
-    let c = 0;
+function closestPoint(mapY, mapX, closestToY, closestToX){
+    console.log("looking for point")
+    console.log("closetsX"+closestToX);
+    console.log("closetsY"+closestToY);
+    let smallestY = Math.abs(closestToY - Object.keys(mapY)[0]);
+    console.log("first key"+Object.keys(mapY)[0]);
+    let top;
+    let left;
     let d = 0;
-    let k = 0;
-    for(let i = 1; i < arr.length; i++){
-        let closestY = Math.abs(closestToY - arr[i].y);
-        if (closestY < smallestY){
+    for(let y in mapY){
+        console.log(y);
+        let closestY = Math.abs(closestToY - y);
+        if (closestY <= smallestY){
             smallestY = closestY;
-            c = i;
+            top = y;
         }
     }
-    let nearestY = arr[c].y;
-    for(let i = 0; i < arr.length; i++){
-        if(arr[i].y === nearestY){
-            smallestYs.push(arr[i]);
-        }
-    }
-    let smallestX = Math.abs(closestToX - smallestYs[0].x);
-    for(let i = 1; i < smallestYs.length; i++){
-        let closestX = Math.abs(closestToX - smallestYs[i].x);
-        if (closestX < smallestX){
+    console.log("topValue"+top);
+    let smallestX = Math.abs(closestToX - mapY[top][0]);
+    console.log("first ele in top array:"+mapY[top][0]);
+    for(let i = 0; i < mapY[top].length; i++){
+        let closestX = Math.abs(closestToX - mapY[top][i]);
+        if (closestX <= smallestX){
             smallestX = closestX;
             d = i;
         }
     }
-    let nearestX = smallestYs[d].x-tileW/2;
-    let smallestXs = [];
-    for(let i = 0; i < arr.length; i++){
-        if(arr[i].x === nearestX){
-            smallestXs.push(arr[i]);
+    console.log("topD"+mapY[top][d]);
+    let nearestX = mapY[top][d] - tileW/2;
+    console.log("nearestX"+nearestX);
+    if(nearestX in mapX){
+        console.log("array in mapX"+mapX[nearestX]);
+        for(let i = 0; i < mapX[nearestX].length; i++){
+            if(mapX[nearestX][i] === Number(top) + tileH/2){
+                left = nearestX;
+            }
         }
     }
-    for(let i = 0; i < smallestXs.length; i++){
-        if(smallestXs[i].y === nearestY-tileH/2){
-            k = i;
-        }
-    }
-    return {top: smallestYs[d].y, left: smallestXs[k].x};
+    console.log("leftValue"+left);
+    return {top: top, left: left};
 }
+
 
 
 function eraseTile(){
@@ -614,6 +615,52 @@ export function refreshData(){
     map.canvas = gridCanvas.toJSON();
     localStorage.setItem("map", JSON.stringify(map));
 }
+
+
+function closestPointP(arr, closestToY, closestToX){
+    let smallestYs = [];
+    let smallestY = Math.abs(closestToY - arr[0].y);
+    let c = 0;
+    let d = 0;
+    let k = 0;
+    for(let i = 1; i < arr.length; i++){
+        let closestY = Math.abs(closestToY - arr[i].y);
+        if (closestY < smallestY){
+            smallestY = closestY;
+            c = i;
+        }
+    }
+    let nearestY = arr[c].y;
+    for(let i = 0; i < arr.length; i++){
+        if(arr[i].y === nearestY){
+            smallestYs.push(arr[i]);
+        }
+    }
+    let smallestX = Math.abs(closestToX - smallestYs[0].x);
+    for(let i = 1; i < smallestYs.length; i++){
+        let closestX = Math.abs(closestToX - smallestYs[i].x);
+        if (closestX < smallestX){
+            smallestX = closestX;
+            d = i;
+        }
+    }
+    let nearestX = smallestYs[d].x-tileW/2;
+    let smallestXs = [];
+    for(let i = 0; i < arr.length; i++){
+        if(arr[i].x === nearestX){
+            smallestXs.push(arr[i]);
+        }
+    }
+    for(let i = 0; i < smallestXs.length; i++){
+        if(smallestXs[i].y === nearestY+tileH/2){
+            k = i;
+        }
+    }
+    console.log("topPoint:"+smallestYs[d]);
+    console.log("leftPoint:"+smallestXs[k]);
+    return {top: smallestYs[d].y, left: smallestXs[k].x};
+}
+
 
 
 document.getElementById("selectBtn").addEventListener("click", clearUrl);

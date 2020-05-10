@@ -13,6 +13,9 @@ var isoLines = [];
 var isoPoints =[];
 var gridCanvas;
 var leftMostPt;
+var isoMapX = {};
+var isoMapY = {};
+var isoMap = [];
 
 function createMap() {
     var mapOrientation = document.getElementById("orientation").value;
@@ -196,6 +199,7 @@ function drawGrids(){
 
 
                 let d = new fabric.Point(x - map.tileWidth/2, y);//top vertex
+                let e = new fabric.Point(x - map.tileWidth, y + map.tileHeight/2);
 
                 isoLines.push(lefttop);
                 isoLines.push(leftbottom);
@@ -203,6 +207,8 @@ function drawGrids(){
                 isoLines.push(righttop);
 
                 isoPoints.push(d);
+                checkDupPush(isoMap,d);
+                checkDupPush(isoMap,e);
 
             }
         }
@@ -213,21 +219,38 @@ function drawGrids(){
 
         leftMostPt = new fabric.Point(boundBox.left, boundBox.top + boundBox.height/2);
         isoPoints.push(leftMostPt);//most left point
+
+        isoMap.forEach(point => {
+            if(!(point.x in isoMapX)){
+                isoMapX[point.x] = [];
+                isoMapX[point.x].push(point.y);
+            }else{
+                isoMapX[point.x].push(point.y);
+            }
+        });
+        isoMap.forEach(point => {
+            if(!(point.y in isoMapY)){
+                isoMapY[point.y] = [];
+                isoMapY[point.y].push(point.x);
+            }else{
+                isoMapY[point.y].push(point.x);
+            }
+        });
     }
 
 }
 
-// function checkDupPush(arr, newItem){
-//     let isDuplicated = false;
-//     arr.forEach(function (element) {
-//         if (element.eq(newItem)) {
-//             isDuplicated = true;
-//         }
-//     });
-//     if(!isDuplicated){
-//         arr.push(newItem)
-//     }
-// }
+function checkDupPush(arr, newItem){
+    let isDuplicated = false;
+    arr.forEach(function (element) {
+        if (element.eq(newItem)) {
+            isDuplicated = true;
+        }
+    });
+    if(!isDuplicated){
+        arr.push(newItem)
+    }
+}
 
 // function removeLargest(numbers) {
 //     const largest = Math.max.apply(null, numbers);

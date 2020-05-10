@@ -369,7 +369,7 @@ document.getElementById("deleteLayer").addEventListener("click", function(){
     deleteLayer()
     addTransactions("layer")
     loadLayer()
-    removeLayer()
+    removeLayer(curLayerSelected)
     curLayerSelected = ""
     loadLayerProperty()
     restackLayer()
