@@ -312,6 +312,7 @@ loadMap();
 gridCanvas.on('mouse:wheel', zoomhandler);
 
 gridCanvas.on('mouse:down', function(event) {
+    event.e.stopPropagation();
     if (event.e.altKey) {
         var evt = event.e;
         this.isDragging = true;

@@ -42,7 +42,7 @@ public class Project {
     @JoinColumn(name = "map_id", referencedColumnName = "id")
     private Map map;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "Project")
     Set<UserProject> teamProjects;
 
     public Project(){

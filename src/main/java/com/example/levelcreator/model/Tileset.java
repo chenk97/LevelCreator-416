@@ -13,9 +13,9 @@ public class Tileset {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "map_id", nullable = false)
-//    private Map map;
+    @ManyToOne
+    @JoinColumn(name = "map_id", nullable = false)
+    private Map map;
 
     @Lob
     @NotBlank

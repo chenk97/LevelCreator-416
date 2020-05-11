@@ -31,20 +31,25 @@ public class User {
 //    @OneToMany(mappedBy="id")
 //    private Set<User> followingList;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "User")
     Set<UserProject> projectList;
+
+    @OneToMany(mappedBy = "User")
+    Set<Comment> commentList;
 
     public User(){
         super();
     }
 
-    public User(String username, String email, String password, Set<User> followingList, Set<UserProject> projectList) {
+    public User(String username, String email, String password,
+                Set<UserProject> projectList, Set<Comment> commentList) {
         super();
         this.username = username;
         this.email = email;
         this.password = password;
 //        this.followingList = followingList;
         this.projectList = projectList;
+        this.commentList = commentList;
     }
 
     public Integer getId(){
@@ -68,6 +73,14 @@ public class User {
 
     public void setUsername(String username){
         this.username = username;
+    }
+
+    public Set<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(Set<Comment> commentList) {
+        this.commentList = commentList;
     }
 
     public String getPassword(){

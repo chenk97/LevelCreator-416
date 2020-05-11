@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 @Entity
 @Table(name = "lc_map")
@@ -19,6 +20,9 @@ public class Map {
 
     @Column(name = "mapJson")
     private String mapJSON;
+
+    @OneToMany(mappedBy = "Map")
+    Set<UserProject> projectList;
 
     public Map(){
         super();

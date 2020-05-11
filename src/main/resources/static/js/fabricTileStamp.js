@@ -152,6 +152,7 @@ gridCanvas.on({
 
 gridCanvas.on({
     'mouse:up':(e)=>{
+        e.e.stopPropagation();
         //limit the mouse click detection inside boundBox
         let cursorX = gridCanvas.getPointer(e.e).x,
             cursorY = gridCanvas.getPointer(e.e).y;
