@@ -79,56 +79,58 @@ function drawGrids(){
             lockScalingX: true,
             lockScalingY: true,
         });
+
         gridCanvas.add(boundBox);
-    gridCanvas.centerObject(boundBox);
+
+        gridCanvas.centerObject(boundBox);
 
 
-    //vertical lines
-    for(let i = 0; i < map.width; i++){
-        let l = boundBox.left + ((map.tileWidth) * i);
-        let t = boundBox.top;
-        let b = boundBox.top + boundBox.height;
+        //vertical lines
+        for(let i = 0; i < map.width; i++){
+            let l = boundBox.left + ((map.tileWidth) * i);
+            let t = boundBox.top;
+            let b = boundBox.top + boundBox.height;
 
-        lineY.push(new fabric.Line([l,t,l, b],{
-            stroke: "#c0c4c2",
-            hasBorders: false,
-            selectable: false,
-            hasControl: false,
-            lockMovementX: true,
-            lockMovementY: true,
-        }));
+            lineY.push(new fabric.Line([l,t,l, b],{
+                stroke: "#c0c4c2",
+                hasBorders: false,
+                selectable: false,
+                hasControl: false,
+                lockMovementX: true,
+                lockMovementY: true,
+            }));
 
             lineXN.push(l);//all left value
         }
 
-    //add horizontal lines to canvas
+        //add horizontal lines to canvas
         lineY.forEach((line)=>{
             gridCanvas.add(line);
         });
 
-    //horizontal lines
+        //horizontal lines
         for(let i = 0; i < map.height; i++){
             let t = boundBox.top + ((map.tileHeight) * i);
             let l = boundBox.left;
             let r = boundBox.left + boundBox.width;
 
-        lineX.push(new fabric.Line([l,t,r,t],{
-            stroke: "#c0c4c2",
-            hasBorders: false,
-            selectable: false,
-            hasControl: false,
-        }));
+            lineX.push(new fabric.Line([l,t,r,t],{
+                stroke: "#c0c4c2",
+                hasBorders: false,
+                selectable: false,
+                hasControl: false,
+            }));
 
-        lineYN.push(t);//all top value
-    }
+            lineYN.push(t);//all top value
+        }
 
 //add horizontal lines to canvas
-    lineX.forEach((line)=>{
-        gridCanvas.add(line);
-    });
+        lineX.forEach((line)=>{
+            gridCanvas.add(line);
+        });
 
     }else if(map.orientation === "Isometric"){
-         boundBox = new fabric.Rect({
+        boundBox = new fabric.Rect({
             width: map.width * map.tileWidth,
             height: map.height *map.tileHeight,
             stroke: "#c0c4c2",
@@ -235,7 +237,6 @@ function drawGrids(){
 //     return numbers.slice(0, pos).concat(numbers.slice(pos + 1));
 // }
 
-/*
 /////////////// zoom and panning function start from here //////////////////////
 var zoomhandler = function(event) {
     if (event.e.ctrlKey) {
@@ -254,9 +255,9 @@ var zoomhandler = function(event) {
         var vpt = gridCanvas.viewportTransform;
         //if zoom is less than 500%
         if (zoom < 5) {
-             //keep the grid in the center of the canvas
-             gridCanvas.viewportTransform[4] =  (gridCanvas.width/2) - gridCanvas.width * zoom / 2;
-             gridCanvas.viewportTransform[5] = (gridCanvas.height/2) - gridCanvas.height * zoom / 2;
+            //keep the grid in the center of the canvas
+            gridCanvas.viewportTransform[4] =  (gridCanvas.width/2) - gridCanvas.width * zoom / 2;
+            gridCanvas.viewportTransform[5] = (gridCanvas.height/2) - gridCanvas.height * zoom / 2;
         } else {
             //panning left and right
             if (vpt[4] >= 0) {
@@ -275,7 +276,7 @@ var zoomhandler = function(event) {
 
         }
     }
-};*/
+};
 
 function loadMap(){
     let map = JSON.parse(localStorage.getItem("map"));
@@ -286,8 +287,6 @@ function loadMap(){
 
 drawGrids();
 loadMap();
-
-/*
 gridCanvas.on('mouse:wheel', zoomhandler);
 
 gridCanvas.on('mouse:down', function(event) {
@@ -313,4 +312,3 @@ gridCanvas.on('mouse:up', function(event) {
     this.isDragging = false;
     this.selection = true;
 });
-*/
