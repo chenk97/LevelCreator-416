@@ -79,9 +79,7 @@ function drawGrids(){
             lockScalingX: true,
             lockScalingY: true,
         });
-
         gridCanvas.add(boundBox);
-
     gridCanvas.centerObject(boundBox);
 
 
