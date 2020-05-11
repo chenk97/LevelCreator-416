@@ -243,8 +243,10 @@ var zoomhandler = function(event) {
 
         var delta = event.e.deltaY;
         var zoom = gridCanvas.getZoom();
+        console.log(gridCanvas.getZoom())
         //greater the divisor the smoother zoom based on mousescroll is
         zoom = zoom - delta / 200;
+
         //zooms in up to 10 times(1000%)
         if (zoom > 10) zoom = 10;
         //zooms out up to 10%
