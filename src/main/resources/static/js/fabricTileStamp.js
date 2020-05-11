@@ -73,7 +73,6 @@ gridCanvas.on({
                     });
                 }
             }else{
-
                 let top = closest(lineYN, e.target.top);
                 let left = closest(lineXN, e.target.left);
                 e.target.set({
@@ -82,18 +81,62 @@ gridCanvas.on({
                 });
             }
         }else if(checkLayerType() === "tile" && checkMapType() === "Isometric"){
-            let corSet = closestPoint(isoMapY, isoMapX, e.target.top, e.target.left + tileW/2);
-            let top = Number(corSet.top);
-            let left = Number(corSet.left);
-            e.target.set({
-                top: top,
-                left: left,
-            });
-            // if(e.target.type === 'activeSelection'){
-            //     //try search for existing point on right top corner, return
-            // }
-            // else{
-            // }
+            if(e.target.type === 'activeSelection'){
+                let corSet = closestPoint(isoMapY, isoMapX, e.target.top, e.target.left + tileW/2);
+                let top = Number(corSet.top);
+                let left = Number(corSet.left);
+                let maxRight;
+                if(top > boundBox.top + boundBox.height/2 - tileH){
+                    maxRight = Math.max.apply(null, isoMapY[top+tileH/2]) + tileW;
+                }else{
+                    maxRight = Math.max.apply(null, isoMapY[top+tileH/2]);
+                }
+                let realRight = e.target.left + e.target.width;
+                if(realRight > maxRight){
+                    console.log("out of bound");
+                    let dif = realRight - maxRight;
+                    let newCorset = closestPoint(isoMapY, isoMapX, e.target.top, e.target.left + tileW/2 - dif);
+                    top = Number(newCorset.top);
+                    left = Number(newCorset.left);
+                    if(top > boundBox.top + boundBox.height/2 - tileH){
+                        while(isoMapY[top].length <= e.target.width/tileW){top-=tileH;}
+                        if(isoMapY[top].length === e.target.width/tileW){left = isoMapY[top][0];}
+                    }else{
+                        while(isoMapY[top].length < e.target.width/tileW){top+=tileH;}
+                        if(isoMapY[top].length === e.target.width/tileW){left = isoMapY[top+tileH/2][0];}
+                    }
+
+                }
+                if(left){
+                    e.target.set({
+                        top: top,
+                        left: left,
+                    });
+                }
+                else{
+                    //for most left bound
+                    e.target.set({
+                        top: top,
+                        left: isoMapY[top+tileH/2][0],
+                    });
+                }
+            } else{//single tile dragging
+                let corSet = closestPoint(isoMapY, isoMapX, e.target.top, e.target.left + tileW/2);
+                let top = Number(corSet.top);
+                let left = Number(corSet.left);
+                if(left){
+                    e.target.set({
+                        top: top,
+                        left: left,
+                    });
+                }else{
+                    //for most left bound
+                    e.target.set({
+                        top: top,
+                        left: isoMapY[Number(top)+tileH/2][0],
+                    });
+                }
+            }
         }else if(checkLayerType() === "object"){
             gridCanvas.forEachObject(obj=>{
                 if(obj.id !== curLayerSelected){
@@ -182,6 +225,7 @@ gridCanvas.on({
                     }else if(checkMapType() === "Isometric" && !checkLockStatus(curLayerSelected)){
                         let corSet = closestPoint(isoMapY, isoMapX, cursorY-tileH/2, cursorX);
                         let top = Number(corSet.top);
+                        if(cursorX+tileW/2 < isoMapY[top][0] || cursorX-tileW/2 > Math.max.apply(null, isoMapY[top])){return;}
                         let left = Number(corSet.left);
                         clonedObject.clone(function(cloned) {
                             if (cloned.type === 'activeSelection') {
@@ -241,13 +285,6 @@ gridCanvas.on({
             if(clonedObject){
                 clonedObject.clone(function(cloned) {
                     if (cloned.type !== 'activeSelection') {
-                        // gridCanvas.getObjects().forEach(item=>{//check if there is an object at the same layer and position
-                        //     if (item.selectable && item.id === curLayerSelected) {
-                        //         if(item.top === top && item.left ===left){
-                        //             gridCanvas.remove(item);
-                        //         }
-                        //     }
-                        // });
                         cloned.set({
                             top: top,
                             left: left,
@@ -315,25 +352,18 @@ function closest(arr, closestTo){
 
 
 function closestPoint(mapY, mapX, closestToY, closestToX){
-    console.log("looking for point")
-    console.log("closetsX"+closestToX);
-    console.log("closetsY"+closestToY);
     let smallestY = Math.abs(closestToY - Object.keys(mapY)[0]);
-    console.log("first key"+Object.keys(mapY)[0]);
     let top;
     let left;
     let d = 0;
     for(let y in mapY){
-        console.log(y);
         let closestY = Math.abs(closestToY - y);
         if (closestY <= smallestY){
             smallestY = closestY;
             top = y;
         }
     }
-    console.log("topValue"+top);
     let smallestX = Math.abs(closestToX - mapY[top][0]);
-    console.log("first ele in top array:"+mapY[top][0]);
     for(let i = 0; i < mapY[top].length; i++){
         let closestX = Math.abs(closestToX - mapY[top][i]);
         if (closestX <= smallestX){
@@ -341,18 +371,14 @@ function closestPoint(mapY, mapX, closestToY, closestToX){
             d = i;
         }
     }
-    console.log("topD"+mapY[top][d]);
     let nearestX = mapY[top][d] - tileW/2;
-    console.log("nearestX"+nearestX);
     if(nearestX in mapX){
-        console.log("array in mapX"+mapX[nearestX]);
         for(let i = 0; i < mapX[nearestX].length; i++){
             if(mapX[nearestX][i] === Number(top) + tileH/2){
                 left = nearestX;
             }
         }
     }
-    console.log("leftValue"+left);
     return {top: top, left: left};
 }
 

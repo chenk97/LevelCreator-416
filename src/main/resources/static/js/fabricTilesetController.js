@@ -244,13 +244,14 @@ function addTileCanvas(id){
 function reloadTileset(){
     let map = JSON.parse(localStorage.getItem('map'));
     for(var i = 0; i < map.tilesets.length; i++ ){
-        var fakeCanvas = document.createElement('canvas');
-        fakeCanvas.setAttribute('id', '_fake_canvas');
-        var ctx = fakeCanvas.getContext("2d");
         var tileset = map.tilesets[i];
         var canvas = addTileCanvas(tileset.id);
         img.src = tileset.image;
+        console.log(img.src);
         img.onload = function(){
+            var fakeCanvas = document.createElement('canvas');
+            fakeCanvas.setAttribute('id', '_fake_canvas');
+            var ctx = fakeCanvas.getContext("2d");
             init(fakeCanvas, ctx);
             var tiles = getTiles();
             var fabricCanvas = new fabric.Canvas(canvas.id,{
@@ -259,9 +260,9 @@ function reloadTileset(){
                 selectable:false,
             });
             drawTiles(tiles, fabricCanvas);
+            fakeCanvas = null;
+            $('#_fake_canvas').remove();
         };
-        fakeCanvas = null;
-        $('#_fake_canvas').remove();
     }
 }
 

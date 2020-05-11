@@ -299,6 +299,7 @@ var zoomhandler = function(event) {
     }
 };
 
+
 function loadMap(){
     let map = JSON.parse(localStorage.getItem("map"));
     gridCanvas.loadFromJSON(map.canvas, ()=>{
