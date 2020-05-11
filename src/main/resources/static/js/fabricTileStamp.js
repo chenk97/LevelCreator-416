@@ -144,7 +144,7 @@ gridCanvas.on({
                 }
             });
         }
-        refreshData();
+        // refreshData();
     }
 });
 
@@ -299,7 +299,7 @@ gridCanvas.on({
             }else{return;}
         }
         //refresh canvas data after change
-        refreshData();
+        // refreshData();
     }
 });
 
@@ -391,7 +391,7 @@ function eraseTile(){
         }
     });
     gridCanvas.renderAll();
-    refreshData();
+    // refreshData();
 }
 
 
