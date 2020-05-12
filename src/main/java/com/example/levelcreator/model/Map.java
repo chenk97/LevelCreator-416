@@ -31,11 +31,11 @@ public class Map {
         super();
     }
 
-    public Map(Integer id, String mapJSON, String layersJSON, Set<Tileset> tilsetList) {
+    public Map(Integer id, String mapJSON, String layersJSON, Set<Tileset> tilesetList) {
         this.id = id;
         this.mapJSON = mapJSON;
         this.layersJSON = layersJSON;
-        this.tilesetList = tilsetList;
+        this.tilesetList = tilesetList;
     }
 
     public Integer getId() {

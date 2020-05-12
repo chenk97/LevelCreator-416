@@ -19,6 +19,9 @@ public class Project {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "type")
+    private String type;
+
     @Lob
     @NotBlank
     //image stored as base64 byte[] string
@@ -48,14 +51,15 @@ public class Project {
         super();
     }
 
-    public Project(String name, @NotBlank String screenshot, Date createdDate, User user,
-                   int likes, Map map, Set<User> collaborators) {
-        super();
+    public Project(Integer id, String name, String type, @NotBlank String screenshot,
+                   Date createdDate, int likes, User user, Map map, Set<User> collaborators) {
+        this.id = id;
         this.name = name;
+        this.type = type;
         this.screenshot = screenshot;
         this.createdDate = createdDate;
-        this.user = user;
         this.likes = likes;
+        this.user = user;
         this.map = map;
         this.collaborators = collaborators;
     }
@@ -74,6 +78,14 @@ public class Project {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getScreenshot() {
