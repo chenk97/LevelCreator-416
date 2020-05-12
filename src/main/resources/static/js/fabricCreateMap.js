@@ -327,6 +327,8 @@ gridCanvas.on('mouse:down', function(event) {
 });
 
 gridCanvas.on('mouse:move', function(event) {
+    //event.e.stopPropagation();
+    //event.e.preventDefault();
     if (this.isDragging) {
         var evt = event.e;
         this.viewportTransform[4] += evt.clientX - this.lastPosX;
@@ -337,6 +339,8 @@ gridCanvas.on('mouse:move', function(event) {
     }
 });
 gridCanvas.on('mouse:up', function(event) {
+    event.e.stopPropagation();
+    //event.e.preventDefault();
     this.isDragging = false;
     this.selection = true;
 });
