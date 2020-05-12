@@ -42,7 +42,7 @@ public class Project {
     private Map map;
 
     @ManyToMany(mappedBy = "projectList")
-    Set<User> collaborators;
+    private Set<User> collaborators;
 
     public Project(){
         super();

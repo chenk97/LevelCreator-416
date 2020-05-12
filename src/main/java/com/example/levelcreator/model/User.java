@@ -35,20 +35,20 @@ public class User {
             name = "user_project",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id"))
-    Set<Project> projectList;
+    private Set<Project> projectList;
 
     @ManyToMany
     @JoinTable(
             name = "user_follow",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "follow_id"))
-    Set<User> follows;
+    private Set<User> follows;
 
     @ManyToMany(mappedBy="follows")
-    Set<User> followers;
+    private Set<User> followers;
 
     @OneToMany(mappedBy = "user")
-    Set<Comment> commentList;
+    private Set<Comment> commentList;
 
     public User(){
         super();

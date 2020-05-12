@@ -25,7 +25,7 @@ public class Map {
     private String layersJSON;
 
     @OneToMany(mappedBy = "map")
-    Set<Tileset> tilesetList;
+    private Set<Tileset> tilesetList;
 
     public Map(){
         super();
