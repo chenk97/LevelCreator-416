@@ -3,7 +3,7 @@ var boundBox;
 //var canvas = document.getElementById("grid_canvas");
 var divw = document.getElementById("canvasStorage").offsetWidth;
 var divh = document.getElementById("canvasStorage").offsetHeight;
-
+var outerCanvisDiv = document.getElementById("testGirdy")
 // var square;
 var lineX = [];
 var lineY = [];
@@ -63,8 +63,10 @@ function drawGrids(){
     gridCanvas = new fabric.Canvas('grid_canvas');
     // gridCanvas._historyInit();
     gridCanvas.preserveObjectStacking = true;
-    gridCanvas.setWidth(divw);
-    gridCanvas.setHeight(divh);
+    gridCanvas.setWidth(map.width * map.tileWidth);
+    gridCanvas.setHeight(map.height * map.tileHeight);
+    outerCanvisDiv.style.width=map.width * map.tileWidth +"px"
+    outerCanvisDiv.style.height=map.height * map.tileHeight+"px"
     // console.log(gridCanvas);
     if (map.orientation === "Orthogonal"){
         boundBox = new fabric.Rect({
@@ -83,55 +85,55 @@ function drawGrids(){
 
         gridCanvas.add(boundBox);
 
-    gridCanvas.centerObject(boundBox);
+        gridCanvas.centerObject(boundBox);
 
 
-    //vertical lines
-    for(let i = 0; i < map.width; i++){
-        let l = boundBox.left + ((map.tileWidth) * i);
-        let t = boundBox.top;
-        let b = boundBox.top + boundBox.height;
+        //vertical lines
+        for(let i = 0; i < map.width; i++){
+            let l = boundBox.left + ((map.tileWidth) * i);
+            let t = boundBox.top;
+            let b = boundBox.top + boundBox.height;
 
-        lineY.push(new fabric.Line([l,t,l, b],{
-            stroke: "#c0c4c2",
-            hasBorders: false,
-            selectable: false,
-            hasControl: false,
-            lockMovementX: true,
-            lockMovementY: true,
-        }));
+            lineY.push(new fabric.Line([l,t,l, b],{
+                stroke: "#c0c4c2",
+                hasBorders: false,
+                selectable: false,
+                hasControl: false,
+                lockMovementX: true,
+                lockMovementY: true,
+            }));
 
             lineXN.push(l);//all left value
         }
 
-    //add horizontal lines to canvas
+        //add horizontal lines to canvas
         lineY.forEach((line)=>{
             gridCanvas.add(line);
         });
 
-    //horizontal lines
+        //horizontal lines
         for(let i = 0; i < map.height; i++){
             let t = boundBox.top + ((map.tileHeight) * i);
             let l = boundBox.left;
             let r = boundBox.left + boundBox.width;
 
-        lineX.push(new fabric.Line([l,t,r,t],{
-            stroke: "#c0c4c2",
-            hasBorders: false,
-            selectable: false,
-            hasControl: false,
-        }));
+            lineX.push(new fabric.Line([l,t,r,t],{
+                stroke: "#c0c4c2",
+                hasBorders: false,
+                selectable: false,
+                hasControl: false,
+            }));
 
-        lineYN.push(t);//all top value
-    }
+            lineYN.push(t);//all top value
+        }
 
 //add horizontal lines to canvas
-    lineX.forEach((line)=>{
-        gridCanvas.add(line);
-    });
+        lineX.forEach((line)=>{
+            gridCanvas.add(line);
+        });
 
     }else if(map.orientation === "Isometric"){
-         boundBox = new fabric.Rect({
+        boundBox = new fabric.Rect({
             width: map.width * map.tileWidth,
             height: map.height *map.tileHeight,
             stroke: "#c0c4c2",
@@ -264,8 +266,10 @@ var zoomhandler = function(event) {
 
         var delta = event.e.deltaY;
         var zoom = gridCanvas.getZoom();
+
         //greater the divisor the smoother zoom based on mousescroll is
         zoom = zoom - delta / 200;
+
         //zooms in up to 10 times(1000%)
         if (zoom > 10) zoom = 10;
         //zooms out up to 10%
@@ -276,9 +280,9 @@ var zoomhandler = function(event) {
         var vpt = gridCanvas.viewportTransform;
         //if zoom is less than 500%
         if (zoom < 5) {
-             //keep the grid in the center of the canvas
-             gridCanvas.viewportTransform[4] =  (gridCanvas.width/2) - gridCanvas.width * zoom / 2;
-             gridCanvas.viewportTransform[5] = (gridCanvas.height/2) - gridCanvas.height * zoom / 2;
+            //keep the grid in the center of the canvas
+            gridCanvas.viewportTransform[4] =  (gridCanvas.width/2) - gridCanvas.width * zoom / 2;
+            gridCanvas.viewportTransform[5] = (gridCanvas.height/2) - gridCanvas.height * zoom / 2;
         } else {
             //panning left and right
             if (vpt[4] >= 0) {
@@ -321,6 +325,7 @@ gridCanvas.on('mouse:down', function(event) {
         this.lastPosY = evt.clientY;
     }
 });
+
 gridCanvas.on('mouse:move', function(event) {
     if (this.isDragging) {
         var evt = event.e;

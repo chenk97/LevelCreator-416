@@ -1,4 +1,3 @@
-
 html, body {
     height: 100%;
 }
@@ -44,15 +43,19 @@ html, body {
 }
 
 .box {
-    background: #fff;
     border: 1px solid #999;
     border-radius: 3px;
-
-
+    height:900px;
+    width: 100%;
+    overflow: auto;
+    background-color: gray;
+    padding-top: 300px;
+    padding-bottom: 300px;
 }
 
 .canvas-container {
     margin: 0 auto;
+
 }
 
 
@@ -199,5 +202,16 @@ body {
     font-size: 25px;
     padding-left: 10px;
 }
-
-
+.canvasGird{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+}
+/*#canvasContainerGrid{*/
+/*    position:absolute;*/
+/*    top:0;bottom:0;right:0;left:0;*/
+/*    margin:auto;*/
+/*}*/

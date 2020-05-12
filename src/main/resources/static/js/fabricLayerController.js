@@ -60,7 +60,6 @@ export function lockLayer(layerId) {
 export function unlockLayer(layerId) {
     gridCanvas.getObjects().forEach(item => {
         if (item.id == layerId) {
-
             item.set({selectable: true});
         }
     });

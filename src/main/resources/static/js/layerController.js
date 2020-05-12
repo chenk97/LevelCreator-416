@@ -109,15 +109,11 @@ function createLayer(theLayerId, type, name, visibility, locked) {
     lockIcon.addEventListener("click", function (e) {
         event.stopPropagation()
         if (checkLockStatus(e.target.parentElement.id)) {//true= layer is locked
-            console.log(checkLockStatus(e.target.parentElement.id))
-            console.log("unlocking the layer")
             unlockLayer(e.target.parentElement.id);
             changeLockStatus(theLayerId);
             loadLayer()
             setCurrentSelectedLayer(curLayerSelected)
         } else { //false = layer is unlocked
-            console.log(checkLockStatus(e.target.parentElement.id))
-            console.log("locking the layer")
             lockLayer(e.target.parentElement.id);
             changeLockStatus(theLayerId);
             loadLayer()
@@ -608,7 +604,6 @@ function loadLayerProperty(currentLayerId) {
 
     }
 }
-
 
 document.getElementById("addNewPropertyButton").addEventListener("click", function () {
 
