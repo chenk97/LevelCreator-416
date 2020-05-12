@@ -26,127 +26,14 @@
 
             <div class="row iconrow">
                 <div class="col">
-                    <i class="fas fa-save icon"></i>
-                </div>
-                <div class="col">
-                    <i class="fas fa-file-import icon" id="save"></i>
-
+                    <i class="fas fa-save icon" title="Save"></i>
                 </div>
             </div>
-            <!--            this is test icons-->
-            <!--            <div class="row iconrow">-->
-            <!--                <div class="col">-->
-            <!--                    <a href="#" id="lockBtn"><i class="fas fa-lock icon"></i></a>-->
-            <!--                </div>-->
-            <!--                <div class="col">-->
-            <!--                    <a href="#" id="unlockBtn"><i class="fas fa-lock-open icon"></i></a>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <div class="row iconrow">-->
-            <!--                <div class="col">-->
-            <!--                    <a href="#" id="trasBtn"><i class="fas fa-eye-slash icon"></i></a>-->
-            <!--                </div>-->
-            <!--                <div class="col">-->
-            <!--                    <a href="#" id="noTrasBtn"><i class="fas fa-eye icon"></i></a>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            this is test icons-->
-            <div class="row iconrow">
-                <div class="col">
-                    <!--                    <a href="#" id="undoBtn"></a>-->
-                    <i class="fas fa-undo icon" id="undo"></i>
-                </div>
-                <div class="col">
-                    <!--                    <a href="#" id="redoBtn"></a>-->
-                    <i class="fas fa-redo icon" id="redo"></i>
-                </div>
-            </div>
-            <div class="row iconrow">
-                <div class="col">
-                    <i class="fas fa-search-plus icon"></i>
-                </div>
-                <div class="col">
-                    <i class="fas fa-search-minus icon"></i>
-                </div>
-            </div>
-            <div class="row iconrow">
-                <div class="col">
-                    <a href="#" id="shapeFillBtn"><i class="fas fa-fill-drip icon"></i></a>
-                </div>
-                <div class="col">
-                    <i class="fas fa-download icon"></i>
-                </div>
-            </div>
-            <div class="row iconrow">
-                <div class="col">
-                    <a href="#" id="selectBtn"><i class="fas fa-object-group icon"></i></a>
-                </div>
-                <div class="col">
-                    <a href="#" id="eraseBtn"><i class="fas fa-eraser icon"></i></a>
-                </div>
-            </div>
-            <div class="row iconrow">
-                <div class="col">
-                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit icon"></i></a>
-
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" data-backdrop="static"
-                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Draw Tileset</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body" style="padding:0px !important;">
-                                    <div class="my-drawing"></div>
-                                </div>
-                                <div class="modal-footer" style="padding:1rem !important;">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" onclick="saveDrawnTileset()">Save
-                                        Tileset
-                                    </button>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col">
-                    <i class="fas fa-users icon"></i>
-                </div>
-            </div>
-            <div class="row iconrow">
-                <div class="col">
-                    <a href="#" data-toggle="modal" data-target="#infoPopup"><i class="fas fa-info-circle icon"></i></a>
-
-                    <div class="modal fade" id="infoPopup" tabindex="-1" role="dialog" data-backdrop="static"
-                         aria-labelledby="infoPopupModal" aria-hidden="true">
-                        <div class="modal-dialog modal-xl" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h2 class="modal-title" id="infoPopupModal">INFORMATION TAB</h2>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body" style="padding:0px !important; overflow: auto">
-                                    <div th:insert="info.html::information"></div>
-                                </div>
-                                <div class="modal-footer" style="padding:1rem !important;">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Exit</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+            <div class = "row iconrow">
                 <div class="col">
 
                     <a href="" data-toggle="modal" data-target="#previewModal"><i
-                            class="far fa-file-image icon"></i></a>
+                            class="far fa-file-image icon" title="Preview"></i></a>
 
                     <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" data-backdrop="static"
                          aria-labelledby="previewModalLabel" aria-hidden="true">
@@ -173,12 +60,141 @@
 
 
             </div>
+            <div class ="row iconrow">
+                <div class="col">
+                    <i class="fas fa-file-export icon" id="save" title="Export as PNG"></i>
+
+                </div>
+            </div>
+            <div class = "row iconrow">
+                <div class="col">
+                    <i class="fas fa-download icon" title="Download"></i>
+                </div>
+            </div>
+            <!--            this is test icons-->
+            <!--            <div class="row iconrow">-->
+            <!--                <div class="col">-->
+            <!--                    <a href="#" id="lockBtn"><i class="fas fa-lock icon"></i></a>-->
+            <!--                </div>-->
+            <!--                <div class="col">-->
+            <!--                    <a href="#" id="unlockBtn"><i class="fas fa-lock-open icon"></i></a>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--            <div class="row iconrow">-->
+            <!--                <div class="col">-->
+            <!--                    <a href="#" id="trasBtn"><i class="fas fa-eye-slash icon"></i></a>-->
+            <!--                </div>-->
+            <!--                <div class="col">-->
+            <!--                    <a href="#" id="noTrasBtn"><i class="fas fa-eye icon"></i></a>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--            this is test icons-->
+            <div class="row iconrow">
+                <div class="col">
+                    <!--                    <a href="#" id="undoBtn"></a>-->
+                    <i class="fas fa-undo icon" id="undo" title="Undo"></i>
+                </div>
+            </div>
+            <div class = "row iconrow">
+                <div class="col">
+                    <!--                    <a href="#" id="redoBtn"></a>-->
+                    <i class="fas fa-redo icon" id="redo" title="Redo"></i>
+                </div>
+            </div>
+            <!--
+            <div class="row iconrow">
+                <div class="col">
+                    <i class="fas fa-search-plus icon"></i>
+                </div>
+                <div class="col">
+                    <i class="fas fa-search-minus icon"></i>
+                </div>
+            </div>-->
+
+            <div class="row iconrow">
+                <div class="col">
+                    <a href="#" id="shapeFillBtn"><i class="fas fa-fill-drip icon" title="Shape Fill Tool"></i></a>
+                </div>
+            </div>
+
+            <div class="row iconrow">
+                <div class="col">
+                    <a href="#" id="selectBtn"><i class="fas fa-object-group icon" title="Rectangle Selection Tool"></i></a>
+                </div>
+            </div>
+            <div class = "row iconrow">
+                <div class="col">
+                    <a href="#" id="eraseBtn"><i class="fas fa-eraser icon" title="Erase Tool"></i></a>
+                </div>
+            </div>
+            <div class="row iconrow">
+                <div class="col">
+                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit icon" title="Draw Tool"></i></a>
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" data-backdrop="static"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Draw Tileset</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="padding:0px !important;">
+                                    <div class="my-drawing"></div>
+                                </div>
+                                <div class="modal-footer" style="padding:1rem !important;">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" onclick="saveDrawnTileset()">Save
+                                        Tileset
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class = "row iconrow">
+                <div class="col">
+                    <i class="fas fa-users icon" title="Collaborators"></i>
+                </div>
+            </div>
+            <div class="row iconrow">
+                <div class="col">
+                    <a href="#" data-toggle="modal" data-target="#infoPopup"><i class="fas fa-info-circle icon" title ="Information"></i></a>
+
+                    <div class="modal fade" id="infoPopup" tabindex="-1" role="dialog" data-backdrop="static"
+                         aria-labelledby="infoPopupModal" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title" id="infoPopupModal">INFORMATION TAB</h2>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="padding:0px !important; overflow: auto">
+                                    <div th:insert="info.html::information"></div>
+                                </div>
+                                <div class="modal-footer" style="padding:1rem !important;">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Exit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
 
 
-        <div class="col-8 middle" style="height: 900px">
+        <div class="col-8 middle">
             <div class="box" id="canvasStorage"
-                 style="height:100%; width: 100%; position:relative; overflow: auto; background-color: gray;">
+                 style="height:900px; width: 100%; position:relative; overflow: auto; background-color: gray;">
                 <div class="canvasGird" id="testGirdy">
                     <canvas id="grid_canvas" class="text-center"></canvas>
 

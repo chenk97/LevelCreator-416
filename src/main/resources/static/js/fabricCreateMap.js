@@ -1,8 +1,8 @@
 // $(document).ready(function(){
 var boundBox;
 //var canvas = document.getElementById("grid_canvas");
-var divw = document.getElementById("canvasStorage").offsetWidth;
-var divh = document.getElementById("canvasStorage").offsetHeight;
+//var divw = document.getElementById("canvasStorage").offsetWidth;
+//var divh = document.getElementById("canvasStorage").offsetHeight;
 var outerCanvisDiv = document.getElementById("testGirdy")
 // var square;
 var lineX = [];
