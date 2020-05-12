@@ -1,5 +1,6 @@
 package com.example.levelcreator.controller;
 
+import com.example.levelcreator.model.Cars;
 import com.example.levelcreator.model.Map;
 import com.example.levelcreator.model.Project;
 import com.example.levelcreator.service.AuthenticationService;
@@ -26,12 +27,12 @@ public class ProjectController {
     private ProjectService projectService;
 
     @RequestMapping("/myWork")
-    public String myWork(){
+    public String myWork() {
         return "mywork.html";
     }
 
 
-//    submitting the form with map preferences directs the user to the workspace page where
+    //    submitting the form with map preferences directs the user to the workspace page where
 //    they are able to start creating
     @RequestMapping("/workspace")
     public String submitNewProject() {
@@ -40,8 +41,9 @@ public class ProjectController {
 
     @RequestMapping(value = "/appUrl", method = RequestMethod.POST)
     public @ResponseBody
-    void yourMethod(@RequestBody String dataArrayToSend) {
-        System.out.println(dataArrayToSend);
+    void yourMethod(@ModelAttribute(value="myData") Cars cars) {
+
+        System.out.println(cars.getFirstArray());
     }
 }
 
