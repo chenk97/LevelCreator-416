@@ -39,11 +39,11 @@ public class ProjectController {
         return "workspace";
     }
 
-    @RequestMapping(value = "/appUrl", method = RequestMethod.POST)
-    public @ResponseBody
-    void yourMethod(@ModelAttribute(value="myData") Cars cars) {
-
-        System.out.println(cars.getFirstArray());
+    @RequestMapping(value = "/saveMap", method = RequestMethod.POST)
+    public @ResponseBody void yourMethod(@RequestBody Map newMap) {
+        System.out.println(newMap.getMapJSON()+"\n");
+        System.out.println(newMap.getLayersJSON()+"\n");
+        System.out.println(newMap.getTilesetJSON() +"\n");
     }
 }
 
