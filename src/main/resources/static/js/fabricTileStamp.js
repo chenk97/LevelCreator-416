@@ -438,7 +438,7 @@ function shapeFillTool(){
                         });
                         cloned.setCoords();
                         gridCanvas.add(cloned);
-                        gridCanvas.setActiveObject(cloned);
+                        // gridCanvas.setActiveObject(cloned);
                     }
                 });
             }
@@ -469,7 +469,7 @@ function shapeFillTool(){
                     });
                     cloned.setCoords();
                     gridCanvas.add(cloned);
-                    gridCanvas.setActiveObject(cloned);
+                    // gridCanvas.setActiveObject(cloned);
                 }
             });
         }
