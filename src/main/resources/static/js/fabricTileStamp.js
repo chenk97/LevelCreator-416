@@ -156,10 +156,10 @@ gridCanvas.on({
         //limit the mouse click detection inside boundBox
         let cursorX = gridCanvas.getPointer(e.e).x,
             cursorY = gridCanvas.getPointer(e.e).y;
-        if(cursorY<boundBox.top || cursorY>boundBox.top+boundBox.height
-            ||cursorX<boundBox.left ||cursorX>boundBox.left+boundBox.width){
-            return;
-        }
+        // if(cursorY<boundBox.top || cursorY>boundBox.top+boundBox.height
+        //     ||cursorX<boundBox.left ||cursorX>boundBox.left+boundBox.width){
+        //     return;
+        // }
         if(checkLayerType() === "tile" && !checkLockStatus(curLayerSelected)){
             if(clonedObject){
                 if(shapeFillOn){
@@ -198,8 +198,8 @@ gridCanvas.on({
                                 gridCanvas.getObjects().forEach(item=>{
                                     if(item.id===curLayerSelected){
                                         //remove out bounded tiles to avoid overlapping on same layer
-                                        if(item.left<boundBox.left-tileW/2||item.left>boundBox.left+boundBox.width
-                                            ||item.top<boundBox.top-tileH/2||item.top>boundBox.top+boundBox.height){
+                                        if(item.left<boundBox.left-tileW/2||item.left>boundBox.left+boundBox.width-tileW/2
+                                            ||item.top<boundBox.top-tileH/2||item.top>boundBox.top+boundBox.height-tileH/2){
                                             gridCanvas.remove(item);
                                         }else{
                                             item.set({
@@ -391,6 +391,7 @@ function eraseTile(){
             gridCanvas.remove(item);
         }
     });
+    gridCanvas.discardActiveObject();
     gridCanvas.renderAll();
     // refreshData();
 }

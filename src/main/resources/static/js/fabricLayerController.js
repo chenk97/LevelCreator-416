@@ -73,6 +73,7 @@ export function removeLayer(layerId) {
             gridCanvas.remove(item);
         }
     });
+    gridCanvas.discardActiveObject();
     gridCanvas.renderAll();
 }
 
