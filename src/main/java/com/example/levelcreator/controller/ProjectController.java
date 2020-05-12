@@ -40,10 +40,16 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/saveMap", method = RequestMethod.POST)
-    public @ResponseBody void yourMethod(@RequestBody Map newMap) {
-        System.out.println(newMap.getMapJSON()+"\n");
-        System.out.println(newMap.getLayersJSON()+"\n");
-        System.out.println(newMap.getTilesetJSON() +"\n");
+    public @ResponseBody
+    void yourMethod(@RequestBody Map newMap) {
+
     }
+
+    @RequestMapping(value = "/saveProject", method = RequestMethod.POST)
+    public @ResponseBody
+    void yourMethod(@RequestBody Project newProject) {
+
+    }
+
 }
 

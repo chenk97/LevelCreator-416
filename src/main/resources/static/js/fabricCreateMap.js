@@ -19,6 +19,7 @@ var isoMap = [];
 
 function createMap() {
     var mapOrientation = document.getElementById("orientation").value;
+    var projectName = document.getElementById("projectName").value;
     var mapWidth = Number(document.getElementById("mapWidth").value);
     var mapHeight = Number(document.getElementById("mapHeight").value);
     var tileWidth = Number(document.getElementById("tileWidth").value);
@@ -26,6 +27,7 @@ function createMap() {
     var dataArray = new Array(mapWidth * mapHeight).fill(0);
 
     var map = {
+        name: projectName,
         orientation: mapOrientation,
         width: mapWidth,
         height: mapHeight,
