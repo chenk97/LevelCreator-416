@@ -37,12 +37,15 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "project_id"))
     Set<Project> projectList;
 
-    @ManyToOne(optional=true, fetch=FetchType.LAZY)
-    @JoinColumn(name="FOLLOW_TO")
-    private User followTo;
+    @ManyToMany
+    @JoinTable(
+            name = "user_follow",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "follow_id"))
+    Set<User> follows;
 
-    @OneToMany(mappedBy="followTo")
-    private List<User> followers = new ArrayList<User>();
+    @ManyToMany(mappedBy="follows")
+    Set<User> followers;
 
     @OneToMany(mappedBy = "user")
     Set<Comment> commentList;
@@ -51,14 +54,15 @@ public class User {
         super();
     }
 
-    public User(Integer id, String username, String email, String password, User followTo, List<User> followers, Set<Project> projectList, Set<Comment> commentList) {
+    public User(Integer id, String username, String email, String password,
+                Set<Project> projectList, Set<User> follows, Set<User> followers, Set<Comment> commentList) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.followTo = followTo;
-        this.followers = followers;
         this.projectList = projectList;
+        this.follows = follows;
+        this.followers = followers;
         this.commentList = commentList;
     }
 
@@ -110,19 +114,19 @@ public class User {
 //    }
 
 
-    public User getFollowTo() {
-        return followTo;
+    public Set<User> getFollows() {
+        return follows;
     }
 
-    public void setFollowTo(User followTo) {
-        this.followTo = followTo;
+    public void setFollows(Set<User> follows) {
+        this.follows = follows;
     }
 
-    public List<User> getFollowers() {
+    public Set<User> getFollowers() {
         return followers;
     }
 
-    public void setFollowers(List<User> followers) {
+    public void setFollowers(Set<User> followers) {
         this.followers = followers;
     }
 
