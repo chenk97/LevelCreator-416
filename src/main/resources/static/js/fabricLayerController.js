@@ -5,7 +5,7 @@ import {checkMapType} from "./fabricTileStamp.js";
 export function moveMapLayerUp() {
     console.log("moveup layer:" + curLayerSelected);
     gridCanvas.getObjects().forEach(item => {
-        if (item.id === curLayerSelected) {
+        if (item.layer === curLayerSelected) {
             gridCanvas.bringForward(item, true);
         }
     });
@@ -17,7 +17,7 @@ export function moveMapLayerUp() {
 export function moveMapLayerDown() {
     console.log("movedown layer:" + curLayerSelected);
     gridCanvas.getObjects().forEach(item => {
-        if (item.id === curLayerSelected) {
+        if (item.layer === curLayerSelected) {
             gridCanvas.sendBackwards(item, true);
         }
     });
@@ -28,8 +28,8 @@ export function moveMapLayerDown() {
 
 export function makeLayerInvisible(layerId) {
     gridCanvas.getObjects().forEach(item => {
-        if (item.id == layerId) {
-            console.log(item.id)
+        if (item.layer == layerId) {
+            console.log(item.layer)
             item.set({opacity: 0});
         }
     });
@@ -39,7 +39,7 @@ export function makeLayerInvisible(layerId) {
 
 export function makeLayerVisible(layerId) {
     gridCanvas.getObjects().forEach(item => {
-        if (item.id == layerId) {
+        if (item.layer == layerId) {
             item.set({opacity: 1});
         }
     });
@@ -49,7 +49,7 @@ export function makeLayerVisible(layerId) {
 
 export function lockLayer(layerId) {
     gridCanvas.getObjects().forEach(item => {
-        if (item.id == layerId) {
+        if (item.layer == layerId) {
             item.set({selectable: false});
         }
     });
@@ -59,7 +59,7 @@ export function lockLayer(layerId) {
 
 export function unlockLayer(layerId) {
     gridCanvas.getObjects().forEach(item => {
-        if (item.id == layerId) {
+        if (item.layer == layerId) {
             item.set({selectable: true});
         }
     });
@@ -68,7 +68,7 @@ export function unlockLayer(layerId) {
 
 export function removeLayer(layerId) {
     gridCanvas.getObjects().forEach(item => {
-        if (item.id === layerId) {
+        if (item.layer === layerId) {
             console.log(item);
             gridCanvas.remove(item);
         }
@@ -98,7 +98,7 @@ export function restackLayer() {
     let layerStack = getLayerStack();
     for(let i = 0; i < layerStack.length; i++){
         gridCanvas.getObjects().forEach(item => {
-            if(item.id==layerStack[i]){
+            if(item.layer==layerStack[i]){
                 gridCanvas.sendToBack(item);
             }
         });

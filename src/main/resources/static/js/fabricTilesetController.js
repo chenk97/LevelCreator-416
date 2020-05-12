@@ -162,7 +162,8 @@ function getTiles() {
 function drawTiles(tiles, fabricCanvas) {
     //loop through each tile in array
     let map = JSON.parse(localStorage.getItem('map'));
-    for(var i = 0; i < tiles.length; i++){
+        for(var i = 0; i < tiles.length; i++){
+        let gid = map.gidCnt;
         var c = document.createElement('canvas');
         c.setAttribute('id', '_temp_canvas');
         var ctx = c.getContext('2d');
@@ -170,21 +171,26 @@ function drawTiles(tiles, fabricCanvas) {
         c.height = map.tileHeight;
         let d = tiles[i];
         c.getContext('2d').putImageData(d, 0, 0);
-        var image = fabric.Image.fromURL(c.toDataURL(), function(img) {
+        fabric.Image.fromURL(c.toDataURL(), function(img) {
             img.left = d.x * offset + 10;
             img.top = d.y * offset + 10;
             fabricCanvas.add(img);
             // img.bringToFront();
-            img.lockMovementX = true;
-            img.lockMovementY = true;
-            img.lockScalingX = true;
-            img.lockScalingY = true;
-            img.hasControls = false;
+            img.set({
+                lockMovementX : true,
+                lockMovementY : true,
+                lockScalingX : true,
+                lockScalingY : true,
+                hasControls : false,
+                id : gid,
+            });
             img.setCoords();
-            c = null;
-            $('#_temp_canvas').remove();
             // fabricCanvas.renderAll();
         });
+        c = null;
+        $('#_temp_canvas').remove();
+        map.gidCnt++;
+        localStorage.setItem("map", JSON.stringify(map));
     }
 
     fabricCanvas.on('selection:created',function(e){
@@ -199,13 +205,15 @@ function drawTiles(tiles, fabricCanvas) {
         });
 
         let obj = fabricCanvas.getActiveObject();
-
         obj.clone(function(cloned) {
             clonedObject = cloned;
+            // clonedObject.id = obj.id;
             if(obj.type !== 'activeSelection'){
                 fabricCanvas.discardActiveObject();
             }
+            console.log(cloned.id);
         });
+
 
     });
 

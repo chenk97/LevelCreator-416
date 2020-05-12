@@ -8,16 +8,6 @@ var objScaleX = 1;
 var objScaleY = 1;
 var shapeFillOn = false;
 
-//extend image class so it can be recovered
-fabric.Image.prototype.toObject = (function(toObject) {
-    return function() {
-        return fabric.util.object.extend(toObject.call(this), {
-            src: this.toDataURL()
-        });
-    };
-})(fabric.Image.prototype.toObject);
-
-
 gridCanvas.on('selection:created',function(e){
     //disable group scaling
     if(e.target.type === "activeSelection"){
@@ -139,7 +129,7 @@ gridCanvas.on({
             }
         }else if(checkLayerType() === "object"){
             gridCanvas.forEachObject(obj=>{
-                if(obj.id !== curLayerSelected){
+                if(obj.layer !== curLayerSelected){
                     obj.set({selectable:false});
                 }
             });
@@ -188,15 +178,16 @@ gridCanvas.on({
                                         hasControls: false,
                                         lockScalingX: true,
                                         lockScalingY: true,
-                                        id: curLayerSelected, //set id to layer id
+                                        layer: curLayerSelected, //set id to layer id
                                     });
                                     obj.setCoords();
+                                    console.log("groupClone item:"+obj.id);
                                     gridCanvas.add(obj);
                                 });
                                 gridCanvas.setActiveObject(cloned);
                                 gridCanvas.discardActiveObject();
                                 gridCanvas.getObjects().forEach(item=>{
-                                    if(item.id===curLayerSelected){
+                                    if(item.layer===curLayerSelected){
                                         //remove out bounded tiles to avoid overlapping on same layer
                                         if(item.left<boundBox.left-tileW/2||item.left>boundBox.left+boundBox.width-tileW/2
                                             ||item.top<boundBox.top-tileH/2||item.top>boundBox.top+boundBox.height-tileH/2){
@@ -218,8 +209,9 @@ gridCanvas.on({
                                     hasControls: false,
                                     lockScalingX: true,
                                     lockScalingY: true,
-                                    id: curLayerSelected,
+                                    layer: curLayerSelected,
                                 });
+                                console.log(cloned.id);
                                 gridCanvas.add(cloned);
                             }
                         });
@@ -247,7 +239,7 @@ gridCanvas.on({
                                         hasControls: false,
                                         lockScalingX: true,
                                         lockScalingY: true,
-                                        id: curLayerSelected, //set id to layer id
+                                        layer: curLayerSelected, //set id to layer id
                                     });
                                     obj.setCoords();
                                     gridCanvas.add(obj);
@@ -255,7 +247,7 @@ gridCanvas.on({
                                 gridCanvas.setActiveObject(cloned);
                                 gridCanvas.discardActiveObject();
                                 gridCanvas.getObjects().forEach(item=>{
-                                    if(item.id===curLayerSelected){
+                                    if(item.layer===curLayerSelected){
                                         let corSet = closestPoint(isoMapY, isoMapX, item.top, item.left + tileW/2);
                                         item.set({
                                             top:Number(corSet.top),
@@ -272,7 +264,7 @@ gridCanvas.on({
                                     hasControls: false,
                                     lockScalingX: true,
                                     lockScalingY: true,
-                                    id: curLayerSelected,
+                                    layer: curLayerSelected,
                                 });
                                 gridCanvas.add(cloned);
                             }
@@ -290,7 +282,7 @@ gridCanvas.on({
                             top: top,
                             left: left,
                             enableRetinaScaling:true,
-                            id: curLayerSelected,
+                            layer: curLayerSelected,
                         });
                         cloned.setCoords();
                         gridCanvas.add(cloned);
@@ -307,7 +299,7 @@ gridCanvas.on({
 
 function removeDup(top, left){
     gridCanvas.getObjects().forEach(item=>{//check if there is an object at the same layer and position
-        if (item.selectable && item.id === curLayerSelected) {
+        if (item.selectable && item.layer === curLayerSelected) {
             if(item.top === top && item.left ===left){
                 gridCanvas.remove(item);
             }
@@ -324,7 +316,7 @@ function areaClean(width, height, top, left){
     for(let i = 0; i < row; i++){
         for(let j = 0; j < col; j++){
             gridCanvas.getObjects().forEach(item=>{
-                if((item.id === curLayerSelected) && (item.top === top + i*tileH)
+                if((item.layer === curLayerSelected) && (item.top === top + i*tileH)
                     && (item.left === left + j*tileW)){
                     gridCanvas.remove(item);
                     gridCanvas.requestRenderAll();
@@ -387,7 +379,7 @@ function closestPoint(mapY, mapX, closestToY, closestToX){
 
 function eraseTile(){
     gridCanvas.getActiveObjects().forEach(item=>{
-        if(item.id === curLayerSelected){
+        if(item.layer === curLayerSelected){
             gridCanvas.remove(item);
         }
     });
@@ -417,7 +409,7 @@ function shapeFillTool(){
                 let top = lineYN[i];
                 let left = lineXN[j];
                 gridCanvas.getObjects().forEach(item=>{//check if there is an object at the same layer and position
-                    if (item.selectable && item.id === curLayerSelected) {
+                    if (item.selectable && item.layer === curLayerSelected) {
                         if(item.top === top && item.left ===left){
                             skip = true;
                         }
@@ -435,7 +427,7 @@ function shapeFillTool(){
                             hasControls: false,
                             lockScalingX: true,
                             lockScalingY: true,
-                            id: curLayerSelected,
+                            layer: curLayerSelected,
                         });
                         cloned.setCoords();
                         gridCanvas.add(cloned);
@@ -448,7 +440,7 @@ function shapeFillTool(){
         for(let i = 0; i < isoPoints.length; i++){
             if(isoPoints[i].y === leftMostPt.y && isoPoints[i].x === leftMostPt.x){continue;}
             gridCanvas.getObjects().forEach(item=>{//check if there is an object at the same layer and position
-                if (item.selectable && item.id === curLayerSelected) {
+                if (item.selectable && item.layer === curLayerSelected) {
                     if(item.top === isoPoints[i].y && item.left === isoPoints[i].x - tileW/2){
                         skip = true;
                     }
@@ -466,7 +458,7 @@ function shapeFillTool(){
                         hasControls: false,
                         lockScalingX: true,
                         lockScalingY: true,
-                        id: curLayerSelected,
+                        layer: curLayerSelected,
                     });
                     cloned.setCoords();
                     gridCanvas.add(cloned);
@@ -540,7 +532,7 @@ function Copy() {
     if(checkLayerType() === "tile" && !checkLockStatus(curLayerSelected)){
         gridCanvas.getActiveObject().clone(function(cloned) {
             _clipboard = cloned;
-        });
+        },['id']);
     }
     else if(checkLayerType() === "object" && !checkLockStatus(curLayerSelected)){
         let obj = gridCanvas.getActiveObject();
@@ -565,7 +557,7 @@ function Copy() {
             }else{
                 gridCanvas.getActiveObject().clone(function(cloned) {
                     _clipboard = cloned;
-                });
+                },['id']);
             }
         }else{
             gridCanvas.discardActiveObject();
@@ -594,7 +586,7 @@ function Paste() {
                         hasControls: false,
                         lockScalingX: true,
                         lockScalingY: true,
-                        id: curLayerSelected, //set id to layer id
+                        layer: curLayerSelected, //set id to layer id
                     });
                     obj.setCoords();
                     gridCanvas.add(obj);
@@ -607,14 +599,14 @@ function Paste() {
                         hasControls: false,
                         lockScalingX: true,
                         lockScalingY: true,
-                        id: curLayerSelected, //set id to layer id
+                        layer: curLayerSelected, //set id to layer id
                     });
                     cloned.setCoords();
                     gridCanvas.add(cloned);
                 }else if(checkLayerType() === "object" && !checkLockStatus(curLayerSelected)){
                     cloned.set({
                         selectable: true,
-                        id: curLayerSelected, //set id to layer id
+                        layer: curLayerSelected, //set id to layer id
                     });
                     //rescale
                     if(objScaleX !== 1 || objScaleY !== 1){

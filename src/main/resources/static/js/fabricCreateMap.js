@@ -23,6 +23,7 @@ function createMap() {
     var mapHeight = Number(document.getElementById("mapHeight").value);
     var tileWidth = Number(document.getElementById("tileWidth").value);
     var tileHeight = Number(document.getElementById("tileHeight").value);
+    var dataArray = new Array(mapWidth * mapHeight).fill(0);
 
     var map = {
         orientation: mapOrientation,
@@ -31,12 +32,13 @@ function createMap() {
         tileWidth: tileWidth,
         tileHeight: tileHeight,
         nextLayerid: 2,
-        // canvas: null,
+        gidCnt: 1,
         layers: [
             {
                 type: "tile",
                 id: 1,
                 name: "Tile Layer1",
+                data: dataArray,
                 properties: [],
                 visibility: true,
                 locked: false,
