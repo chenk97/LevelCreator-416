@@ -5,11 +5,11 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
-
 @Entity
-@Table(name = "lc_project")
+@Table(name = "project")
 public class Project {
     @Id
     @Column(name = "id")
@@ -37,19 +37,19 @@ public class Project {
     @JoinColumn(name = "owner", nullable = false)
     private User user;
 
-
     @OneToOne
     @JoinColumn(name = "map_id", referencedColumnName = "id")
     private Map map;
 
-    @OneToMany(mappedBy = "Project")
-    Set<UserProject> teamProjects;
+    @ManyToMany(mappedBy = "projectList")
+    Set<User> collaborators;
 
     public Project(){
         super();
     }
 
-    public Project(String name, @NotBlank String screenshot, Date createdDate, User user, int likes, Map map, Set<UserProject> teamProjects) {
+    public Project(String name, @NotBlank String screenshot, Date createdDate, User user,
+                   int likes, Map map, Set<User> collaborators) {
         super();
         this.name = name;
         this.screenshot = screenshot;
@@ -57,7 +57,7 @@ public class Project {
         this.user = user;
         this.likes = likes;
         this.map = map;
-        this.teamProjects = teamProjects;
+        this.collaborators = collaborators;
     }
 
     public Integer getId() {
@@ -116,11 +116,11 @@ public class Project {
         this.map = map;
     }
 
-    public Set<UserProject> getTeamProjects() {
-        return teamProjects;
+    public Set<User> getCollaborators() {
+        return collaborators;
     }
 
-    public void setTeamProjects(Set<UserProject> teamProjects) {
-        this.teamProjects = teamProjects;
+    public void setCollaborators(Set<User> collaborators) {
+        this.collaborators = collaborators;
     }
 }

@@ -4,10 +4,12 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "lc_comment")
+@Table(name = "comment")
 public class Comment {
 
     @Id
@@ -23,14 +25,21 @@ public class Comment {
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", nullable=false)
     private User user;
+
+    @ManyToOne(optional=true, fetch=FetchType.LAZY)
+    @JoinColumn(name="REPLYTO_ID")
+    private Comment replyTo;
+
+    @OneToMany(mappedBy="replyTo")
+    private List<Comment> replies = new ArrayList<Comment>();
 
     public Comment(){
         super();
     }
 
-    public Comment(String content, User user, Timestamp timestamp) {
+    public Comment(String content, User user, Date date) {
         super();
         this.content = content;
         this.user = user;

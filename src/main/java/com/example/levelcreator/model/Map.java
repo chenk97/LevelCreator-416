@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 @Entity
-@Table(name = "lc_map")
+@Table(name = "map")
 public class Map {
 
     @Id
@@ -21,16 +21,21 @@ public class Map {
     @Column(name = "mapJson")
     private String mapJSON;
 
-    @OneToMany(mappedBy = "Map")
-    Set<UserProject> projectList;
+    @Column(name = "layersJson")
+    private String layersJSON;
+
+    @OneToMany(mappedBy = "map")
+    Set<Tileset> tilesetList;
 
     public Map(){
         super();
     }
 
-    public Map(String mapJSON) {
-        super();
+    public Map(Integer id, String mapJSON, String layersJSON, Set<Tileset> tilsetList) {
+        this.id = id;
         this.mapJSON = mapJSON;
+        this.layersJSON = layersJSON;
+        this.tilesetList = tilsetList;
     }
 
     public Integer getId() {
@@ -47,5 +52,21 @@ public class Map {
 
     public void setMapJSON(String mapJSON) {
         this.mapJSON = mapJSON;
+    }
+
+    public String getLayersJSON() {
+        return layersJSON;
+    }
+
+    public void setLayersJSON(String layersJSON) {
+        this.layersJSON = layersJSON;
+    }
+
+    public Set<Tileset> getTilesetList() {
+        return tilesetList;
+    }
+
+    public void setTilesetList(Set<Tileset> tilesetList) {
+        this.tilesetList = tilesetList;
     }
 }

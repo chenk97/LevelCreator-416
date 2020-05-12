@@ -2,11 +2,13 @@ package com.example.levelcreator.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "lc_user")
+@Table(name = "user")
 public class User {
 
     @Id
@@ -28,26 +30,34 @@ public class User {
 //    //image stored as base64 byte[] string
 //    private String avatar;
 
-//    @OneToMany(mappedBy="id")
-//    private Set<User> followingList;
+    @ManyToMany
+    @JoinTable(
+            name = "user_project",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id"))
+    Set<Project> projectList;
 
-    @OneToMany(mappedBy = "User")
-    Set<UserProject> projectList;
+    @ManyToOne(optional=true, fetch=FetchType.LAZY)
+    @JoinColumn(name="FOLLOW_TO")
+    private User followTo;
 
-    @OneToMany(mappedBy = "User")
+    @OneToMany(mappedBy="followTo")
+    private List<User> followers = new ArrayList<User>();
+
+    @OneToMany(mappedBy = "user")
     Set<Comment> commentList;
 
     public User(){
         super();
     }
 
-    public User(String username, String email, String password,
-                Set<UserProject> projectList, Set<Comment> commentList) {
-        super();
+    public User(Integer id, String username, String email, String password, User followTo, List<User> followers, Set<Project> projectList, Set<Comment> commentList) {
+        this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
-//        this.followingList = followingList;
+        this.followTo = followTo;
+        this.followers = followers;
         this.projectList = projectList;
         this.commentList = commentList;
     }
@@ -99,19 +109,28 @@ public class User {
 //        this.avatar = avatar;
 //    }
 
-//    public Set<User> getFollowingList() {
-//        return followingList;
-//    }
-//
-//    public void setFollowingList(Set<User> followingList) {
-//        this.followingList = followingList;
-//    }
 
-    public Set<UserProject> getProjectList() {
+    public User getFollowTo() {
+        return followTo;
+    }
+
+    public void setFollowTo(User followTo) {
+        this.followTo = followTo;
+    }
+
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
+    }
+
+    public Set<Project> getProjectList() {
         return projectList;
     }
 
-    public void setProjectList(Set<UserProject> projectList) {
+    public void setProjectList(Set<Project> projectList) {
         this.projectList = projectList;
     }
 

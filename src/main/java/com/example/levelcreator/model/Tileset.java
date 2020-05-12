@@ -5,7 +5,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "lc_tileset")
+@Table(name = "tileset")
 public class Tileset {
 
     @Id
@@ -43,13 +43,13 @@ public class Tileset {
         this.id = id;
     }
 
-//    public Map getMap() {
-//        return map;
-//    }
-//
-//    public void setMap(Map map) {
-//        this.map = map;
-//    }
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
 
 //    public int getFirstGid() {
 //        return firstGid;

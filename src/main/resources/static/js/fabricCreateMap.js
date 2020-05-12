@@ -31,7 +31,7 @@ function createMap() {
         tileWidth: tileWidth,
         tileHeight: tileHeight,
         nextLayerid: 2,
-        canvas: null,
+        // canvas: null,
         layers: [
             {
                 type: "tile",
