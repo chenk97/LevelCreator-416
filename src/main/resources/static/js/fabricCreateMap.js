@@ -243,7 +243,7 @@ var zoomhandler = function(event) {
 
         var delta = event.e.deltaY;
         var zoom = gridCanvas.getZoom();
-        console.log(gridCanvas.getZoom())
+
         //greater the divisor the smoother zoom based on mousescroll is
         zoom = zoom - delta / 200;
 
@@ -300,6 +300,7 @@ gridCanvas.on('mouse:down', function(event) {
         this.lastPosY = evt.clientY;
     }
 });
+
 gridCanvas.on('mouse:move', function(event) {
     if (this.isDragging) {
         var evt = event.e;
