@@ -2,10 +2,10 @@ var myCanvas = document.getElementById("grid_canvas");
 var convertedImg = document.getElementById("previewImg");
 
 $('#previewModal').on('shown.bs.modal', function () {
-    removeGrid()
+
 
     gridCanvas.setViewportTransform([1,0,0,1,0,0]);
-    gridCanvas.renderAll();
+    removeGrid()
     console.log(gridCanvas.getZoom())
     var dataURI = myCanvas.toDataURL();
     convertedImg.src = dataURI;
@@ -36,9 +36,9 @@ function addGrid(){
 }
 
 function saveImage(e) {
-    removeGrid()
+
     gridCanvas.setViewportTransform([1,0,0,1,0,0]);
-    gridCanvas.renderAll();
+    removeGrid()
     let x = document.getElementById("grid_canvas")
 
     let image = x.toDataURL()

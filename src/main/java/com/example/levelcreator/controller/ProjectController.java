@@ -37,4 +37,11 @@ public class ProjectController {
     public String submitNewProject() {
         return "workspace";
     }
+
+    @RequestMapping(value = "/appUrl", method = RequestMethod.POST)
+    public @ResponseBody
+    void yourMethod(@RequestBody String dataArrayToSend) {
+        System.out.println(dataArrayToSend);
+    }
 }
+
