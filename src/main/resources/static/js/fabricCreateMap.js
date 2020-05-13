@@ -28,6 +28,7 @@ function createMap() {
 
     var map = {
         name: projectName,
+        id:"",
         orientation: mapOrientation,
         width: mapWidth,
         height: mapHeight,

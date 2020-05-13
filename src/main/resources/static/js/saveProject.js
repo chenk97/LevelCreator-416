@@ -14,6 +14,7 @@ function saveWork() {
     var projectJson = JSON.parse(localStorage.getItem('map'));
 
     map = {
+
         "mapJSON": JSON.stringify(gridCanvas.toJSON()),
         "layersJSON": JSON.stringify(projectJson.layers),
         "tilesetJSON": JSON.stringify(projectJson.tilesets)
@@ -38,7 +39,7 @@ function saveWork() {
         }
     });
 
-    //Sending request for project
+    // Sending request for project
     $.ajax({
         contentType: "application/json",
         type: "POST",
@@ -54,5 +55,6 @@ function saveWork() {
 }
 
 document.getElementById("saveWork").addEventListener("click", function () {
+
     saveWork()
 })

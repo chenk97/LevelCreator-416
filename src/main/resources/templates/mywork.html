@@ -27,7 +27,7 @@
             <div class="modal-body">
                 <!--                The Input Form-->
                 <!--/*@thymesVar id="project" type=""*/-->
-                <form action="#" th:action="@{/workspace}" th:object="${map}" method = "POST">
+                <form action="#" th:action="@{/workspace}" th:object="${map}" method="POST">
                     <div class="form-group form-inline">
                         <label>Orientation:</label>
                         <select id="orientation" style="padding-left: 10px">
@@ -37,23 +37,28 @@
                     </div>
                     <div class="form-group">
                         <label for="mapWidth">Enter Project Name:</label>
-                        <input type="text"class="form-control" id="projectName" aria-required="true" placeholder="Enter project name">
+                        <input type="text" class="form-control" id="projectName" aria-required="true"
+                               placeholder="Enter project name">
                     </div>
                     <div class="form-group">
                         <label for="mapWidth">Map Width:</label>
-                        <input type="number" step="1" min="1" max = "100" class="form-control" id="mapWidth" placeholder="Enter map width">
+                        <input type="number" step="1" min="1" max="100" class="form-control" id="mapWidth"
+                               placeholder="Enter map width">
                     </div>
                     <div class="form-group">
                         <label for="mapHeight">Map Height:</label>
-                        <input type="number" step="1" min="1" max = "100" class="form-control" id="mapHeight" placeholder="Enter map height">
+                        <input type="number" step="1" min="1" max="100" class="form-control" id="mapHeight"
+                               placeholder="Enter map height">
                     </div>
                     <div class="form-group">
                         <label for="tileWidth">Tile Width:</label>
-                        <input type="number" step="1" min="1"  max="100" class="form-control" id="tileWidth" value="32" placeholder="Enter tile width">
+                        <input type="number" step="1" min="1" max="100" class="form-control" id="tileWidth" value="32"
+                               placeholder="Enter tile width">
                     </div>
                     <div class="form-group">
                         <label for="tileHeight">Tile Height:</label>
-                        <input type="number" step="1" min="1"  max="100" class="form-control" id="tileHeight" value="32" placeholder="Enter tile height">
+                        <input type="number" step="1" min="1" max="100" class="form-control" id="tileHeight" value="32"
+                               placeholder="Enter tile height">
                     </div>
 
                     <div class="modal-footer">
