@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
 
+import java.util.List;
+
 
 @Service
 public class ProjectService {
@@ -20,12 +22,45 @@ public class ProjectService {
     private AuthenticationService authenticationService;
 
     public Project saveProject(Map map, Authentication authentication){
-
         User user = authenticationService.getPrincipal(authentication);
         Project project = new Project();
         project.setUser(user);
-        project.setMap(map);
+//        project.setMap(map);
         return project;
+    }
+
+    /***this is probably how you save***/
+    public Project saveProjectNew(Project project, Authentication authentication){
+        try{
+            User user = authenticationService.getPrincipal(authentication);
+            project.setUser(user);
+            projectRepo.save(project);
+            return project;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+    public List<Project> getProjects(){
+        return projectRepo.findAll();
+    }
+
+    public Project getProjectById(int id){
+        return projectRepo.findById(id).get();
+    }
+
+    public Project updateProject(Project project){
+        try{
+            Project proj = (Project)projectRepo.findById(project.getId()).get();
+            proj.setType(project.getType());
+            return proj;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

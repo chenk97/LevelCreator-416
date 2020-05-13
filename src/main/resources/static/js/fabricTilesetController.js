@@ -250,6 +250,8 @@ function addTileCanvas(id){
 
 function reloadTileset(){
     let map = JSON.parse(localStorage.getItem('map'));
+    map.gidCnt = 1;//reset gid counter
+    localStorage.setItem("map", JSON.stringify(map));
     for(let i = 0; i < map.tilesets.length; i++ ){
         loadImage(i);
     }

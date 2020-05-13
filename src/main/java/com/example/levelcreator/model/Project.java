@@ -32,6 +32,14 @@ public class Project {
     @CreatedDate
     private Date createdDate;
 
+    @Lob
+    @Column(name = "mapJson")
+    private String mapJSON;
+
+    @Lob
+    @Column(name = "canvasJson")
+    private String canvasJSON;
+
 
     @Column
     private int likes;
@@ -40,9 +48,9 @@ public class Project {
     @JoinColumn(name = "owner", nullable = false)
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "map_id", referencedColumnName = "id")
-    private Map map;
+//    @OneToOne
+//    @JoinColumn(name = "map_id", referencedColumnName = "id")
+//    private Map map;
 
     @ManyToMany(mappedBy = "projectList")
     private Set<User> collaborators;
@@ -51,16 +59,17 @@ public class Project {
         super();
     }
 
-    public Project(Integer id, String name, String type, @NotBlank String screenshot,
-                   Date createdDate, int likes, User user, Map map, Set<User> collaborators) {
+    public Project(Integer id, String name, String type, @NotBlank String screenshot, Date createdDate, String mapJSON,
+                   String canvasJSON, int likes, User user, Set<User> collaborators) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.screenshot = screenshot;
         this.createdDate = createdDate;
+        this.mapJSON = mapJSON;
+        this.canvasJSON = canvasJSON;
         this.likes = likes;
         this.user = user;
-        this.map = map;
         this.collaborators = collaborators;
     }
 
@@ -104,6 +113,22 @@ public class Project {
         this.createdDate = createdDate;
     }
 
+    public String getMapJSON() {
+        return mapJSON;
+    }
+
+    public void setMapJSON(String mapJSON) {
+        this.mapJSON = mapJSON;
+    }
+
+    public String getCanvasJSON() {
+        return canvasJSON;
+    }
+
+    public void setCanvasJSON(String canvasJSON) {
+        this.canvasJSON = canvasJSON;
+    }
+
     public User getUser() {
         return user;
     }
@@ -120,13 +145,13 @@ public class Project {
         this.likes = likes;
     }
 
-    public Map getMap() {
-        return map;
-    }
-
-    public void setMap(Map map) {
-        this.map = map;
-    }
+//    public Map getMap() {
+//        return map;
+//    }
+//
+//    public void setMap(Map map) {
+//        this.map = map;
+//    }
 
     public Set<User> getCollaborators() {
         return collaborators;
