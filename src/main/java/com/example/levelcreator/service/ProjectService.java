@@ -21,13 +21,16 @@ public class ProjectService {
     @Autowired
     private AuthenticationService authenticationService;
 
+/*
     public Project saveProject(Map map, Authentication authentication){
         User user = authenticationService.getPrincipal(authentication);
         Project project = new Project();
         project.setUser(user);
 //        project.setMap(map);
         return project;
-    }
+    }*/
+
+
 
     /***this is probably how you save***/
     public Project saveProjectNew(Project project, Authentication authentication){

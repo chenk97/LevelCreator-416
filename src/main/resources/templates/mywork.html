@@ -71,6 +71,10 @@
         </div>
     </div>
 </div>
+<div>
+    <p th:each = "p : ${project}" th:text = "${p.name}" </p>
+</div>
+
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.2/fabric.min.js"></script>
