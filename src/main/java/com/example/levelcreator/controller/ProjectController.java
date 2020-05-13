@@ -5,6 +5,7 @@ import com.example.levelcreator.service.AuthenticationService;
 import com.example.levelcreator.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.levelcreator.service.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,16 +33,17 @@ public class ProjectController {
         return "workspace";
     }
 
-//    @RequestMapping(value = "/saveMap", method = RequestMethod.POST)
-//    public @ResponseBody
-//    void yourMethod(@RequestBody Map newMap) {
-//
-//    }
 
     @RequestMapping(value = "/saveProject", method = RequestMethod.POST)
     public @ResponseBody
-    void yourMethod(@RequestBody Project newProject) {
+    void saveProject(@RequestBody Project newProject, Authentication authentication) {
+        projectService.saveProjectNew(newProject, authentication);
+    }
 
+    @RequestMapping(value = "/updateProject", method = RequestMethod.PUT)
+    public @ResponseBody
+    void updateProject(@RequestBody Project newProject, Authentication authentication) {
+        projectService.updateProject(newProject);
     }
 
 }

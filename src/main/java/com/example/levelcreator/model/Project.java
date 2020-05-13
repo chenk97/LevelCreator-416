@@ -60,7 +60,7 @@ public class Project {
     }
 
     public Project(Integer id, String name, String type, @NotBlank String screenshot, Date createdDate, String mapJSON,
-                   String canvasJSON, int likes, User user, Set<User> collaborators) {
+                   String canvasJSON,  User user, Set<User> collaborators) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -68,7 +68,7 @@ public class Project {
         this.createdDate = createdDate;
         this.mapJSON = mapJSON;
         this.canvasJSON = canvasJSON;
-        this.likes = likes;
+        this.likes = 0;
         this.user = user;
         this.collaborators = collaborators;
     }
