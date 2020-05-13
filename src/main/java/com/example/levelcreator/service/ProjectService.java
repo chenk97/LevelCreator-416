@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -59,6 +60,18 @@ public class ProjectService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public List<Project> findProjectsByUser(Authentication authentication){
+        User user = authenticationService.getPrincipal(authentication);
+        List<Project> userProjects = new ArrayList<Project>();
+        List<Project> allProjects = projectRepo.findAll();
+        for(Project proj: allProjects){
+            if(proj.getUser().equals(user)){
+                userProjects.add(proj);
+            }
+        }
+        return userProjects;
     }
 
 }
