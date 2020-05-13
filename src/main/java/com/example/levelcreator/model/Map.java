@@ -69,4 +69,14 @@ public class Map {
     public void setTilesetList(Set<Tileset> tilesetList) {
         this.tilesetList = tilesetList;
     }
+
+    @Override
+    public String toString() {
+        return "Map{" +
+                "id=" + id +
+                ", mapJSON='" + mapJSON + '\'' +
+                ", layersJSON='" + layersJSON + '\'' +
+                ", tilesetList=" + tilesetList +
+                '}';
+    }
 }

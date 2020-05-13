@@ -5,6 +5,8 @@ import com.example.levelcreator.repository.MapRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MapService {
 
@@ -20,5 +22,9 @@ public class MapService {
         Map map = new Map();
         mapRepo.save(map);
         return map;
+    }
+
+    public List<Map> findAllMaps(){
+        return mapRepo.findAll();
     }
 }
