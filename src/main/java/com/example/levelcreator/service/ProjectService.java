@@ -23,8 +23,8 @@ public class ProjectService {
 
 
     /***this is probably how you save***/
-    public Project saveProjectNew(Project project, Authentication authentication){
-        try{
+    public Project saveProjectNew(Project project, Authentication authentication) {
+        try {
             User user = authenticationService.getPrincipal(authentication);
             Date date = new Date();
             project.setCreatedDate(date);
@@ -32,46 +32,54 @@ public class ProjectService {
             project.setType("private");
             projectRepo.save(project);
             return project;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
 
-
-    public List<Project> getProjects(){
+    public List<Project> getProjects() {
         return projectRepo.findAll();
     }
 
-    public Project getProjectById(int id){
+    public Project getProjectById(int id) {
         return projectRepo.findById(id).get();
     }
 
-    public Project updateProject(Project project){
-        try{
-            Project proj = (Project)projectRepo.findById(project.getId()).get();
+    public Project updateProject(Project project) {
+        try {
+
+            Project proj = (Project) projectRepo.findById(project.getId()).get();
+            proj.setMapJSON(project.getMapJSON());
+            proj.setCanvasJSON(project.getCanvasJSON());
+            proj.setScreenshot(project.getScreenshot());
             Date date = new Date();
             proj.setCreatedDate(date);
-//            proj.setType(project.getType());
+
             projectRepo.save(proj);
             return proj;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public List<Project> findProjectsByUser(Authentication authentication){
+//    public List<Project> findProjectsByUser(Authentication authentication) {
+//        User user = authenticationService.getPrincipal(authentication);
+//        List<Project> userProjects = new ArrayList<Project>();
+//        List<Project> allProjects = projectRepo.findAll();
+//        for (Project proj : allProjects) {
+//            if (proj.getUser().equals(user)) {
+//                userProjects.add(proj);
+//            }
+//        }
+//        return userProjects;
+//    }
+
+    public List<Project> getProjectByUser(Authentication authentication){
         User user = authenticationService.getPrincipal(authentication);
-        List<Project> userProjects = new ArrayList<Project>();
-        List<Project> allProjects = projectRepo.findAll();
-        for(Project proj: allProjects){
-            if(proj.getUser().equals(user)){
-                userProjects.add(proj);
-            }
-        }
-        return userProjects;
+        return projectRepo.findByUser(user);
     }
 
 }

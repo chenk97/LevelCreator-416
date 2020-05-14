@@ -31,15 +31,14 @@ function saveWork() {
             url: "/saveProject",
             success: function (data) {
                 console.log('done');
+                window.location = "/myWork";
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log('error while post');
             }
         });
-        // projectJson.id = 1
-        // localStorage.setItem('map', JSON.stringify(projectJson));
-    } else {
 
+    } else {
         project = {
             "id": projectJson.id,
             "name": projectJson.name,
@@ -54,10 +53,11 @@ function saveWork() {
             data: JSON.stringify(project),
             url: "/updateProject",
             success: function (data) {
-                console.log('done');
+                console.log('done updating');
+                window.location = "/myWork";
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.log('error while post');
+                console.log('error while put');
             }
         });
 

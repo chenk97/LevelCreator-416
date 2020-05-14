@@ -12,11 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
-
 public class ProjectController {
 
     @Autowired
@@ -28,17 +26,35 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
-//    @RequestMapping("/myWork")
-//    public String myWork() {
-//        return "mywork.html";
-//    }
+    @RequestMapping("/myWork")
+    public String myWork() {
+        return "mywork.html";
+    }
+
+    public class customComparator implements Comparator<Project>{
+        public int compare(Project o1, Project o2) {
+            Date date1 = o1.getCreatedDate();
+            Date date2 = o2.getCreatedDate();
+            if(date1.compareTo(date2) >0){
+                return -1;
+            }else if(date1.compareTo(date2) <0){
+                return  1;
+            }else{
+                return 0;
+            }
+        }
+    }
 
     @GetMapping("/myWork")
     public ModelAndView showUserProject(Authentication authentication){
         ModelAndView modelAndView = new ModelAndView();
         List<Project> projects = new ArrayList<Project>();
         try{
-            projects = projectService.findProjectsByUser(authentication);
+
+
+            projects = projectService.getProjectByUser(authentication);
+            Collections.sort(projects,new customComparator());
+
 //            modelAndView.setViewName("mapResults");
         }catch(Exception e){
             e.printStackTrace();
@@ -59,6 +75,9 @@ public class ProjectController {
     public @ResponseBody
     void saveProject(@RequestBody Project newProject, Authentication authentication) {
         projectService.saveProjectNew(newProject, authentication);
+
+
+
     }
 
     @RequestMapping(value = "/updateProject", method = RequestMethod.PUT)
