@@ -1,6 +1,5 @@
 package com.example.levelcreator.controller;
 
-import com.example.levelcreator.model.Card;
 import com.example.levelcreator.model.Project;
 import com.example.levelcreator.model.User;
 import com.example.levelcreator.service.AuthenticationService;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-
 public class ProjectController {
 
     @Autowired
