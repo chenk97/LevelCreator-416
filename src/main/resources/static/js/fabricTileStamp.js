@@ -134,7 +134,7 @@ gridCanvas.on({
                 }
             });
         }
-        // refreshData();
+        refreshData();
     }
 });
 
@@ -292,7 +292,7 @@ gridCanvas.on({
             }else{return;}
         }
         //refresh canvas data after change
-        // refreshData();
+        refreshData();
     }
 });
 
@@ -385,7 +385,7 @@ function eraseTile(){
     });
     gridCanvas.discardActiveObject();
     gridCanvas.renderAll();
-    // refreshData();
+    refreshData();
 }
 
 
@@ -632,7 +632,7 @@ function Paste() {
 export function refreshData(){
     //moved object loss their url
     let map = JSON.parse(localStorage.getItem("map"));
-    map.canvas = gridCanvas.toJSON();
+    map.canvas = JSON.stringify(gridCanvas.toJSON());
     localStorage.setItem("map", JSON.stringify(map));
 }
 

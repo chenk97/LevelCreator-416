@@ -85,21 +85,6 @@
         <!--</div>-->
         <div class="col-sm-3" th:each="project, stat: ${projects}" style="padding:2%;">
             <div class="card mb-3 projectCard" th:onclick="loadContent([[${project.id}]],[[${project.mapJSON}]],[[${project.canvasJSON}]])">
-                <script type="text/javascript">
-                    function loadContent(theID, mapJSON, canvasJSON) {
-
-                        let id = parseInt(theID)
-                        let theMapJSON = JSON.parse(mapJSON)
-                        theMapJSON.id = id
-                        let theCanvasJSON = JSON.parse(canvasJSON)
-
-                        localStorage.setItem('map', JSON.stringify(theMapJSON));
-                        gridCanvas.loadFromJSON(canvasJSON)
-
-                        // window.location = "/workspace";
-
-                    }
-                </script>
 
                 <img class="card-img-top" th:src="${project.screenshot}"/>
 

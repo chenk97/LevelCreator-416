@@ -16,6 +16,7 @@ var leftMostPt;
 var isoMapX = {};
 var isoMapY = {};
 var isoMap = [];
+var map;
 
 function createMap() {
     var mapOrientation = document.getElementById("orientation").value;
@@ -26,7 +27,7 @@ function createMap() {
     var tileHeight = Number(document.getElementById("tileHeight").value);
 
 
-    var map = {
+    map = {
         name: projectName,
         id:"",
         orientation: mapOrientation,
@@ -36,6 +37,7 @@ function createMap() {
         tileHeight: tileHeight,
         nextLayerid: 2,
         gidCnt: 1,
+        canvas: null,
         layers: [
             {
                 type: "tile",
@@ -55,7 +57,26 @@ function createMap() {
     };
 
     localStorage.setItem('map', JSON.stringify(map));
-
+    // myCanvasJson = '{"version":"3.6.2","objects":[]}';
+    // project = {
+    //     "name": map.name,
+    //     "screenshot": getProjectScreenshot(),
+    //     "mapJSON": map,
+    //     "canvasJSON": '{"version":"3.6.2","objects":[]}',
+    // }
+    // $.ajax({
+    //     contentType: "application/json",
+    //     type: "POST",
+    //     data: JSON.stringify(project),
+    //     url: "/workspace",
+    //     success: function (data) {
+    //         console.log('done');
+    //     },
+    //     error: function (jqXHR, textStatus, errorThrown) {
+    //         console.log('error while post');
+    //     }
+    // });
+    // drawGrids();
 }
 
 
@@ -65,6 +86,7 @@ function drawGrids(){
     let tileW = map.tileWidth;
     let tileH = map.tileHeight;
     gridCanvas = new fabric.Canvas('grid_canvas');
+    console.log(JSON.stringify(gridCanvas.toJSON()));
     // gridCanvas._historyInit();
     gridCanvas.preserveObjectStacking = true;
     gridCanvas.setWidth(map.width * map.tileWidth);
@@ -85,6 +107,7 @@ function drawGrids(){
             lockMovementY: true,
             lockScalingX: true,
             lockScalingY: true,
+            excludeFromExport: true,
         });
 
         gridCanvas.add(boundBox);
@@ -105,6 +128,7 @@ function drawGrids(){
                 hasControl: false,
                 lockMovementX: true,
                 lockMovementY: true,
+                excludeFromExport: true,
             }));
 
             lineXN.push(l);//all left value
@@ -126,6 +150,9 @@ function drawGrids(){
                 hasBorders: false,
                 selectable: false,
                 hasControl: false,
+                lockMovementX: true,
+                lockMovementY: true,
+                excludeFromExport: true,
             }));
 
             lineYN.push(t);//all top value
@@ -149,6 +176,7 @@ function drawGrids(){
             lockMovementY: true,
             lockScalingX: true,
             lockScalingY: true,
+            excludeFromExport: true,
         });
 
         gridCanvas.add(boundBox);
@@ -171,6 +199,7 @@ function drawGrids(){
                     hasControl: false,
                     lockMovementX: true,
                     lockMovementY: true,
+                    excludeFromExport: true,
                 });
 
 
@@ -181,6 +210,7 @@ function drawGrids(){
                     hasControl: false,
                     lockMovementX: true,
                     lockMovementY: true,
+                    excludeFromExport: true,
                 });
 
 
@@ -191,6 +221,7 @@ function drawGrids(){
                     hasControl: false,
                     lockMovementX: true,
                     lockMovementY: true,
+                    excludeFromExport: true,
                 });
 
 
@@ -201,6 +232,7 @@ function drawGrids(){
                     hasControl: false,
                     lockMovementX: true,
                     lockMovementY: true,
+                    excludeFromExport: true,
                 });
 
 
@@ -258,6 +290,26 @@ function checkDupPush(arr, newItem){
     }
 }
 
+
+function loadContent(theId, mapJSON, canvasJSON){
+    window.location = "/workspace";
+    let id = parseInt(theId);
+    let theMapJSON = JSON.parse(mapJSON);
+    theMapJSON.id = id;
+    let theCanvasJSON = JSON.parse(canvasJSON);
+    localStorage.setItem('map',JSON.stringify(theMapJSON));
+    // gridCanvas = new fabric.Canvas('grid_canvas');
+    // // gridCanvas._historyInit();
+    // gridCanvas.preserveObjectStacking = true;
+    console.log("load content");
+    // gridCanvas = document.getElementById("grid_canvas");
+    var json = '{"objects":[{"type":"rect","originX":"center","originY":"center","left":300,"top":150,"width":150,"height":150,"fill":"#29477F","overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":{"color":"rgba(94, 128, 191, 0.5)","blur":5,"offsetX":10,"offsetY":10},"visible":true,"clipTo":null,"rx":0,"ry":0,"x":0,"y":0},{"type":"circle","originX":"center","originY":"center","left":300,"top":400,"width":200,"height":200,"fill":"rgb(166,111,213)","overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":{"color":"#5b238A","blur":20,"offsetX":-20,"offsetY":-10},"visible":true,"clipTo":null,"radius":100}],"background":""}'
+
+    gridCanvas.loadFromJSON(json, gridCanvas.renderAll.bind(gridCanvas), function(o, object) {
+        fabric.log(o, object);
+    });
+}
+
 // function removeLargest(numbers) {
 //     const largest = Math.max.apply(null, numbers);
 //     const pos = numbers.indexOf(largest);
@@ -311,7 +363,20 @@ var zoomhandler = function(event) {
 function loadMap(){
     let map = JSON.parse(localStorage.getItem("map"));
     gridCanvas.loadFromJSON(map.canvas, ()=>{
+        gridCanvas.add(boundBox);
+        lineX.forEach((line)=>{
+            gridCanvas.add(line);
+        });
+        lineY.forEach((line)=>{
+            gridCanvas.add(line);
+        });
         gridCanvas.renderAll();
+    });
+    // gridCanvas.loadFromJSON(map.canvas, gridCanvas.renderAll.bind(gridCanvas), function(o, object) {
+    //     fabric.log(o, object);
+    // });
+    gridCanvas.getObjects().forEach(obj=>{
+        console.log(obj);
     });
 }
 
@@ -344,3 +409,13 @@ gridCanvas.on('mouse:up', function(event) {
     this.isDragging = false;
     this.selection = true;
 });
+
+function reloadTest(){
+    console.log("reload test........");
+    var json = '{"objects":[{"type":"rect","originX":"center","originY":"center","left":300,"top":150,"width":150,"height":150,"fill":"#29477F","overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":{"color":"rgba(94, 128, 191, 0.5)","blur":5,"offsetX":10,"offsetY":10},"visible":true,"clipTo":null,"rx":0,"ry":0,"x":0,"y":0},{"type":"circle","originX":"center","originY":"center","left":300,"top":400,"width":200,"height":200,"fill":"rgb(166,111,213)","overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":{"color":"#5b238A","blur":20,"offsetX":-20,"offsetY":-10},"visible":true,"clipTo":null,"radius":100}],"background":""}'
+    gridCanvas.loadFromJSON(json, gridCanvas.renderAll.bind(gridCanvas), function(o, object) {
+        fabric.log(o, object);
+    });
+}
+
+document.getElementById("undoBtn").addEventListener("click", reloadTest);

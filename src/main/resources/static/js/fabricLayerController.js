@@ -10,7 +10,7 @@ export function moveMapLayerUp() {
         }
     });
     gridCanvas.renderAll();
-    // refreshData();
+    refreshData();
 }
 
 
@@ -22,7 +22,7 @@ export function moveMapLayerDown() {
         }
     });
     gridCanvas.renderAll();
-    // refreshData();
+    refreshData();
 }
 
 
@@ -75,6 +75,7 @@ export function removeLayer(layerId) {
     });
     gridCanvas.discardActiveObject();
     gridCanvas.renderAll();
+    refreshData();
 }
 
 
