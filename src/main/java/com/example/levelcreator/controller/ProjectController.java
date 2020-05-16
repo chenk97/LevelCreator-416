@@ -7,10 +7,14 @@ import com.example.levelcreator.service.AuthenticationService;
 import com.example.levelcreator.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.levelcreator.service.UserService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.http.MediaType;
 
 import java.util.*;
 
@@ -75,9 +79,6 @@ public class ProjectController {
     public @ResponseBody
     void saveProject(@RequestBody Project newProject, Authentication authentication) {
         projectService.saveProjectNew(newProject, authentication);
-
-
-
     }
 
     @RequestMapping(value = "/updateProject", method = RequestMethod.PUT)
@@ -86,5 +87,34 @@ public class ProjectController {
         projectService.updateProject(newProject);
     }
 
+
+///////////////////////////////////////////
+/*
+    @GetMapping("/workspace")
+    public ModelAndView getProject( int id) {
+        Project project = projectService.getProjectById(id);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("project", project);
+        return modelAndView;
+    }
+*/
+
+    @GetMapping(value = "/download/{id}")
+    public ResponseEntity download(@PathVariable int id) {
+        //newProject = projectService.getProjectById(id);
+        //ModelAndView model = new ModelAndView();
+        //model.addObject("proj",newProject);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/json"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename = map.json")
+                .body(projectService.getProjectById(id).getMapJSON());
+    }
+
+
+    @GetMapping(value = "/myWork/delete/{id}")
+    public String delete(@PathVariable int id){
+        projectService.deleteProject(id);
+        return "redirect:/myWork";
+    }
 }
 

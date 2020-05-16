@@ -82,4 +82,8 @@ public class ProjectService {
         return projectRepo.findByUser(user);
     }
 
+    public void deleteProject(Integer id){
+        projectRepo.deleteById(id);
+    }
+
 }

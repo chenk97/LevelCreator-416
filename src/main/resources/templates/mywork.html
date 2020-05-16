@@ -32,7 +32,7 @@
                     <div class="modal-body">
                         <!--                The Input Form-->
                         <!--/*@thymesVar id="project" type=""*/-->
-                        <form action="#" th:action="@{/workspace}" th:object="${map}" method="POST">
+                        <form action="#" th:action="@{/workspace}" method="POST">
                             <div class="form-group form-inline">
                                 <label>Orientation:</label>
                                 <select id="orientation" style="padding-left: 10px">
@@ -99,7 +99,7 @@
                     window.location = "/workspace";
                 }
             </script>
-            <a href="#toworkspacereload">
+            <!--<a href="#toworkspacereload">-->
                 <div class="card mb-3" style="width: 18rem; margin:auto;">
                     <img class="card-img-top" th:src="${project.screenshot}"/>
                     <div class="card-footer" style="background: #ebebeb">
@@ -108,8 +108,9 @@
                         <small class="text-muted" style="padding:unset;"
                                th:text="'Last updated at '+ ${project.createdDate}"/>
                     </div>
+                    <a th:href="@{/myWork/delete/{id}(id=${project.id})}" onclick="return confirm('Are you sure?')">Delete</a>
                 </div>
-            </a>
+            <!--</a>-->
 
         </div>
     </div>
