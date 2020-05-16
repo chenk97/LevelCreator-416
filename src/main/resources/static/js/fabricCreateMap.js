@@ -291,12 +291,11 @@ function checkDupPush(arr, newItem){
 }
 
 
-function loadContent(theId, mapJSON, canvasJSON){
+function loadContent(theId, mapJSON){
     window.location = "/workspace";
     let id = parseInt(theId);
     let theMapJSON = JSON.parse(mapJSON);
     theMapJSON.id = id;
-    let theCanvasJSON = JSON.parse(canvasJSON);
     localStorage.setItem('map',JSON.stringify(theMapJSON));
     // gridCanvas = new fabric.Canvas('grid_canvas');
     // // gridCanvas._historyInit();

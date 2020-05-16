@@ -34,10 +34,6 @@ public class Project {
     @Column(name = "mapJson")
     private String mapJSON;
 
-    @Lob
-    @Column(name = "canvasJson")
-    private String canvasJSON;
-
 
     @Column
     private int likes;
@@ -58,14 +54,14 @@ public class Project {
     }
 
     public Project(Integer id, String name, String type, @NotBlank String screenshot, String createdDate, String mapJSON,
-                   String canvasJSON,  User user, Set<User> collaborators) {
+                 User user, Set<User> collaborators) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.screenshot = screenshot;
         this.createdDate = createdDate;
         this.mapJSON = mapJSON;
-        this.canvasJSON = canvasJSON;
+
         this.likes = 0;
         this.user = user;
         this.collaborators = collaborators;
@@ -119,13 +115,6 @@ public class Project {
         this.mapJSON = mapJSON;
     }
 
-    public String getCanvasJSON() {
-        return canvasJSON;
-    }
-
-    public void setCanvasJSON(String canvasJSON) {
-        this.canvasJSON = canvasJSON;
-    }
 
     public User getUser() {
         return user;

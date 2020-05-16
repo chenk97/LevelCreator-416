@@ -22,8 +22,7 @@ function saveWork() {
         project = {
             "name": projectJson.name,
             "screenshot": getProjectScreenshot(),
-            "mapJSON": map,
-            "canvasJSON": JSON.stringify(gridCanvas.toJSON()),
+            "mapJSON": map
         }
         $.ajax({
             contentType: "application/json",
@@ -44,8 +43,7 @@ function saveWork() {
             "id": projectJson.id,
             "name": projectJson.name,
             "screenshot": getProjectScreenshot(),
-            "mapJSON": map,
-            "canvasJSON": JSON.stringify(gridCanvas.toJSON()),
+            "mapJSON": map
         }
 
         $.ajax({
