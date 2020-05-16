@@ -41,15 +41,16 @@ public class ProjectService {
         }
     }
 
-
     public List<Project> getProjects() {
         return projectRepo.findAll();
     }
 
+    //    Find a project by id
     public Project getProjectById(int id) {
         return projectRepo.findById(id).get();
     }
 
+    //Updates a project in database
     public Project updateProject(Project project) {
         try {
 
@@ -69,27 +70,18 @@ public class ProjectService {
         }
     }
 
-//    public List<Project> findProjectsByUser(Authentication authentication) {
-//        User user = authenticationService.getPrincipal(authentication);
-//        List<Project> userProjects = new ArrayList<Project>();
-//        List<Project> allProjects = projectRepo.findAll();
-//        for (Project proj : allProjects) {
-//            if (proj.getUser().equals(user)) {
-//                userProjects.add(proj);
-//            }
-//        }
-//        return userProjects;
-//    }
-
+    //Get a project base on user
     public List<Project> getProjectByUser(Authentication authentication) {
         User user = authenticationService.getPrincipal(authentication);
         return projectRepo.findByUser(user);
     }
 
+    //get project base on type
     public List<Project> getProjectByType(String type) {
         return projectRepo.findByType(type);
     }
 
+    //Update the type of a project
     public void updateType(int theID) {
         Project theProject = getProjectById(theID);
         if (theProject.getType().equals("false")) {
@@ -98,6 +90,11 @@ public class ProjectService {
             theProject.setType("false");
         }
         projectRepo.save(theProject);
+    }
+
+    //Delete  project from database
+    public void deleteProject(Integer id) {
+        projectRepo.deleteById(id);
     }
 
 }

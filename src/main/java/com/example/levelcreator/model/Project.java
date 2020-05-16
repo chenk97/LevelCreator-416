@@ -28,8 +28,6 @@ public class Project {
     private String screenshot;
 
     @Column(name = "createdDate")
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @CreatedDate
     private String createdDate;
 
     @Lob
