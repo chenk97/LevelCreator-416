@@ -43,7 +43,7 @@ public class ProjectController {
         public int compare(Project o1, Project o2) {
             String date1 = o1.getCreatedDate();
             String date2 = o2.getCreatedDate();
-            if (date1.compareTo(date2)>0) {
+            if (date1.compareTo(date2) > 0) {
                 return -1;
             } else if (date1.compareTo(date2) < 0) {
                 return 1;
@@ -54,6 +54,7 @@ public class ProjectController {
         }
     }
 
+    //Display users project in mywork screen
     @GetMapping("/myWork")
     public ModelAndView showUserProject(Authentication authentication) {
         ModelAndView modelAndView = new ModelAndView();
@@ -74,6 +75,7 @@ public class ProjectController {
         return modelAndView;
     }
 
+    //    Display public project in home screen
     @GetMapping("/home")
     public ModelAndView showHomePage(Authentication authentication) {
         ModelAndView modelAndView = new ModelAndView();
@@ -101,16 +103,16 @@ public class ProjectController {
         projectService.saveProjectNew(newProject, authentication);
 
 
-
     }
 
-    // Update project in databse
+    // Update project in database
     @RequestMapping(value = "/updateProject", method = RequestMethod.PUT)
     public @ResponseBody
     void updateProject(@RequestBody Project newProject) {
         projectService.updateProject(newProject);
     }
 
+    //Update project type in database
     @RequestMapping(value = "/togglePublic", method = RequestMethod.PUT)
     public @ResponseBody
     void updateProject(@RequestBody int theId) {
@@ -141,7 +143,7 @@ public class ProjectController {
 
 
     @GetMapping(value = "/myWork/delete/{id}")
-    public String delete(@PathVariable int id){
+    public String delete(@PathVariable int id) {
         projectService.deleteProject(id);
         return "redirect:/myWork";
     }
