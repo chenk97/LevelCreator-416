@@ -5,111 +5,26 @@
 
 <head th:insert="fragments.html :: headerfiles">
     <title>LevelCreator - A Collaborative Level Building Tool</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
 </head>
+
 
 <body>
 
 <div th:insert="fragments.html :: nav"></div>
 
-<div class="container" style="max-width: 2000px ">
+<div class="container m-2" style="max-width: 100% ">
+    <div class="row" th:fragment="list" xmlns:th="http://www.thymeleaf.org">
+        <div class="col-sm-3" th:each="project, stat: ${projects}" style="padding:2%;">
+            <div class="card mb-3 projectCard">
+                <img class="card-img-top" th:src="${project.screenshot}"/>
+                <div class="card-body">
+                    <h5 class="card-title cardProjectTitle" th:title="${project.name}" th:text="${project.name}"/>
+                    <h6 class="text-muted" th:text="'By: '+ ${project.user.username}"/>
+                </div>
 
-    <div class="d-flex flex-row justify-content-end">
-        <div sec:authorize ="isAuthenticated()" class="custom-control custom-switch followbutton">
-            <input type="checkbox" class="custom-control-input" id="customSwitch1">
-            <label class="custom-control-label" for="customSwitch1">Following User</label>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <div class="card" style="width: 18rem; margin:auto;">
-                <img src="../images/sample1.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Tree Map</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">By: Will Lee</h6>
-                </div>
             </div>
         </div>
-        <div class="col">
-            <div class="card" style="width: 18rem; margin:auto;">
-                <img src="../images/sample2.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Mario Maker</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">By: Bobby Lee</h6>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" style="width: 18rem; margin:auto;">
-                <img src="../images/sample3.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Sand Biome</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">By: Teal Jin</h6>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" style="width: 18rem;margin:auto;">
-                <img src="../images/sample4.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Jumping Course</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">By: Mike Johnson</h6>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <div class="card" style="width: 18rem;margin:auto;">
-                <img src="../images/sample5.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Hamster Maze</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">By: Kelly Lorin</h6>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" style="width: 18rem;margin:auto;">
-                <img src="../images/sample6.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Greenville</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">By: Jammi Lani</h6>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" style="width: 18rem;margin:auto;">
-                <img src="../images/sample7.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Cactus Racecourse</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">By: Sven Tree</h6>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" style="width: 18rem;margin:auto;">
-                <img src="../images/sample8.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Colorful Jump</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">By: Rdik Tomy</h6>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class=" row">
-        <nav aria-label="Page navigation example" style="margin:auto">
-            <ul class="pagination">
-                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-        </nav>
-
     </div>
 
 </div>

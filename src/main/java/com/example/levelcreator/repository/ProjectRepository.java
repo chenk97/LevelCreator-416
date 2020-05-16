@@ -17,5 +17,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
     public List<Project> findByUser(User user);
 
     public List<Project> findByType(String type);
+
+
 }
 

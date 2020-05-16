@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.http.MediaType;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -35,34 +38,51 @@ public class ProjectController {
         return "mywork.html";
     }
 
-    public class customComparator implements Comparator<Project>{
+    //Order projects by date newest to oldest
+    public class customComparator implements Comparator<Project> {
         public int compare(Project o1, Project o2) {
-            Date date1 = o1.getCreatedDate();
-            Date date2 = o2.getCreatedDate();
-            if(date1.compareTo(date2) >0){
+            String date1 = o1.getCreatedDate();
+            String date2 = o2.getCreatedDate();
+            if (date1.compareTo(date2)>0) {
                 return -1;
-            }else if(date1.compareTo(date2) <0){
-                return  1;
-            }else{
+            } else if (date1.compareTo(date2) < 0) {
+                return 1;
+            } else {
                 return 0;
             }
+
         }
     }
 
     @GetMapping("/myWork")
-    public ModelAndView showUserProject(Authentication authentication){
+    public ModelAndView showUserProject(Authentication authentication) {
         ModelAndView modelAndView = new ModelAndView();
         List<Project> projects = new ArrayList<Project>();
-        try{
+        try {
 
 
             projects = projectService.getProjectByUser(authentication);
-            Collections.sort(projects,new customComparator());
+            Collections.sort(projects, new customComparator());
+
 
 //            modelAndView.setViewName("mapResults");
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
 //            modelAndView.setViewName("error");
+        }
+        modelAndView.addObject("projects", projects);
+        return modelAndView;
+    }
+
+    @GetMapping("/home")
+    public ModelAndView showHomePage(Authentication authentication) {
+        ModelAndView modelAndView = new ModelAndView();
+        List<Project> projects = new ArrayList<Project>();
+        try {
+            projects = projectService.getProjectByType("true");
+            Collections.sort(projects, new customComparator());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         modelAndView.addObject("projects", projects);
         return modelAndView;
@@ -74,19 +94,28 @@ public class ProjectController {
         return "workspace";
     }
 
-
+    // Saves project to database
     @RequestMapping(value = "/saveProject", method = RequestMethod.POST)
     public @ResponseBody
     void saveProject(@RequestBody Project newProject, Authentication authentication) {
         projectService.saveProjectNew(newProject, authentication);
+
+
+
     }
 
+    // Update project in databse
     @RequestMapping(value = "/updateProject", method = RequestMethod.PUT)
     public @ResponseBody
     void updateProject(@RequestBody Project newProject) {
         projectService.updateProject(newProject);
     }
 
+    @RequestMapping(value = "/togglePublic", method = RequestMethod.PUT)
+    public @ResponseBody
+    void updateProject(@RequestBody int theId) {
+        projectService.updateType(theId);
+    }
 
 ///////////////////////////////////////////
 /*

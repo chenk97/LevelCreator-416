@@ -4,9 +4,11 @@ import com.example.levelcreator.model.Project;
 import com.example.levelcreator.model.User;
 import com.example.levelcreator.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,9 +29,10 @@ public class ProjectService {
         try {
             User user = authenticationService.getPrincipal(authentication);
             Date date = new Date();
-            project.setCreatedDate(date);
+            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            project.setCreatedDate(ft.format(date));
             project.setUser(user);
-            project.setType("private");
+            project.setType("false");
             projectRepo.save(project);
             return project;
         } catch (Exception e) {
@@ -54,9 +57,10 @@ public class ProjectService {
             proj.setMapJSON(project.getMapJSON());
             proj.setCanvasJSON(project.getCanvasJSON());
             proj.setScreenshot(project.getScreenshot());
-            Date date = new Date();
-            proj.setCreatedDate(date);
 
+            Date date = new Date();
+            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            proj.setCreatedDate(ft.format(date));
             projectRepo.save(proj);
             return proj;
         } catch (Exception e) {
@@ -77,9 +81,23 @@ public class ProjectService {
 //        return userProjects;
 //    }
 
-    public List<Project> getProjectByUser(Authentication authentication){
+    public List<Project> getProjectByUser(Authentication authentication) {
         User user = authenticationService.getPrincipal(authentication);
         return projectRepo.findByUser(user);
+    }
+
+    public List<Project> getProjectByType(String type) {
+        return projectRepo.findByType(type);
+    }
+
+    public void updateType(int theID) {
+        Project theProject = getProjectById(theID);
+        if (theProject.getType().equals("false")) {
+            theProject.setType("true");
+        } else {
+            theProject.setType("false");
+        }
+        projectRepo.save(theProject);
     }
 
     public void deleteProject(Integer id){
