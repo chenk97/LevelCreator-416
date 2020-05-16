@@ -97,13 +97,18 @@ public class ProjectController {
         return "workspace";
     }
 
+    @RequestMapping("/workspace/{id}")
+    public String loadProject(@PathVariable int id) {
+        Project proj = projectService.getProjectById(id);
+        System.out.println("currentProject:"+proj.toString());
+        return "workspace";
+    }
+
     // Saves project to database
     @RequestMapping(value = "/saveProject", method = RequestMethod.POST)
     public @ResponseBody
     void saveProject(@RequestBody Project newProject, Authentication authentication) {
         projectService.saveProjectNew(newProject, authentication);
-
-
     }
 
     // Update project in database
