@@ -13,6 +13,7 @@ function getProjectScreenshot() {
 function saveWork() {
     console.log("Saving Work")
     let map = localStorage.getItem('map');
+    map.canvas = JSON.stringify(gridCanvas.toJSON());
     var projectJson = JSON.parse(localStorage.getItem('map'));
 
 

@@ -31,7 +31,7 @@
                     <div class="modal-body">
                         <!--                The Input Form-->
                         <!--/*@thymesVar id="project" type=""*/-->
-                        <form action="#" th:action="@{/workspace}" th:object="${map}" method="POST">
+                        <form action="#" th:action="@{/workspace}"  method="GET">
                             <div class="form-group form-inline">
                                 <label>Orientation:</label>
                                 <select id="orientation" style="padding-left: 10px">
@@ -78,8 +78,8 @@
     <!--<div>-->
     <!--    <p th:each = "p : ${project}" th:text = "${p.name}" </p>-->
     <!--</div>-->
-        <div class = "col-sm-3" th:each = "project, stat: ${projects}">
-            <a href="#toworkspacereload">
+        <div class = "col-sm-3" th:each = "project, stat: ${projects}"
+        th:onClick = "loadContent([[${project.id}]],[[${project.mapJSON}]], [[${project.canvasJSON}]])">
                 <div class="card mb-3">
                     <img class="card-img-top" th:src="${project.screenshot}"/>
                     <div class="card-footer">
@@ -87,7 +87,6 @@
                         <small class="text-muted"  style="padding:unset;" th:text="'Last updated at '+ ${project.createdDate}"/>
                     </div>
                 </div>
-            </a>
 
         </div>
     </div>
