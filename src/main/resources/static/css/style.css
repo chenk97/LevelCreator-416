@@ -23,7 +23,7 @@ html, body {
 }
 
 .addButton {
-    height: 19.5rem;
+    height: 100%;
 }
 
 .iconrow {
@@ -45,7 +45,7 @@ html, body {
 .box {
     border: 1px solid #999;
     border-radius: 3px;
-    height:900px;
+    height: 900px;
     width: 100%;
     overflow: auto;
     background-color: gray;
@@ -114,7 +114,7 @@ body {
     padding: 5px;
 }
 
-.propertyIcon{
+.propertyIcon {
     padding-left: 5px;
 }
 
@@ -158,51 +158,52 @@ body {
     color: white;
 }
 
-.propertyModalFooter{
+.propertyModalFooter {
     padding: 5px;
 }
 
-.propertyModalBody{
-    padding:10px;
+.propertyModalBody {
+    padding: 10px;
 }
 
-.setBodySize{
+.setBodySize {
     padding: 5px;
     height: 535px;
 }
 
-.propertyListItem{
+.propertyListItem {
     padding: 0px;
     border-radius: 0px !important;
 }
 
-.propertyTextInput{
+.propertyTextInput {
     width: 100%;
     height: 100%;
 }
 
-.checkBoxAndColorBox{
+.checkBoxAndColorBox {
     height: 100%;
 }
 
-.propertyRow{
-    margin:0;
+.propertyRow {
+    margin: 0;
 }
 
-.propertyNameCol{
-    padding:0px;
+.propertyNameCol {
+    padding: 0px;
 }
 
-.propertyValueCol{
+.propertyValueCol {
     padding-right: 0px;
 }
 
-.propertyDeleteCol{
+.propertyDeleteCol {
     padding: 0px;
     font-size: 25px;
     padding-left: 10px;
 }
-.canvasGird{
+
+.canvasGird {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -210,6 +211,30 @@ body {
     left: 0;
     margin: auto;
 }
+
+.projectCard {
+    width: 18rem;
+    margin: auto;
+}
+
+/*.cardProjectDate {*/
+/*    white-space: nowrap;*/
+/*    overflow: hidden;*/
+/*    text-overflow: ellipsis;*/
+/*}*/
+
+.cardProjectTitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.addProjectCard {
+    width: 18rem;
+    margin: auto;
+    height: 96%;
+}
+
 /*#canvasContainerGrid{*/
 /*    position:absolute;*/
 /*    top:0;bottom:0;right:0;left:0;*/

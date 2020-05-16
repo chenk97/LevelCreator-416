@@ -199,12 +199,11 @@ function deleteLayer() {
 //Adds a new tile layer to layer panel
 function newTileLayer() {
     let map = JSON.parse(localStorage.getItem('map'));
-    let dataArray = new Array(mapWidth * mapHeight).fill(0);
+
     let newTileLayer = {
         type: "tile",
         id: map.nextLayerid,
         name: "Tile Layer" + map.nextLayerid,
-        data: dataArray,
         properties: [],
         visibility: true,
         locked: false,
@@ -222,12 +221,10 @@ function newTileLayer() {
 //Adds a new object layer to layer panel
 function newObjectLayer() {
     let map = JSON.parse(localStorage.getItem('map'));
-    let dataArray = new Array(mapWidth * mapHeight).fill(0);
     let newObjectLayer = {
         type: "object",
         id: map.nextLayerid,
         name: "Object Layer" + map.nextLayerid,
-        data: dataArray,
         properties: [],
         visibility: true,
         locked: false,

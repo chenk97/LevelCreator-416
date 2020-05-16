@@ -24,7 +24,7 @@ function createMap() {
     var mapHeight = Number(document.getElementById("mapHeight").value);
     var tileWidth = Number(document.getElementById("tileWidth").value);
     var tileHeight = Number(document.getElementById("tileHeight").value);
-    var dataArray = new Array(mapWidth * mapHeight).fill(0);
+
 
     var map = {
         name: projectName,
@@ -41,7 +41,6 @@ function createMap() {
                 type: "tile",
                 id: 1,
                 name: "Tile Layer1",
-                data: dataArray,
                 properties: [],
                 visibility: true,
                 locked: false,

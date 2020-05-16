@@ -28,9 +28,9 @@ public class Project {
     private String screenshot;
 
     @Column(name = "createdDate")
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    private Date createdDate;
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @CreatedDate
+    private String createdDate;
 
     @Lob
     @Column(name = "mapJson")
@@ -59,7 +59,7 @@ public class Project {
         super();
     }
 
-    public Project(Integer id, String name, String type, @NotBlank String screenshot, Date createdDate, String mapJSON,
+    public Project(Integer id, String name, String type, @NotBlank String screenshot, String createdDate, String mapJSON,
                    String canvasJSON,  User user, Set<User> collaborators) {
         this.id = id;
         this.name = name;
@@ -105,11 +105,11 @@ public class Project {
         this.screenshot = screenshot;
     }
 
-    public Date getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
