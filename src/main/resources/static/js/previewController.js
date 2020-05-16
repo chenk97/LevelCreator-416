@@ -2,10 +2,8 @@ var myCanvas = document.getElementById("grid_canvas");
 var convertedImg = document.getElementById("previewImg");
 
 $('#previewModal').on('shown.bs.modal', function () {
-    removeGrid()
-
     gridCanvas.setViewportTransform([1,0,0,1,0,0]);
-    gridCanvas.renderAll();
+    removeGrid()
     console.log(gridCanvas.getZoom())
     var dataURI = myCanvas.toDataURL();
     convertedImg.src = dataURI;
@@ -14,31 +12,45 @@ $('#previewModal').on('shown.bs.modal', function () {
 })
 
 function removeGrid(){
+    let map = JSON.parse(localStorage.getItem("map"));
     boundBox.set({stroke: 'transparent'});
-    lineX.forEach(line => {
-        line.set({stroke: 'transparent'});
-    });
-    lineY.forEach(line => {
-        line.set({stroke: 'transparent'});
-    });
+    if(map.orientation === "Orthogonal"){
+        lineX.forEach(line => {
+            line.set({stroke: 'transparent'});
+        });
+        lineY.forEach(line => {
+            line.set({stroke: 'transparent'});
+        });
+    }else if(map.orientation === "Isometric"){
+        isoLines.forEach(line => {
+            line.set({stroke: 'transparent'});
+        });
+    }
     gridCanvas.renderAll();
 }
 
 function addGrid(){
+    let map = JSON.parse(localStorage.getItem("map"));
     boundBox.set({stroke: '#c0c4c2'});
-    lineX.forEach(line => {
-        line.set({stroke: '#c0c4c2'});
-    });
-    lineY.forEach(line => {
-        line.set({stroke: '#c0c4c2'});
-    });
+    if(map.orientation === "Orthogonal"){
+        lineX.forEach(line => {
+            line.set({stroke: '#c0c4c2'});
+        });
+        lineY.forEach(line => {
+            line.set({stroke: '#c0c4c2'});
+        });
+    }else if(map.orientation === "Isometric"){
+        isoLines.forEach(line => {
+            line.set({stroke: '#c0c4c2'});
+        });
+    }
     gridCanvas.renderAll();
 }
 
+
 function saveImage(e) {
-    removeGrid()
     gridCanvas.setViewportTransform([1,0,0,1,0,0]);
-    gridCanvas.renderAll();
+    removeGrid()
     let x = document.getElementById("grid_canvas")
 
     let image = x.toDataURL()

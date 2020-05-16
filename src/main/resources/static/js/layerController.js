@@ -199,6 +199,7 @@ function deleteLayer() {
 //Adds a new tile layer to layer panel
 function newTileLayer() {
     let map = JSON.parse(localStorage.getItem('map'));
+
     let newTileLayer = {
         type: "tile",
         id: map.nextLayerid,
@@ -320,13 +321,13 @@ export function loadLayer() {
             setCurrentSelectedLayer(mapLayers[i].id)
             restackLayer();//reset the previously moved layer to right spot
             gridCanvas.getObjects().forEach(item => {
-                if(item.id==curLayerSelected){
+                if(item.layer==curLayerSelected){
                     gridCanvas.bringToFront(item);
                 }
             });
             if (!checkLockStatus(curLayerSelected)) {//if notLocked
                 gridCanvas.forEachObject(obj => {
-                    if (obj.id === curLayerSelected) {
+                    if (obj.layer === curLayerSelected) {
                         obj.set({selectable: true});
                     }
                 });

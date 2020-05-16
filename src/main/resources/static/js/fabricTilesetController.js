@@ -1,6 +1,6 @@
-var img = new Image(),
-    imgW,
-    imgH,
+// var img = new Image(),
+ var imgW,
+     imgH,
     tileW,
     tileH;
 
@@ -9,6 +9,7 @@ var offset = 1.1;
 var clonedObject;
 
 function addTileset(input){
+    let img = new Image();
     console.log("adding tileset...");
     var fakeCanvas = document.createElement('canvas');
     fakeCanvas.setAttribute('id', '_fake_canvas');
@@ -31,7 +32,8 @@ function addTileset(input){
             newTileset.image = e.target.result;//save image to localstorage
             img.src = newTileset.image;
             img.onload = function(){
-                init(fakeCanvas, ctx);
+                console.log("**************on load1111**********");
+                init(fakeCanvas, ctx, img);
                 var tiles = getTiles();
                 var fabricCanvas = new fabric.Canvas(canvas.id,{
                     width: tileW*tileCountX + (tileCountX-1)* (tileW*(offset-1)) + 20,
@@ -57,6 +59,7 @@ function addTileset(input){
 
 
 function saveDrawnTileset() {
+    let img = new Image();
     let customizedImg = lc.getImage().toDataURL();
     let fakeCanvas = document.createElement('canvas');
     fakeCanvas.setAttribute('id', '_fake_canvas');
@@ -68,9 +71,8 @@ function saveDrawnTileset() {
         image: null,
         canvasId : canvas.id,
     };
-    newTileset.image = customizedImg;
-    img.src = customizedImg;
     img.onload = function(){
+        console.log("**************on load2222**********");
         init(fakeCanvas, ctx);
         var tiles = getTiles();
         var fabricCanvas = new fabric.Canvas(canvas.id,{
@@ -83,17 +85,17 @@ function saveDrawnTileset() {
         fakeCanvas = null;
         $('#_fake_canvas').remove();
     };
+    img.src = customizedImg;
     map.tilesets.push(newTileset);
+    newTileset.image = customizedImg;
     localStorage.setItem("map", JSON.stringify(map));
 }
 
 
-function init(canvas, ctx) {
+function init(canvas, ctx, img) {
     let map = JSON.parse(localStorage.getItem('map'));
     imgW = img.width;
-    console.log(imgW);
     imgH = img.height;
-    console.log(imgH);
     tileW = map.tileWidth;
     tileH = map.tileHeight;
     tileCountX = ~~(imgW / tileW);
@@ -162,7 +164,8 @@ function getTiles() {
 function drawTiles(tiles, fabricCanvas) {
     //loop through each tile in array
     let map = JSON.parse(localStorage.getItem('map'));
-    for(var i = 0; i < tiles.length; i++){
+        for(var i = 0; i < tiles.length; i++){
+        let gid = map.gidCnt;
         var c = document.createElement('canvas');
         c.setAttribute('id', '_temp_canvas');
         var ctx = c.getContext('2d');
@@ -170,21 +173,26 @@ function drawTiles(tiles, fabricCanvas) {
         c.height = map.tileHeight;
         let d = tiles[i];
         c.getContext('2d').putImageData(d, 0, 0);
-        var image = fabric.Image.fromURL(c.toDataURL(), function(img) {
+        fabric.Image.fromURL(c.toDataURL(), function(img) {
             img.left = d.x * offset + 10;
             img.top = d.y * offset + 10;
             fabricCanvas.add(img);
             // img.bringToFront();
-            img.lockMovementX = true;
-            img.lockMovementY = true;
-            img.lockScalingX = true;
-            img.lockScalingY = true;
-            img.hasControls = false;
+            img.set({
+                lockMovementX : true,
+                lockMovementY : true,
+                lockScalingX : true,
+                lockScalingY : true,
+                hasControls : false,
+                id : gid,
+            });
             img.setCoords();
-            c = null;
-            $('#_temp_canvas').remove();
             // fabricCanvas.renderAll();
         });
+        c = null;
+        $('#_temp_canvas').remove();
+        map.gidCnt++;
+        localStorage.setItem("map", JSON.stringify(map));
     }
 
     fabricCanvas.on('selection:created',function(e){
@@ -199,16 +207,15 @@ function drawTiles(tiles, fabricCanvas) {
         });
 
         let obj = fabricCanvas.getActiveObject();
-
         obj.clone(function(cloned) {
             clonedObject = cloned;
+            // clonedObject.id = obj.id;
             if(obj.type !== 'activeSelection'){
                 fabricCanvas.discardActiveObject();
             }
+            console.log(cloned.id);
         });
-
     });
-
     // tiles.forEach((d,i) => ctx.putImageData(d, d.x * offset, d.x * offset));
 }
 
@@ -243,28 +250,38 @@ function addTileCanvas(id){
 
 function reloadTileset(){
     let map = JSON.parse(localStorage.getItem('map'));
-    for(var i = 0; i < map.tilesets.length; i++ ){
-        var tileset = map.tilesets[i];
-        var canvas = addTileCanvas(tileset.id);
-        img.src = tileset.image;
-        console.log(img.src);
-        img.onload = function(){
-            var fakeCanvas = document.createElement('canvas');
-            fakeCanvas.setAttribute('id', '_fake_canvas');
-            var ctx = fakeCanvas.getContext("2d");
-            init(fakeCanvas, ctx);
+    map.gidCnt = 1;//reset gid counter
+    localStorage.setItem("map", JSON.stringify(map));
+    for(let i = 0; i < map.tilesets.length; i++ ){
+        loadImage(i);
+    }
+}
+
+function loadImage(i){
+    let ctxs=[];
+    console.log("index:"+i);
+    let fakeCanvas = document.createElement('canvas');
+    fakeCanvas.setAttribute('id', '_fake_canvas');
+    let map = JSON.parse(localStorage.getItem('map'));
+    let canvas = addTileCanvas(map.tilesets[i].id);
+    let img = new Image();
+    ctxs[i] = fakeCanvas.getContext("2d");
+    img.onload = (function(val){
+        return function() {
+            console.log(img.src);
+            init(fakeCanvas, ctxs[val], img);
             var tiles = getTiles();
-            var fabricCanvas = new fabric.Canvas(canvas.id,{
-                width: tileW*tileCountX + (tileCountX-1)* (tileW*(offset-1)) + 20,
-                height: tileH*tileCountY + (tileCountY-1)* (tileH*(offset-1)) + 20,
-                selectable:false,
+            var fabricCanvas = new fabric.Canvas(canvas.id, {
+                width: tileW * tileCountX + (tileCountX - 1) * (tileW * (offset - 1)) + 20,
+                height: tileH * tileCountY + (tileCountY - 1) * (tileH * (offset - 1)) + 20,
+                selectable: false,
             });
             drawTiles(tiles, fabricCanvas);
             fakeCanvas = null;
             $('#_fake_canvas').remove();
-        };
-    }
+        }
+    }(i));
+    img.src = map.tilesets[i].image;
 }
-
 
 reloadTileset();
