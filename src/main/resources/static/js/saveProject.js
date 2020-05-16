@@ -12,17 +12,19 @@ function getProjectScreenshot() {
 
 function saveWork() {
     console.log("Saving Work")
-    let map = localStorage.getItem('map');
-    map.canvas = JSON.stringify(gridCanvas.toJSON());
-    var projectJson = JSON.parse(localStorage.getItem('map'));
 
+    var projectJson = JSON.parse(localStorage.getItem('map'));
+    let theProjectName = projectJson.name
+    let theProjectID = projectJson.id
+    projectJson.canvas = JSON.stringify(gridCanvas.toJSON());
+    let stringifyProject = JSON.stringify(projectJson)
 
     if (projectJson.id == "") {
         // Sending request for project
         project = {
-            "name": projectJson.name,
+            "name": theProjectName,
             "screenshot": getProjectScreenshot(),
-            "mapJSON": map
+            "mapJSON": stringifyProject
         }
         $.ajax({
             contentType: "application/json",
@@ -40,10 +42,10 @@ function saveWork() {
 
     } else {
         project = {
-            "id": projectJson.id,
-            "name": projectJson.name,
+            "id": theProjectID,
+            "name": theProjectName,
             "screenshot": getProjectScreenshot(),
-            "mapJSON": map
+            "mapJSON": stringifyProject
         }
 
         $.ajax({
