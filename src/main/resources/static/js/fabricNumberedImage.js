@@ -2,7 +2,7 @@
 fabric.Image.prototype.toObject = (function(toObject) {
     return function() {
         return fabric.util.object.extend(toObject.call(this), {
-            src: this.toDataURL(),
+            // src: this.toDataURL(),
             layer: this.layer,
             id: this.id,
         });

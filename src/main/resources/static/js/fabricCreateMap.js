@@ -331,7 +331,8 @@ var zoomhandler = function(event) {
 
 function loadMap(){
     let map = JSON.parse(localStorage.getItem("map"));
-    gridCanvas.loadFromJSON(map.canvas, ()=>{
+    gridCanvas.loadFromJSON(map.canvas, (o)=>{
+        gridCanvas.renderAll.bind(gridCanvas);
         gridCanvas.add(boundBox);
         if(map.orientation === "Orthogonal"){
             lineX.forEach((line)=>{
@@ -348,14 +349,14 @@ function loadMap(){
                 gridCanvas.sendToBack(line);
             });
         }
-        gridCanvas.renderAll();
     });
     // gridCanvas.loadFromJSON(map.canvas, gridCanvas.renderAll.bind(gridCanvas), function(o, object) {
     //     fabric.log(o, object);
     // });
-    gridCanvas.getObjects().forEach(obj=>{
-        console.log(obj);
-    });
+    // gridCanvas.getObjects().forEach(obj=>{
+    //     obj.setCoords();
+    //     console.log(obj);
+    // });
 }
 
 drawGrids();

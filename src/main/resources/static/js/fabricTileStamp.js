@@ -25,38 +25,24 @@ gridCanvas.on({
     'object:moving':(e)=>{
         if(checkLayerType() === "tile" && checkMapType() === "Orthogonal"){
             if(e.target.type === 'activeSelection'){
-                //try search for existing point on right top corner, return
+                let top = closest(lineYN, e.target.top);
+                let left = closest(lineXN, e.target.left);
+                let diff = (e.target.left + e.target.width) - (boundBox.left + boundBox.width);
                 if(e.target.top+e.target.height>boundBox.top+boundBox.height){
-                    let top = closest(lineYN, e.target.top-((e.target.top+e.target.height)-(boundBox.top+boundBox.height)));
-                    let left = closest(lineXN, e.target.left);
+                    top = closest(lineYN, e.target.top-((e.target.top+e.target.height)-(boundBox.top+boundBox.height)));
                     e.target.set({
                         top: top,
                         left: left,
                     });
-                    if(e.target.left+e.target.width>boundBox.left+boundBox.left) {
-                        let left = closest(lineXN, e.target.left - ((e.target.left + e.target.width) - (boundBox.left + boundBox.width)));
-                        e.target.set({
-                            left: left,
-                        });
-                    }
                 }
-                else if(e.target.left+e.target.width>boundBox.left+boundBox.left){
-                    let top = closest(lineYN, e.target.top);
-                    let left = closest(lineXN, e.target.left-((e.target.left+e.target.width)-(boundBox.left+boundBox.width)));
+                if(diff>0){
+                    left = closest(lineXN, e.target.left-diff);
                     e.target.set({
                         top: top,
                         left: left,
                     });
-                    if(e.target.top+e.target.height>boundBox.top+boundBox.height){
-                        let top = closest(lineYN, e.target.top-((e.target.top+e.target.height)-(boundBox.top+boundBox.height)));
-                        e.target.set({
-                            top: top,
-                        });
-                    }
                 }
                 else{
-                    let top = closest(lineYN, e.target.top);
-                    let left = closest(lineXN, e.target.left);
                     e.target.set({
                         top: top,
                         left: left,
@@ -134,7 +120,7 @@ gridCanvas.on({
                 }
             });
         }
-        refreshData();
+        // refreshData();
     }
 });
 
@@ -292,7 +278,7 @@ gridCanvas.on({
             }else{return;}
         }
         //refresh canvas data after change
-        refreshData();
+        // refreshData();
     }
 });
 
@@ -385,7 +371,7 @@ function eraseTile(){
     });
     gridCanvas.discardActiveObject();
     gridCanvas.renderAll();
-    refreshData();
+    // refreshData();
 }
 
 

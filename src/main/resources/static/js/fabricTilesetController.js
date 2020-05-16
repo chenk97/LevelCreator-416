@@ -268,7 +268,6 @@ function loadImage(i){
     ctxs[i] = fakeCanvas.getContext("2d");
     img.onload = (function(val){
         return function() {
-            console.log(img.src);
             init(fakeCanvas, ctxs[val], img);
             var tiles = getTiles();
             var fabricCanvas = new fabric.Canvas(canvas.id, {
