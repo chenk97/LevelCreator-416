@@ -7,6 +7,20 @@ var ctrlDown = false;
 var objScaleX = 1;
 var objScaleY = 1;
 var shapeFillOn = false;
+var _isDragging = false;
+var _isMouseDown = false;
+
+gridCanvas.on('mouse:down', function () {
+    _isMouseDown = true;
+    // other stuff
+});
+
+gridCanvas.on('mouse:move', function () {
+    _isDragging = _isMouseDown;
+    // other stuff
+})
+
+
 
 gridCanvas.on('selection:created',function(e){
     //disable group scaling
@@ -129,153 +143,161 @@ gridCanvas.on({
 gridCanvas.on({
     'mouse:up':(e)=>{
         e.e.stopPropagation();
-        //limit the mouse click detection inside boundBox
-        let cursorX = gridCanvas.getPointer(e.e).x,
-            cursorY = gridCanvas.getPointer(e.e).y;
-        // if(cursorY<boundBox.top || cursorY>boundBox.top+boundBox.height
-        //     ||cursorX<boundBox.left ||cursorX>boundBox.left+boundBox.width){
-        //     return;
-        // }
-        if(checkLayerType() === "tile" && !checkLockStatus(curLayerSelected)){
-            if(clonedObject){
-                if(shapeFillOn){
-                    shapeFillTool();
-                }else{
-                    if(checkMapType() === "Orthogonal"){
-                        let top = closest(lineYN, cursorY-tileH/2);
-                        let left = closest(lineXN, cursorX-tileW/2);
-                        clonedObject.clone(function(cloned) {
-                            if (cloned.type === 'activeSelection') {
-                                let width = cloned.width * cloned.scaleX;
-                                let height = cloned.height * cloned.scaleY;
-                                //clean area
-                                let cloneTop = top-(Math.floor(height/tileH)*tileH)/2;
-                                let cloneLeft = left-(Math.floor(width/tileW)*tileW)/2;
-                                areaClean(width, height, closest(lineYN,cloneTop+tileH/2), closest(lineXN,cloneLeft+tileW/2));
-                                cloned.set({
-                                    top: cloneTop,
-                                    left: cloneLeft,
-                                });
-                                cloned.forEachObject(function (obj) {
-                                    obj.set({
-                                        top: obj.top/offset,
-                                        left: obj.left/offset,
-                                        selectable: true,
+        _isMouseDown = false;
+        let isDragEnd = _isDragging;
+        _isDragging = false;
+        if (isDragEnd) {
+            return;
+        } else {
+            // code for no drag mouse up
+            //limit the mouse click detection inside boundBox
+            let cursorX = gridCanvas.getPointer(e.e).x,
+                cursorY = gridCanvas.getPointer(e.e).y;
+            // if(cursorY<boundBox.top || cursorY>boundBox.top+boundBox.height
+            //     ||cursorX<boundBox.left ||cursorX>boundBox.left+boundBox.width){
+            //     return;
+            // }
+            if(checkLayerType() === "tile" && !checkLockStatus(curLayerSelected)){
+                if(clonedObject){
+                    if(shapeFillOn){
+                        shapeFillTool();
+                    }else{
+                        if(checkMapType() === "Orthogonal"){
+                            let top = closest(lineYN, cursorY-tileH/2);
+                            let left = closest(lineXN, cursorX-tileW/2);
+                            clonedObject.clone(function(cloned) {
+                                if (cloned.type === 'activeSelection') {
+                                    let width = cloned.width * cloned.scaleX;
+                                    let height = cloned.height * cloned.scaleY;
+                                    //clean area
+                                    let cloneTop = top-(Math.floor(height/tileH)*tileH)/2;
+                                    let cloneLeft = left-(Math.floor(width/tileW)*tileW)/2;
+                                    areaClean(width, height, closest(lineYN,cloneTop+tileH/2), closest(lineXN,cloneLeft+tileW/2));
+                                    cloned.set({
+                                        top: cloneTop,
+                                        left: cloneLeft,
+                                    });
+                                    cloned.forEachObject(function (obj) {
+                                        obj.set({
+                                            top: obj.top/offset,
+                                            left: obj.left/offset,
+                                            selectable: true,
+                                            hasControls: false,
+                                            lockScalingX: true,
+                                            lockScalingY: true,
+                                            layer: curLayerSelected, //set id to layer id
+                                        });
+                                        obj.setCoords();
+                                        console.log("groupClone item:"+obj.id);
+                                        gridCanvas.add(obj);
+                                    });
+                                    gridCanvas.setActiveObject(cloned);
+                                    gridCanvas.discardActiveObject();
+                                    gridCanvas.getObjects().forEach(item=>{
+                                        if(item.layer===curLayerSelected){
+                                            //remove out bounded tiles to avoid overlapping on same layer
+                                            if(item.left<boundBox.left-tileW/2||item.left>boundBox.left+boundBox.width-tileW/2
+                                                ||item.top<boundBox.top-tileH/2||item.top>boundBox.top+boundBox.height-tileH/2){
+                                                gridCanvas.remove(item);
+                                            }else{
+                                                item.set({
+                                                    top:closest(lineYN, item.top),
+                                                    left:closest(lineXN, item.left),
+                                                });
+                                            }
+                                        }
+                                    });
+                                    gridCanvas.renderAll();
+                                }else{
+                                    removeDup(top, left);
+                                    cloned.set({
+                                        top: top,
+                                        left: left,
                                         hasControls: false,
                                         lockScalingX: true,
                                         lockScalingY: true,
-                                        layer: curLayerSelected, //set id to layer id
+                                        layer: curLayerSelected,
                                     });
-                                    obj.setCoords();
-                                    console.log("groupClone item:"+obj.id);
-                                    gridCanvas.add(obj);
-                                });
-                                gridCanvas.setActiveObject(cloned);
-                                gridCanvas.discardActiveObject();
-                                gridCanvas.getObjects().forEach(item=>{
-                                    if(item.layer===curLayerSelected){
-                                        //remove out bounded tiles to avoid overlapping on same layer
-                                        if(item.left<boundBox.left-tileW/2||item.left>boundBox.left+boundBox.width-tileW/2
-                                            ||item.top<boundBox.top-tileH/2||item.top>boundBox.top+boundBox.height-tileH/2){
-                                            gridCanvas.remove(item);
-                                        }else{
+                                    console.log(cloned.id);
+                                    gridCanvas.add(cloned);
+                                }
+                            });
+                        }else if(checkMapType() === "Isometric" && !checkLockStatus(curLayerSelected)){
+                            let corSet = closestPoint(isoMapY, isoMapX, cursorY-tileH/2, cursorX);
+                            let top = Number(corSet.top);
+                            if(cursorX+tileW/2 < isoMapY[top][0] || cursorX-tileW/2 > Math.max.apply(null, isoMapY[top])){return;}
+                            let left = Number(corSet.left);
+                            clonedObject.clone(function(cloned) {
+                                if (cloned.type === 'activeSelection') {
+                                    let width = cloned.width * cloned.scaleX;
+                                    let height = cloned.height * cloned.scaleY;
+                                    //clean area
+                                    let cloneTop = top-(Math.floor(height/tileH)*tileH)/2;
+                                    let cloneLeft = left-(Math.floor(width/tileW)*tileW)/2;
+                                    cloned.set({
+                                        top: cloneTop,
+                                        left: cloneLeft,
+                                    });
+                                    cloned.forEachObject(function (obj) {
+                                        obj.set({
+                                            top: obj.top/offset,
+                                            left: obj.left/offset,
+                                            selectable: true,
+                                            hasControls: false,
+                                            lockScalingX: true,
+                                            lockScalingY: true,
+                                            layer: curLayerSelected, //set id to layer id
+                                        });
+                                        obj.setCoords();
+                                        gridCanvas.add(obj);
+                                    });
+                                    gridCanvas.setActiveObject(cloned);
+                                    gridCanvas.discardActiveObject();
+                                    gridCanvas.getObjects().forEach(item=>{
+                                        if(item.layer===curLayerSelected){
+                                            let corSet = closestPoint(isoMapY, isoMapX, item.top, item.left + tileW/2);
                                             item.set({
-                                                top:closest(lineYN, item.top),
-                                                left:closest(lineXN, item.left),
+                                                top:Number(corSet.top),
+                                                left:Number(corSet.left),
                                             });
                                         }
-                                    }
-                                });
-                                gridCanvas.renderAll();
-                            }else{
-                                removeDup(top, left);
-                                cloned.set({
-                                    top: top,
-                                    left: left,
-                                    hasControls: false,
-                                    lockScalingX: true,
-                                    lockScalingY: true,
-                                    layer: curLayerSelected,
-                                });
-                                console.log(cloned.id);
-                                gridCanvas.add(cloned);
-                            }
-                        });
-                    }else if(checkMapType() === "Isometric" && !checkLockStatus(curLayerSelected)){
-                        let corSet = closestPoint(isoMapY, isoMapX, cursorY-tileH/2, cursorX);
-                        let top = Number(corSet.top);
-                        if(cursorX+tileW/2 < isoMapY[top][0] || cursorX-tileW/2 > Math.max.apply(null, isoMapY[top])){return;}
-                        let left = Number(corSet.left);
-                        clonedObject.clone(function(cloned) {
-                            if (cloned.type === 'activeSelection') {
-                                let width = cloned.width * cloned.scaleX;
-                                let height = cloned.height * cloned.scaleY;
-                                //clean area
-                                let cloneTop = top-(Math.floor(height/tileH)*tileH)/2;
-                                let cloneLeft = left-(Math.floor(width/tileW)*tileW)/2;
-                                cloned.set({
-                                    top: cloneTop,
-                                    left: cloneLeft,
-                                });
-                                cloned.forEachObject(function (obj) {
-                                    obj.set({
-                                        top: obj.top/offset,
-                                        left: obj.left/offset,
-                                        selectable: true,
+                                    });
+                                    gridCanvas.renderAll();
+                                }else{
+                                    removeDup(top, left);
+                                    cloned.set({
+                                        top: top,
+                                        left: left,
                                         hasControls: false,
                                         lockScalingX: true,
                                         lockScalingY: true,
-                                        layer: curLayerSelected, //set id to layer id
+                                        layer: curLayerSelected,
                                     });
-                                    obj.setCoords();
-                                    gridCanvas.add(obj);
-                                });
-                                gridCanvas.setActiveObject(cloned);
-                                gridCanvas.discardActiveObject();
-                                gridCanvas.getObjects().forEach(item=>{
-                                    if(item.layer===curLayerSelected){
-                                        let corSet = closestPoint(isoMapY, isoMapX, item.top, item.left + tileW/2);
-                                        item.set({
-                                            top:Number(corSet.top),
-                                            left:Number(corSet.left),
-                                        });
-                                    }
-                                });
-                                gridCanvas.renderAll();
-                            }else{
-                                removeDup(top, left);
-                                cloned.set({
-                                    top: top,
-                                    left: left,
-                                    hasControls: false,
-                                    lockScalingX: true,
-                                    lockScalingY: true,
-                                    layer: curLayerSelected,
-                                });
-                                gridCanvas.add(cloned);
-                            }
-                        });
+                                    gridCanvas.add(cloned);
+                                }
+                            });
+                        }
                     }
-                }
-            }else{return;}
-        }else if(checkLayerType() === "object" && !checkLockStatus(curLayerSelected)){
-            let top = cursorY-tileH/2;
-            let left = cursorX-tileW/2;
-            if(clonedObject){
-                clonedObject.clone(function(cloned) {
-                    if (cloned.type !== 'activeSelection') {
-                        cloned.set({
-                            top: top,
-                            left: left,
-                            enableRetinaScaling:true,
-                            layer: curLayerSelected,
-                        });
-                        cloned.setCoords();
-                        gridCanvas.add(cloned);
-                        gridCanvas.setActiveObject(cloned);
-                    }
-                });
-            }else{return;}
+                }else{return;}
+            }else if(checkLayerType() === "object" && !checkLockStatus(curLayerSelected)){
+                let top = cursorY-tileH/2;
+                let left = cursorX-tileW/2;
+                if(clonedObject){
+                    clonedObject.clone(function(cloned) {
+                        if (cloned.type !== 'activeSelection') {
+                            cloned.set({
+                                top: top,
+                                left: left,
+                                enableRetinaScaling:true,
+                                layer: curLayerSelected,
+                            });
+                            cloned.setCoords();
+                            gridCanvas.add(cloned);
+                            gridCanvas.setActiveObject(cloned);
+                        }
+                    });
+                }else{return;}
+            }
         }
         //refresh canvas data after change
         // refreshData();

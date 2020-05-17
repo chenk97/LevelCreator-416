@@ -26,7 +26,7 @@
 
             <div class="row iconrow">
                 <div class="col">
-                    <a href = "#"><i class="fas fa-save icon" title="Save" id="saveWork" ></i></a>
+                    <a href = ""><i class="fas fa-save icon" title="Save" id="saveWork" ></i></a>
                 </div>
             </div>
             <div class = "row iconrow">
@@ -113,23 +113,23 @@
 
             <div class="row iconrow">
                 <div class="col">
-                    <a href="#" id="shapeFillBtn"><i class="fas fa-fill-drip icon" title="Shape Fill Tool"></i></a>
+                    <a href="" id="shapeFillBtn"><i class="fas fa-fill-drip icon" title="Shape Fill Tool"></i></a>
                 </div>
             </div>
 
             <div class="row iconrow">
                 <div class="col">
-                    <a href="#" id="selectBtn"><i class="fas fa-object-group icon" title="Rectangle Selection Tool"></i></a>
+                    <a href="" id="selectBtn"><i class="fas fa-object-group icon" title="Rectangle Selection Tool"></i></a>
                 </div>
             </div>
             <div class = "row iconrow">
                 <div class="col">
-                    <a href="#" id="eraseBtn"><i class="fas fa-eraser icon" title="Erase Tool"></i></a>
+                    <a href="" id="eraseBtn"><i class="fas fa-eraser icon" title="Erase Tool"></i></a>
                 </div>
             </div>
             <div class="row iconrow">
                 <div class="col">
-                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit icon" title="Draw Tool"></i></a>
+                    <a href="" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit icon" title="Draw Tool"></i></a>
 
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" data-backdrop="static"
                          aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -157,14 +157,42 @@
 
                 </div>
             </div>
-            <div class = "row iconrow">
+            <div th:if="${isOwner}" class = "row iconrow">
                 <div class="col">
-                    <i class="fas fa-users icon" title="Collaborators"></i>
+                    <a href="" data-toggle="modal" data-target="#collaboratorModal">
+                        <i class="fas fa-users icon" title="Collaborators"></i>
+                    </a>
+
+                    <div class="modal fade" id="collaboratorModal" tabindex="-1" role="dialog" data-backdrop="static"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="collaboratorModalLabel">Add Collaborators</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="padding:0px !important;">
+                                    <div class = "list-group" th:each = "collaborator: ${collaborators}">
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <p th:text="${collaborator.username}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="modal-footer" style="padding:1rem !important;">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" id="addCollaboratorBtn" class="btn btn-primary">ADD</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row iconrow">
                 <div class="col">
-                    <a href="#" data-toggle="modal" data-target="#infoPopup"><i class="fas fa-info-circle icon" title ="Information"></i></a>
+                    <a href="" data-toggle="modal" data-target="#infoPopup"><i class="fas fa-info-circle icon" title ="Information"></i></a>
 
                     <div class="modal fade" id="infoPopup" tabindex="-1" role="dialog" data-backdrop="static"
                          aria-labelledby="infoPopupModal" aria-hidden="true">
@@ -216,9 +244,9 @@
 
                     </div>
                     <div class="card-footer text-muted">
-                        <a href="#" id="downBtn"><i class="fas fa-arrow-down layerIcon"></i></a>
+                        <a href="" id="downBtn"><i class="fas fa-arrow-down layerIcon"></i></a>
 
-                        <a href="#" id="upBtn"><i class="fas fa-arrow-up layerIcon"></i></a>
+                        <a href="" id="upBtn"><i class="fas fa-arrow-up layerIcon"></i></a>
 
                         <i class=" fas fa-plus dropdown-toggle layerIcon" id="dropdownMenu2" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false"></i>

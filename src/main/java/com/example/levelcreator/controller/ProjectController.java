@@ -103,7 +103,7 @@ public class ProjectController {
 
     @RequestMapping(value = "/addProject", method = RequestMethod.POST)
     @ResponseBody
-    public String addProject(@RequestBody Project newProject, Authentication authentication, Errors errors){
+    public String addProject(@RequestBody Project newProject, Authentication authentication){
         System.out.println("**redirecting to workspace +++ POST**");
         System.out.println("new proj"+newProject);
         Project project = projectService.saveProjectNew(newProject, authentication);
@@ -114,14 +114,25 @@ public class ProjectController {
 
 
     @RequestMapping(value = "/workspace/{id}", method = RequestMethod.GET)
-    public String loadProject(@PathVariable int id) {
-        Project proj = projectService.getProjectById(id);
-        System.out.println("***currentProject***:"+proj.toString());
-        //front end get project
+    public String loadProject(@PathVariable int id, Authentication authentication, Model model) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("project", proj);
+        Project project = projectService.getProjectById(id);
+        System.out.println("***currentProject***:"+project.toString());
+        //current user
+        User principal = authenticationService.getPrincipal(authentication);
+        //get owner of project
+        User owner = project.getUser();
+        Set<User> collaborators = project.getCollaborators();
+        modelAndView.addObject("user", principal);
+        modelAndView.addObject("project", project);
+        modelAndView.addObject("collaborators", collaborators);
+        if(principal.equals(owner)){
+            System.out.println("Current user is owner!");
+            model.addAttribute("isOwner", true);
+        }
         return "workspace";
     }
+
 
     // Saves project to database
     @RequestMapping(value = "/saveProject", method = RequestMethod.POST)
