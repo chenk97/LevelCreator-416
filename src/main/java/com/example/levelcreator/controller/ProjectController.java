@@ -2,17 +2,20 @@ package com.example.levelcreator.controller;
 
 
 import com.example.levelcreator.model.Project;
+import com.example.levelcreator.model.Response;
 import com.example.levelcreator.model.User;
 import com.example.levelcreator.service.AuthenticationService;
 import com.example.levelcreator.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.levelcreator.service.UserService;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.http.MediaType;
@@ -21,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class ProjectController {
@@ -34,10 +38,10 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
-    @RequestMapping("/myWork")
-    public String myWork() {
-        return "mywork.html";
-    }
+//    @RequestMapping("/myWork")
+//    public String myWork() {
+//        return "mywork.html";
+//    }
 
     //Order projects by date newest to oldest
     public class customComparator implements Comparator<Project> {
@@ -92,15 +96,30 @@ public class ProjectController {
     }
 
     //submitting the form with map preferences directs the user to the workspace page where they are able to start creating
-    @RequestMapping("/workspace")
-    public String submitNewProject() {
-        return "workspace";
+//    @RequestMapping("/workspace")
+//    public String submitNewProject() {
+//        return "workspace";
+//    }
+
+    @RequestMapping(value = "/addProject", method = RequestMethod.POST)
+    @ResponseBody
+    public String addProject(@RequestBody Project newProject, Authentication authentication, Errors errors){
+        System.out.println("**redirecting to workspace +++ POST**");
+        System.out.println("new proj"+newProject);
+        Project project = projectService.saveProjectNew(newProject, authentication);
+        System.out.println("saved proj"+project);
+        String str = String.format("/workspace/%d", project.getId());
+        return str;
     }
 
-    @RequestMapping("/workspace/{id}")
+
+    @RequestMapping(value = "/workspace/{id}", method = RequestMethod.GET)
     public String loadProject(@PathVariable int id) {
         Project proj = projectService.getProjectById(id);
-        System.out.println("currentProject:"+proj.toString());
+        System.out.println("***currentProject***:"+proj.toString());
+        //front end get project
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("project", proj);
         return "workspace";
     }
 

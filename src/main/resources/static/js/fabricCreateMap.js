@@ -18,14 +18,52 @@ var isoMapY = {};
 var isoMap = [];
 var map;
 
-function createMap() {
+
+$(function() {
+    /*  Submit form using Ajax */
+    $('#createMapBtn').click(function(e) {
+
+        //Prevent default submission of form
+        e.preventDefault();
+
+        let map = newMap();
+        let project = {
+            "name": map.name,
+            "screenshot": null,
+            "mapJSON": JSON.stringify(map),
+        }
+
+        $.post({
+            contentType: "application/json",
+            type: "POST",
+            url : 'addProject',
+            data : JSON.stringify(project),
+            success: function (response) {
+                console.log('done updating');
+                console.log(response);
+                // window.location.href = response.redirect;
+                let id = response.slice(11);
+                map.id = id;
+                localStorage.setItem('map', JSON.stringify(map));
+                window.location.replace(response);
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log('error while put');
+                window.location.href = '/myWork3';
+            }
+        })
+    });
+});
+
+
+function newMap(){
     var mapOrientation = document.getElementById("orientation").value;
     var projectName = document.getElementById("projectName").value;
     var mapWidth = Number(document.getElementById("mapWidth").value);
     var mapHeight = Number(document.getElementById("mapHeight").value);
     var tileWidth = Number(document.getElementById("tileWidth").value);
     var tileHeight = Number(document.getElementById("tileHeight").value);
-
 
     map = {
         name: projectName,
@@ -56,8 +94,50 @@ function createMap() {
         ]
     };
 
-    localStorage.setItem('map', JSON.stringify(map));
+    return map;
 }
+
+
+// function createMap() {
+//     var mapOrientation = document.getElementById("orientation").value;
+//     var projectName = document.getElementById("projectName").value;
+//     var mapWidth = Number(document.getElementById("mapWidth").value);
+//     var mapHeight = Number(document.getElementById("mapHeight").value);
+//     var tileWidth = Number(document.getElementById("tileWidth").value);
+//     var tileHeight = Number(document.getElementById("tileHeight").value);
+//
+//
+//     map = {
+//         name: projectName,
+//         id:"",
+//         orientation: mapOrientation,
+//         width: mapWidth,
+//         height: mapHeight,
+//         tileWidth: tileWidth,
+//         tileHeight: tileHeight,
+//         nextLayerid: 2,
+//         gidCnt: 1,
+//         canvas: null,
+//         layers: [
+//             {
+//                 type: "tile",
+//                 id: 1,
+//                 name: "Tile Layer1",
+//                 properties: [],
+//                 visibility: true,
+//                 locked: false,
+//                 height: mapHeight,
+//                 width: mapWidth,
+//                 x: 0,
+//                 y: 0,
+//             }
+//         ],
+//         tilesets: [
+//         ]
+//     };
+//
+//     localStorage.setItem('map', JSON.stringify(map));
+// }
 
 
 function drawGrids(){
@@ -66,7 +146,7 @@ function drawGrids(){
     let tileW = map.tileWidth;
     let tileH = map.tileHeight;
     gridCanvas = new fabric.Canvas('grid_canvas');
-    console.log(JSON.stringify(gridCanvas.toJSON()));
+    // console.log(JSON.stringify(gridCanvas.toJSON()));
     // gridCanvas._historyInit();
     gridCanvas.preserveObjectStacking = true;
     gridCanvas.setWidth(map.width * map.tileWidth);

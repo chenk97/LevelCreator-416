@@ -19,50 +19,50 @@ function saveWork() {
     projectJson.canvas = JSON.stringify(gridCanvas.toJSON());
     let stringifyProject = JSON.stringify(projectJson)
 
-    if (projectJson.id == "") {
-        // Sending request for project
-        project = {
-            "name": theProjectName,
-            "screenshot": getProjectScreenshot(),
-            "mapJSON": stringifyProject
-        }
-        $.ajax({
-            contentType: "application/json",
-            type: "POST",
-            data: JSON.stringify(project),
-            url: "/saveProject",
-            success: function (data) {
-                console.log('done');
-                window.location = "/myWork";
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log('error while post');
-            }
-        });
-
-    } else {
-        project = {
-            "id": theProjectID,
-            "name": theProjectName,
-            "screenshot": getProjectScreenshot(),
-            "mapJSON": stringifyProject
-        }
-
-        $.ajax({
-            contentType: "application/json",
-            type: "PUT",
-            data: JSON.stringify(project),
-            url: "/updateProject",
-            success: function (data) {
-                console.log('done updating');
-                window.location = "/myWork";
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log('error while put');
-            }
-        });
-
+    // if (projectJson.id == "") {
+    //     console.log("save new");
+    //     // Sending request for project
+    //     project = {
+    //         "name": theProjectName,
+    //         "screenshot": getProjectScreenshot(),
+    //         "mapJSON": stringifyProject
+    //     }
+    //     $.ajax({
+    //         contentType: "application/json",
+    //         type: "POST",
+    //         data: JSON.stringify(project),
+    //         url: "/saveProject",
+    //         success: function (data) {
+    //             console.log('done');
+    //             // window.location = "/myWork";
+    //         },
+    //         error: function (jqXHR, textStatus, errorThrown) {
+    //             console.log('error while post');
+    //         }
+    //     });
+    //
+    // } else {
+    //     console.log("update")
+    project = {
+        "id": theProjectID,
+        "name": theProjectName,
+        "screenshot": getProjectScreenshot(),
+        "mapJSON": stringifyProject
     }
+    $.ajax({
+        contentType: "application/json",
+        type: "PUT",
+        data: JSON.stringify(project),
+        url: "/updateProject",
+        success: function (data) {
+            console.log('done updating');
+            // window.location = "/myWork";
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log('error while put');
+        }
+    });
+    // }
 
 
 }

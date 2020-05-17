@@ -34,7 +34,8 @@
                     <div class="modal-body">
                         <!--                The Input Form-->
                         <!--/*@thymesVar id="project" type=""*/-->
-                        <form action="#" th:action="@{/workspace}" method="POST">
+<!--                        th:onsubmit=""-->
+                        <form action="addProject" method="POST">
                             <div class="form-group form-inline">
                                 <label>Orientation:</label>
                                 <select id="orientation" style="padding-left: 10px">
@@ -72,7 +73,7 @@
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary" onclick="createMap()">Create Map</button>
+                                <button type="submit" id="createMapBtn" class="btn btn-primary">Create Map</button>
                             </div>
                         </form>
 

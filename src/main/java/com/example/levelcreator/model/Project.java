@@ -23,7 +23,6 @@ public class Project {
     private String type;
 
     @Lob
-    @NotBlank
     //image stored as base64 byte[] string
     private String screenshot;
 
@@ -146,5 +145,20 @@ public class Project {
 
     public void setCollaborators(Set<User> collaborators) {
         this.collaborators = collaborators;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", screenshot='" + screenshot + '\'' +
+                ", createdDate='" + createdDate + '\'' +
+                ", mapJSON='" + mapJSON + '\'' +
+                ", likes=" + likes +
+                ", user=" + user +
+                ", collaborators=" + collaborators +
+                '}';
     }
 }

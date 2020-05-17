@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -94,6 +95,11 @@ public class ProjectService {
     //Delete  project from database
     public void deleteProject(Integer id) {
         projectRepo.deleteById(id);
+    }
+
+    public Set<User> getCollaborators(Project project){
+        Project proj = (Project) projectRepo.findById(project.getId()).get();
+        return proj.getCollaborators();
     }
 
 }

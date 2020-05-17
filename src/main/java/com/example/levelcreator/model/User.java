@@ -30,7 +30,7 @@ public class User {
 //    //image stored as base64 byte[] string
 //    private String avatar;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_project",
             joinColumns = @JoinColumn(name = "user_id"),
