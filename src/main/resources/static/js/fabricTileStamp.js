@@ -386,6 +386,7 @@ function closestPoint(mapY, mapX, closestToY, closestToX){
 
 
 function eraseTile(){
+    event.preventDefault();
     gridCanvas.getActiveObjects().forEach(item=>{
         if(item.layer === curLayerSelected){
             gridCanvas.remove(item);
@@ -393,17 +394,19 @@ function eraseTile(){
     });
     gridCanvas.discardActiveObject();
     gridCanvas.renderAll();
-    // refreshData();
+    refreshData();
 }
 
-
+//
 function clearUrl(){
+    event.preventDefault();
     // shapeFillOn = false;
     clonedObject = null;
 }
 
 
 function shapeFill(){
+    event.preventDefault();
     shapeFillOn = true;
 }
 

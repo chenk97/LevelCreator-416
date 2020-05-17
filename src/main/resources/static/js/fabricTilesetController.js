@@ -73,7 +73,7 @@ function saveDrawnTileset() {
     };
     img.onload = function(){
         console.log("**************on load2222**********");
-        init(fakeCanvas, ctx);
+        init(fakeCanvas, ctx, img);
         var tiles = getTiles();
         var fabricCanvas = new fabric.Canvas(canvas.id,{
             width: tileW*tileCountX + (tileCountX-1)* (tileW*(offset-1)) + 20,
@@ -81,13 +81,12 @@ function saveDrawnTileset() {
             selectable:false,
         });
         drawTiles(tiles, fabricCanvas);
-
         fakeCanvas = null;
         $('#_fake_canvas').remove();
     };
     img.src = customizedImg;
-    map.tilesets.push(newTileset);
     newTileset.image = customizedImg;
+    map.tilesets.push(newTileset);
     localStorage.setItem("map", JSON.stringify(map));
 }
 

@@ -19,7 +19,6 @@ $("#minusBtn").on("click", function(){
            map.tilesets.splice(i, 1);
         }
     };
-    console.log(map);
     localStorage.setItem("map", JSON.stringify(map));
     $('.tab-pane[id="' + href + '"]').remove();
     //remove related tileset
