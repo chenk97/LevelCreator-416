@@ -51,7 +51,7 @@
 <div th:fragment="workspacenav">
     <!-- this is header -->
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#BBF8FC">
-        <a class="navbar-brand" id="goHomeSign" data-toggle="modal" data-target="#exampleModal10">LevelCreator</a>
+        <a class="navbar-brand" id="goHomeSign">LevelCreator</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -59,12 +59,11 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active" id="goHome" data-toggle="modal" data-target="#exampleModal10">
+                <li class="nav-item active" id="goHome">
                     <a class="nav-link">Home <span class="sr-only">(current)</span></a>
                 </li>
 
-                <li sec:authorize="isAuthenticated()" class="nav-item" id="goWork" data-toggle="modal"
-                    data-target="#exampleModal10">
+                <li sec:authorize="isAuthenticated()" class="nav-item" id="goWork">
 
                     <a class="nav-link">My Work</a>
                 </li>
@@ -73,13 +72,12 @@
 
             <ul class="navbar-nav ml-5">
                 <li class="nav-item">
-                    <a sec:authorize="isAuthenticated()" id="goToProfile" class="nav-link" data-toggle="modal"
-                       data-target="#exampleModal10"><i class="fas fa-user mx-1"></i><span
+                    <a sec:authorize="isAuthenticated()" id="goToProfile" class="nav-link"><i
+                            class="fas fa-user mx-1"></i><span
                             sec:authentication="name"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a sec:authorize="isAuthenticated()" id="goToLogout" class="nav-link" data-toggle="modal"
-                       data-target="#exampleModal10">Log out</a>
+                    <a sec:authorize="isAuthenticated()" id="goToLogout" class="nav-link">Log out</a>
                 </li>
                 <li class="nav-item">
                     <a sec:authorize="!isAuthenticated()" class="nav-link" href="/registration">Join us</a>
@@ -107,7 +105,7 @@
                 <div class="modal-footer" style="padding:1rem !important;">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
                     <a class="nav-link" id="exitButton">
-                        <button type="button" class="btn btn-secondary" >No, please
+                        <button type="button" class="btn btn-secondary">No, please
                             exit.
                         </button>
                     </a>

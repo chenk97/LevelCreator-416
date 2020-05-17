@@ -66,6 +66,7 @@ function newMap(){
     var tileHeight = Number(document.getElementById("tileHeight").value);
 
     map = {
+        new:0,
         name: projectName,
         id:"",
         orientation: mapOrientation,
@@ -356,6 +357,7 @@ function loadContent(theId, mapJSON){
     let id = parseInt(theId);
     let theMapJSON = JSON.parse(mapJSON);
     theMapJSON.id = id;
+    theMapJSON.new = 1;
     localStorage.setItem('map',JSON.stringify(theMapJSON));
 }
 

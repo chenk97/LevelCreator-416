@@ -1,3 +1,5 @@
+var saved = false
+
 function getProjectScreenshot() {
     gridCanvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
     removeGrid()
@@ -32,6 +34,7 @@ function saveWork() {
         url: "/updateProject",
         success: function (data) {
             console.log('done updating');
+            saved = true;
             // window.location = "/myWork";
         },
         error: function (jqXHR, textStatus, errorThrown) {
