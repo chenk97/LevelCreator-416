@@ -163,7 +163,7 @@
                         <i class="fas fa-users icon" title="Collaborators"></i>
                     </a>
 
-                    <div class="modal fade" id="collaboratorModal" tabindex="-1" role="dialog" data-backdrop="static"
+                    <div class="modal fade" style="width:500px!important;" id="collaboratorModal" tabindex="-1" role="dialog" data-backdrop="static"
                          aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
@@ -173,16 +173,30 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body" style="padding:0px !important;">
-                                    <div class = "list-group" th:each = "collaborator: ${collaborators}">
-                                        <a href="#" class="list-group-item list-group-item-action">
+                                <div class="modal-body" style="padding:unset!important;">
+                                    <ul class = "list-group" th:each = "collaborator: ${collaborators}">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <p th:text="${collaborator.username}"/>
-                                        </a>
-                                    </div>
+                                            <button class="rmv badge badge-primary badge-pill">-</button>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <div class="modal-footer" style="padding:1rem !important;">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" id="addCollaboratorBtn" class="btn btn-primary">ADD</button>
+                                <div class="modal-footer" style="padding:unset!important;">
+                                    <form>
+                                        <div class="form-inline">
+                                            <div class="col-auto">
+                                                <input type="text" id="inlineFormInput" placeholder="Username">
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="row" >
+                                                <button type="submit" class="badge badge-primary badge-pill">+</button>
+                                                </div>
+                                                <div class="row">
+                                                <button type="button" class="badge badge-primary badge-pill" data-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
 
                                 </div>
                             </div>
@@ -253,8 +267,7 @@
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                             <button class="dropdown-item" type="button" id="addTileLayer">Tile Layer</button>
-                            <button class="dropdown-item" type="button" id="addObjectLayer">Object layer
-                            </button>
+                            <button class="dropdown-item" type="button" id="addObjectLayer">Object layer</button>
                         </div>
 
                         <i class="fas fa-minus layerIcon" id="deleteLayer"></i>
@@ -289,8 +302,8 @@
                         <input type="file" id="fileBtn" hidden="hidden" onclick="this.value = null"
                                onchange="addTileset(this);">
                         <div class="float-right ml-auto">
-                            <i href="#" class="fas fa-plus tileSetIcon" id="plusBtn"></i>
-                            <i href="#" class="fas fa-minus tileSetIcon" id="minusBtn"></i>
+                            <i href="" class="fas fa-plus tileSetIcon" id="plusBtn"></i>
+                            <i href="" class="fas fa-minus tileSetIcon" id="minusBtn"></i>
                             <!--                            <a href="#" class="add-tileset float-right my-1 ml-lg-5" id="plusBtn"><span class="fas fa-plus"></span></a>-->
                             <!--                            <a href="#" class="remove-tileset float-right my-1 ml-4" id="minusBtn"><span class="fas fa-minus"></span></a>-->
                         </div>
@@ -351,7 +364,7 @@
     var lc = LC.init(
         document.getElementsByClassName('my-drawing')[0],
         {
-            imageURLPrefix: 'images'
+            imageURLPrefix: '/images'
         }
     );
 

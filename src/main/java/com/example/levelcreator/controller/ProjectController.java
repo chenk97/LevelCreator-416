@@ -115,7 +115,7 @@ public class ProjectController {
 
     @RequestMapping(value = "/workspace/{id}", method = RequestMethod.GET)
     public String loadProject(@PathVariable int id, Authentication authentication, Model model) {
-        ModelAndView modelAndView = new ModelAndView();
+//        ModelAndView modelAndView = new ModelAndView();
         Project project = projectService.getProjectById(id);
         System.out.println("***currentProject***:"+project.toString());
         //current user
@@ -123,9 +123,10 @@ public class ProjectController {
         //get owner of project
         User owner = project.getUser();
         Set<User> collaborators = project.getCollaborators();
-        modelAndView.addObject("user", principal);
-        modelAndView.addObject("project", project);
-        modelAndView.addObject("collaborators", collaborators);
+        System.out.println("***collaborators***: "+collaborators);
+        model.addAttribute("user", principal);
+        model.addAttribute("project", project);
+        model.addAttribute("collaborators", collaborators);
         if(principal.equals(owner)){
             System.out.println("Current user is owner!");
             model.addAttribute("isOwner", true);
