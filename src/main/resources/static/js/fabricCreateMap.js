@@ -66,7 +66,7 @@ function newMap(){
     var tileHeight = Number(document.getElementById("tileHeight").value);
 
     map = {
-        new : 0,
+        new:0,
         name: projectName,
         id:"",
         orientation: mapOrientation,

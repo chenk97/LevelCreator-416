@@ -366,67 +366,6 @@
 <!--<script src="js/fabric-history.js"></script>-->
 
 <!-- Optional JavaScript-->
-<script>
-    $(function () {
-        // Redirection for levelcreator sign to home from workspace
-        $("#goHomeSign").on('click', function () {
-
-            document.getElementById("exitButton").addEventListener("click", function () {
-                window.location = "/home";
-            })
-        });
-        //Redirection for home to go to home from workspace
-        $("#goHome").on('click', function () {
-            document.getElementById("exitButton").addEventListener("click", function () {
-                window.location = "/home";
-            })
-        });
-        //Redirection for work to go to mywork from workspace
-        $("#goWork").on('click', function () {
-
-            document.getElementById("exitButton").addEventListener("click", function () {
-                window.location = "/myWork";
-            })
-        });
-        //Redirection for to go to profile from workspace
-        $("#goToProfile").on('click', function () {
-
-            document.getElementById("exitButton").addEventListener("click", function () {
-                window.location = "/profile";
-            })
-        });
-        //Redirection for work to go to logout from workspace
-        $("#goToLogout").on('click', function () {
-
-            document.getElementById("exitButton").addEventListener("click", function () {
-                window.location = "/logout";
-            })
-        });
-
-
-    });
-</script>
-
-
-<script>
-
-    $("#propertyPanelModal").draggable({
-        handle: ".propertyPanelModalHeader"
-    });
-
-    $("button[data-number=1]").click(function () {
-        $('#propertyPanelModal').modal('hide');
-    });
-
-    $("button[data-number=2]").click(function () {
-        $('#addPropertyModal').modal('hide');
-    });
-
-    $("button[data-number=3]").click(function () {
-        $('#addPropertyModal').modal('hide');
-    });
-</script>
-
 
 <script>
     var lc = LC.init(
@@ -457,6 +396,7 @@
     })
 </script>
 
+<script src="/js/jQueryScripts.js"></script>
 <!--<script src = "js/zoom.js"></script>-->
 <script src="/js/tabs.js"></script>
 <!--<script src="js/addProject.js"></script>-->

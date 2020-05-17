@@ -156,6 +156,13 @@ public class ProjectController {
         projectService.updateType(theId);
     }
 
+    //Update project type in database
+    @RequestMapping(value = "/deleteNewProject", method = RequestMethod.PUT)
+    public @ResponseBody
+    void deleteNewProject(@RequestBody int theId) {
+        projectService.deleteProject(theId);
+    }
+
 ///////////////////////////////////////////
 /*
     @GetMapping("/workspace")
