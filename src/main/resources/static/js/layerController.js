@@ -387,6 +387,13 @@ document.getElementById("downBtn").addEventListener("click", function () {
     restackLayer();
 })
 
+document.getElementById("deselectLayer").addEventListener("click",function(){
+
+    curLayerSelected = ""
+    loadLayer()
+    loadLayerProperty()
+})
+
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // CODE FROM HERE ON DEALS WITH PROPERTIES
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -618,3 +625,4 @@ document.getElementById("openAddPropertyModal").addEventListener("click", resetN
 
 
 loadLayer()
+

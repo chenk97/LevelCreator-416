@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<div th:insert="fragments.html :: nav"></div>
+<div th:insert="workSpaceNav.html :: workspacenav"></div>
 
 <div class="container" style="max-width: 100%">
     <div class=" row firstRow">
@@ -26,10 +26,33 @@
 
             <div class="row iconrow">
                 <div class="col">
-                    <a href = ""><i class="fas fa-save icon" title="Save" id="saveWork" ></i></a>
+                    <a href="#"><i class="fas fa-save icon" title="Save" data-toggle="modal"
+                                   data-target="#saveModal"></i></a>
+                    <!--                    Modal for save button-->
+                    <div class="modal fade" id="saveModal" tabindex="-1" role="dialog"
+                         aria-labelledby="examplesaveLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="examplesaveLabel">Save Project</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="padding:0px !important; overflow: auto">
+                                    Would you like to save?
+                                </div>
+                                <div class="modal-footer" style="padding:1rem !important;">
+                                    <button type="button" class="btn btn-primary" id="saveWork">Yes</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            <div class = "row iconrow">
+            <div class="row iconrow">
                 <div class="col">
 
                     <a href="" data-toggle="modal" data-target="#previewModal"><i
@@ -60,13 +83,13 @@
 
 
             </div>
-            <div class ="row iconrow">
+            <div class="row iconrow">
                 <div class="col">
                     <i class="fas fa-file-export icon" id="save" title="Export as PNG"></i>
 
                 </div>
             </div>
-            <div class = "row iconrow">
+            <div class="row iconrow">
                 <div class="col">
                     <a><i class="fas fa-download icon" title="Download"></i></a>
                 </div>
@@ -91,11 +114,11 @@
             <!--            this is test icons-->
             <div class="row iconrow">
                 <div class="col">
-<!--                    <a href="#" id="undoBtn"></a>-->
+                    <!--                    <a href="#" id="undoBtn"></a>-->
                     <i class="fas fa-undo icon" id="undo" title="Undo"></i>
                 </div>
             </div>
-            <div class = "row iconrow">
+            <div class="row iconrow">
                 <div class="col">
                     <!--                    <a href="#" id="redoBtn"></a>-->
                     <i class="fas fa-redo icon" id="redo" title="Redo"></i>
@@ -122,7 +145,7 @@
                     <a href="" id="selectBtn"><i class="fas fa-object-group icon" title="Rectangle Selection Tool"></i></a>
                 </div>
             </div>
-            <div class = "row iconrow">
+            <div class="row iconrow">
                 <div class="col">
                     <a href="" id="eraseBtn"><i class="fas fa-eraser icon" title="Erase Tool"></i></a>
                 </div>
@@ -237,18 +260,20 @@
                         <h3>Layers</h3>
                     </div>
 
-                    <div style="height: 300px; overflow: auto">
-                        <ul class="list-group list-group-flush" id="layerList" style="height: 300px">
+                    <div >
+                        <ul class="list-group list-group-flush" id="layerList" style="height: 300px; overflow: auto" >
 
                         </ul>
 
                     </div>
                     <div class="card-footer text-muted">
-                        <a href="" id="downBtn"><i class="fas fa-arrow-down layerIcon"></i></a>
 
-                        <a href="" id="upBtn"><i class="fas fa-arrow-up layerIcon"></i></a>
+                        <a href="#" id="downBtn" title="Move Layer Down"><i class="fas fa-arrow-down layerIcon"></i></a>
 
-                        <i class=" fas fa-plus dropdown-toggle layerIcon" id="dropdownMenu2" data-toggle="dropdown"
+
+                        <a href="#" id="upBtn" title="Move Layer Up"><i class="fas fa-arrow-up layerIcon"></i></a>
+
+                        <i class=" fas fa-plus dropdown-toggle layerIcon" title="Add New Layer" id="dropdownMenu2" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false"></i>
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
@@ -257,7 +282,9 @@
                             </button>
                         </div>
 
-                        <i class="fas fa-minus layerIcon" id="deleteLayer"></i>
+                        <i class="fas fa-minus layerIcon" title="Delete Layer" id="deleteLayer"></i>
+
+                        <i class="fas fa-compress layerIcon" title="Deselect Layer" id="deselectLayer"></i>
                     </div>
                 </div>
             </div>
@@ -289,8 +316,8 @@
                         <input type="file" id="fileBtn" hidden="hidden" onclick="this.value = null"
                                onchange="addTileset(this);">
                         <div class="float-right ml-auto">
-                            <i href="#" class="fas fa-plus tileSetIcon" id="plusBtn"></i>
-                            <i href="#" class="fas fa-minus tileSetIcon" id="minusBtn"></i>
+                            <i href="#" class="fas fa-plus tileSetIcon" id="plusBtn" title="Add Tileset"></i>
+                            <i href="#" class="fas fa-minus tileSetIcon" id="minusBtn " title="Delete Tileset"></i>
                             <!--                            <a href="#" class="add-tileset float-right my-1 ml-lg-5" id="plusBtn"><span class="fas fa-plus"></span></a>-->
                             <!--                            <a href="#" class="remove-tileset float-right my-1 ml-4" id="minusBtn"><span class="fas fa-minus"></span></a>-->
                         </div>
@@ -326,6 +353,47 @@
 <!--<script src="js/fabric-history.js"></script>-->
 
 <!-- Optional JavaScript-->
+<script>
+    $(function () {
+        // Redirection for levelcreator sign to home from workspace
+        $("#goHomeSign").on('click', function () {
+
+            document.getElementById("exitButton").addEventListener("click", function () {
+                window.location = "/home";
+            })
+        });
+        //Redirection for home to go to home from workspace
+        $("#goHome").on('click', function () {
+            document.getElementById("exitButton").addEventListener("click", function () {
+                window.location = "/home";
+            })
+        });
+        //Redirection for work to go to mywork from workspace
+        $("#goWork").on('click', function () {
+
+            document.getElementById("exitButton").addEventListener("click", function () {
+                window.location = "/myWork";
+            })
+        });
+        //Redirection for to go to profile from workspace
+        $("#goToProfile").on('click', function () {
+
+            document.getElementById("exitButton").addEventListener("click", function () {
+                window.location = "/profile";
+            })
+        });
+        //Redirection for work to go to logout from workspace
+        $("#goToLogout").on('click', function () {
+
+            document.getElementById("exitButton").addEventListener("click", function () {
+                window.location = "/logout";
+            })
+        });
+
+
+    });
+</script>
+
 
 <script>
 
