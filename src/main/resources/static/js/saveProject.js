@@ -19,30 +19,6 @@ function saveWork() {
     projectJson.canvas = JSON.stringify(gridCanvas.toJSON());
     let stringifyProject = JSON.stringify(projectJson)
 
-    // if (projectJson.id == "") {
-    //     console.log("save new");
-    //     // Sending request for project
-    //     project = {
-    //         "name": theProjectName,
-    //         "screenshot": getProjectScreenshot(),
-    //         "mapJSON": stringifyProject
-    //     }
-    //     $.ajax({
-    //         contentType: "application/json",
-    //         type: "POST",
-    //         data: JSON.stringify(project),
-    //         url: "/saveProject",
-    //         success: function (data) {
-    //             console.log('done');
-    //             // window.location = "/myWork";
-    //         },
-    //         error: function (jqXHR, textStatus, errorThrown) {
-    //             console.log('error while post');
-    //         }
-    //     });
-    //
-    // } else {
-    //     console.log("update")
     project = {
         "id": theProjectID,
         "name": theProjectName,
@@ -62,9 +38,6 @@ function saveWork() {
             console.log('error while put');
         }
     });
-    // }
-
-
 }
 
 document.getElementById("saveWork").addEventListener("click", function () {
