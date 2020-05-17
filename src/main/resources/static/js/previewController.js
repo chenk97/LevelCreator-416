@@ -62,6 +62,17 @@ function saveImage(e) {
     addGrid()
 }
 
-document.getElementById("save").addEventListener("click", saveImage, false)
+function exportMap(){
+    var mapJson = localStorage.getItem('map');
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(mapJson));
+    console.log(dataStr);
+    var a = document.createElement('a');
+    a.href = 'data:' + dataStr;
+    a.download = 'map.json';
+    a.click()
+}
+
+document.getElementById("save").addEventListener("click", saveImage, false);
+document.getElementById("download").addEventListener("click", exportMap);
 
 

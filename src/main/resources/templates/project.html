@@ -1,51 +1,27 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Title</title>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymleaf.org/extras/spring-security">
+
+<head th:insert="fragments.html :: headerfiles">
+    <title>Project</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
 </head>
+
+
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#BBF8FC">
-        <a class="navbar-brand" href="#">LevelCreator</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<div th:insert="fragments.html :: nav"></div>
+    <div class = "container">
+        <h1 th:text = "${proj.name}"></h1>
+        <h4 th:text = "${proj.user.username}"></h4>
+        <img th:src="${proj.screenshot}"/>
+        <div class ="downloadButton" th:onclick="exportMap([[${proj.mapJSON}]])"><i class="fas fa-download"></i></div>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
+    </div>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">My Work</a>
-                </li>
+</div>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Following<span class="badge badge-pill badge-info mx-1">12</span></a>
-                </li>
-            </ul>
-
-            <form class="form-inline mt-5 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-
-            <ul class="navbar-nav ml-5">
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-user mx-1"></i>Username</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Log out</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

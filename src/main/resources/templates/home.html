@@ -13,9 +13,12 @@
 
 <div th:insert="fragments.html :: nav"></div>
 
+
 <div class="container m-2" style="max-width: 100% ">
+
     <div class="row" th:fragment="list" xmlns:th="http://www.thymeleaf.org">
         <div class="col-sm-3" th:each="project, stat: ${projects}" style="padding:2%;">
+            <a th:href="@{'/project/'+ ${project.id}}">
             <div class="card mb-3 projectCard">
                 <img class="card-img-top" th:src="${project.screenshot}"/>
                 <div class="card-body">
@@ -24,10 +27,12 @@
                 </div>
 
             </div>
+            </a>
         </div>
     </div>
 
 </div>
+
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>

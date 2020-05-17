@@ -47,7 +47,7 @@ public class IndexController {
                 //when Anonymous Authentication is enabled
                 !(SecurityContextHolder.getContext().getAuthentication()
                         instanceof AnonymousAuthenticationToken)){
-            return "home.html";
+            return "redirect:/home";
         }
         //else return to index
         return "index.html";

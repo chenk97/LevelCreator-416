@@ -104,6 +104,25 @@ public class ProjectController {
         return "workspace";
     }
 
+    /*
+    @GetMapping("/workspace/{id}")
+    public ModelAndView getCurProject(@PathVariable int id){
+        Project curProj = projectService.getProjectById(id);
+        ModelAndView model = new ModelAndView("workspace");
+        model.addObject("curProj",curProj);
+        return model;
+    }
+
+    @GetMapping(value = "/workspace/{id}/download")
+    public ResponseEntity download(@PathVariable int id) {
+        Project proj = projectService.getProjectById(id);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/json"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename = map.json")
+                .body(proj.getMapJSON());
+    }
+    */
+
     // Saves project to database
     @RequestMapping(value = "/saveProject", method = RequestMethod.POST)
     public @ResponseBody
@@ -126,32 +145,35 @@ public class ProjectController {
     }
 
 ///////////////////////////////////////////
-/*
-    @GetMapping("/workspace")
-    public ModelAndView getProject( int id) {
-        Project project = projectService.getProjectById(id);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("project", project);
-        return modelAndView;
-    }
-*/
-
-    @GetMapping(value = "/download/{id}")
-    public ResponseEntity download(@PathVariable int id) {
-        //newProject = projectService.getProjectById(id);
-        //ModelAndView model = new ModelAndView();
-        //model.addObject("proj",newProject);
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("application/json"))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename = map.json")
-                .body(projectService.getProjectById(id).getMapJSON());
-    }
-
 
     @GetMapping(value = "/myWork/delete/{id}")
     public String delete(@PathVariable int id) {
         projectService.deleteProject(id);
         return "redirect:/myWork";
+    }
+
+    @RequestMapping("/project")
+    public String getProjectScreen() {
+        return "project.html";
+    }
+
+
+
+    @RequestMapping("/project/{id}")
+    public String getProject(@PathVariable int id) {
+        Project proj = projectService.getProjectById(id);
+        //model = new ModelAndView("workspace");
+        //model.addObject("proj",proj);
+        System.out.println("currentProject:"+proj.toString());
+        return "project";
+    }
+
+    @GetMapping("/project/{id}")
+    public ModelAndView returnCurProj(@PathVariable int id){
+        ModelAndView model = new ModelAndView("project");
+        Project proj = projectService.getProjectById(id);
+        model.addObject("proj",proj);
+        return model;
     }
 }
 
