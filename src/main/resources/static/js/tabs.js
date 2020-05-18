@@ -27,11 +27,6 @@ $("#minusBtn").on("click", function(e){
 });
 
 
-$('form[name = "collaboratorForm"]').on('submit', function(event){
-    event.preventDefault();
-});
-
-
 function addCollaborator(){
         console.log("adding!!!!!!!!!!!!!!!!!!!")
         // event.preventDefault();

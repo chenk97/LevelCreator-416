@@ -69,16 +69,31 @@ public class ProjectController {
         ModelAndView modelAndView = new ModelAndView();
         List<Project> projects = new ArrayList<Project>();
         try {
+            User user = authenticationService.getPrincipal(authentication);
             projects = projectService.getProjectByUser(authentication);
             Collections.sort(projects, new customComparator());
-//            modelAndView.setViewName("mapResults");
         } catch (Exception e) {
             e.printStackTrace();
-//            modelAndView.setViewName("error");
         }
         modelAndView.addObject("projects", projects);
         return modelAndView;
     }
+
+
+    @GetMapping("/teamWork")
+    public ModelAndView showTeamProject(Authentication authentication) {
+        ModelAndView modelAndView = new ModelAndView();
+        Set<Project> teamWorks = new HashSet<Project>();
+        try {
+            User user = authenticationService.getPrincipal(authentication);
+            teamWorks = user.getProjectList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        modelAndView.addObject("teamWorks", teamWorks);
+        return modelAndView;
+    }
+
 
     //    Display public project in home screen
     @GetMapping("/home")
@@ -105,9 +120,9 @@ public class ProjectController {
     @ResponseBody
     public String addProject(@RequestBody Project newProject, Authentication authentication){
         System.out.println("**redirecting to workspace +++ POST**");
-        System.out.println("new proj"+newProject);
+        System.out.println("new project"+newProject);
         Project project = projectService.saveProjectNew(newProject, authentication);
-        System.out.println("saved proj"+project);
+        System.out.println("saved project"+project);
         String str = String.format("/workspace/%d", project.getId());
         return str;
     }
@@ -141,7 +156,11 @@ public class ProjectController {
         System.out.println("#####get value pair for add#####");
         Project project = projectService.getProjectById(dataPair.getProjectId());
         User collaborator = userService.getUserByUsername(dataPair.getUsername());
-        userService.addCollaborativeWork(collaborator,project);
+        if(collaborator!=null){
+            userService.addCollaborativeWork(collaborator,project);
+        }else{
+            model.addAttribute("UserNotExist", true);
+        }
         Set<User> collaborators = project.getCollaborators();
         model.addAttribute("collaborators", collaborators);
         return "fragments::collaborators";
