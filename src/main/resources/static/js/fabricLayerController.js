@@ -27,6 +27,7 @@ export function moveMapLayerDown() {
 
 
 export function makeLayerInvisible(layerId) {
+    gridCanvas.discardActiveObject();
     gridCanvas.getObjects().forEach(item => {
         if (item.layer == layerId) {
             console.log(item.layer)
@@ -38,6 +39,7 @@ export function makeLayerInvisible(layerId) {
 
 
 export function makeLayerVisible(layerId) {
+    gridCanvas.discardActiveObject();
     gridCanvas.getObjects().forEach(item => {
         if (item.layer == layerId) {
             item.set({opacity: 1});

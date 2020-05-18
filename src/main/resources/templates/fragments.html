@@ -96,6 +96,30 @@
 </div>
 
 
+<div id="collaborators" th:fragment="collaborators">
+    <form method="POST">
+    <ul id="collaboratorList" class = "list-group" th:each = "collaborator, stat : ${collaborators}">
+        <li class="list-group-item d-flex justify-content-between align-items-center mx-4 px-3" style="padding:unset;">
+            <p th:text="${collaborators[__${stat.index}__].username}"/>
+            <button type="button" class="badge badge-secondary badge-pill" th:onclick="removeCollaborator([[${collaborators[__${stat.index}__].username}]])">-</button>
+        </li>
+    </ul>
+    <div class="form-inline p-2">
+        <div class="col-auto">
+            <input type="text" id="collaboratorName" placeholder="Username">
+        </div>
+        <div class="col-auto">
+            <div class="row">
+                <button type="button" class="badge badge-secondary badge-pill" onclick="addCollaborator()">+</button>
+            </div>
+            <div class="row">
+                <button type="button" class="badge badge-secondary badge-pill" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+
 
 
 </body>

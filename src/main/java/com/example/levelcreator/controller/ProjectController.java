@@ -1,8 +1,8 @@
 package com.example.levelcreator.controller;
 
 
+import com.example.levelcreator.model.DataPair;
 import com.example.levelcreator.model.Project;
-import com.example.levelcreator.model.Response;
 import com.example.levelcreator.model.User;
 import com.example.levelcreator.service.AuthenticationService;
 import com.example.levelcreator.service.ProjectService;
@@ -38,6 +38,10 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
+    private static final String AJAX_HEADER_NAME = "X-Requested-With";
+    private static final String AJAX_HEADER_VALUE = "XMLHttpRequest";
+
+
 //    @RequestMapping("/myWork")
 //    public String myWork() {
 //        return "mywork.html";
@@ -65,12 +69,8 @@ public class ProjectController {
         ModelAndView modelAndView = new ModelAndView();
         List<Project> projects = new ArrayList<Project>();
         try {
-
-
             projects = projectService.getProjectByUser(authentication);
             Collections.sort(projects, new customComparator());
-
-
 //            modelAndView.setViewName("mapResults");
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,6 +135,33 @@ public class ProjectController {
     }
 
 
+
+    @RequestMapping(value="/workspace/addCollaborator", method=RequestMethod.POST)
+    public String addCollaborator(@RequestBody DataPair dataPair, Model model) {
+        System.out.println("#####get value pair for add#####");
+        Project project = projectService.getProjectById(dataPair.getProjectId());
+        User collaborator = userService.getUserByUsername(dataPair.getUsername());
+        userService.addCollaborativeWork(collaborator,project);
+        Set<User> collaborators = project.getCollaborators();
+        model.addAttribute("collaborators", collaborators);
+        return "fragments::collaborators";
+    }
+
+
+    @RequestMapping(value="/workspace/removeCollaborator", method=RequestMethod.POST)
+    public String removeCollaborator(@RequestBody DataPair dataPair, Model model) {
+        System.out.println("#####get value pair for delete#####");
+        Project project = projectService.getProjectById(dataPair.getProjectId());
+        User collaborator = userService.getUserByUsername(dataPair.getUsername());
+        collaborator.getProjectList().remove(project);
+        project.getCollaborators().remove(collaborator);
+        userService.save(collaborator);
+        Set<User> collaborators = project.getCollaborators();
+        model.addAttribute("collaborators", collaborators);
+        return "fragments::collaborators";
+    }
+
+
     // Saves project to database
     @RequestMapping(value = "/saveProject", method = RequestMethod.POST)
     public @ResponseBody
@@ -163,16 +190,6 @@ public class ProjectController {
         projectService.deleteProject(theId);
     }
 
-///////////////////////////////////////////
-/*
-    @GetMapping("/workspace")
-    public ModelAndView getProject( int id) {
-        Project project = projectService.getProjectById(id);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("project", project);
-        return modelAndView;
-    }
-*/
 
     @GetMapping(value = "/download/{id}")
     public ResponseEntity download(@PathVariable int id) {
@@ -187,7 +204,14 @@ public class ProjectController {
 
 
     @GetMapping(value = "/myWork/delete/{id}")
-    public String delete(@PathVariable int id) {
+    public String delete(@PathVariable int id, Authentication authentication) {
+        Project project = projectService.getProjectById(id);
+        //remove collaborator relationship
+        for(User collaborator: project.getCollaborators()){
+            collaborator.getProjectList().remove(project);
+            project.getCollaborators().remove(collaborator);
+            userService.save(collaborator);
+        }
         projectService.deleteProject(id);
         return "redirect:/myWork";
     }
