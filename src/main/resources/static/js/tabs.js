@@ -4,7 +4,8 @@ $(".nav-tabs").on("click", "a", function(e){
 });
 
 
-$("#minusBtn").on("click", function(){
+$("#minusBtn").on("click", function(e){
+    e.preventDefault();
     let map = JSON.parse(localStorage.getItem('map'));
     var ref_this = $("ul.nav-tabs li.nav-item a.active");
     console.log(ref_this.attr("id"));
