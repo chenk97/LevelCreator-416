@@ -61,20 +61,17 @@ public class ProjectController {
 
     //Display users project in mywork screen
     @GetMapping("/myWork")
-    public ModelAndView showUserProject(Authentication authentication) {
+    public ModelAndView showUserProject(Authentication authentication, @RequestParam(required = false) String name) {
         ModelAndView modelAndView = new ModelAndView();
         List<Project> projects = new ArrayList<Project>();
         try {
 
 
-            projects = projectService.getProjectByUser(authentication);
+            projects = projectService.getProjectByUserandName(authentication, name);
             Collections.sort(projects, new customComparator());
 
-
-//            modelAndView.setViewName("mapResults");
         } catch (Exception e) {
             e.printStackTrace();
-//            modelAndView.setViewName("error");
         }
         modelAndView.addObject("projects", projects);
         return modelAndView;
@@ -82,11 +79,11 @@ public class ProjectController {
 
     //    Display public project in home screen
     @GetMapping("/home")
-    public ModelAndView showHomePage(Authentication authentication) {
+    public ModelAndView showHomePage(@RequestParam(required = false) String name) {
         ModelAndView modelAndView = new ModelAndView();
         List<Project> projects = new ArrayList<Project>();
         try {
-            projects = projectService.getProjectByType("true");
+            projects = projectService.getProjectByTypeAndName("true", name);
             Collections.sort(projects, new customComparator());
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,11 +100,11 @@ public class ProjectController {
 
     @RequestMapping(value = "/addProject", method = RequestMethod.POST)
     @ResponseBody
-    public String addProject(@RequestBody Project newProject, Authentication authentication){
+    public String addProject(@RequestBody Project newProject, Authentication authentication) {
         System.out.println("**redirecting to workspace +++ POST**");
-        System.out.println("new proj"+newProject);
+        System.out.println("new proj" + newProject);
         Project project = projectService.saveProjectNew(newProject, authentication);
-        System.out.println("saved proj"+project);
+        System.out.println("saved proj" + project);
         String str = String.format("/workspace/%d", project.getId());
         return str;
     }
@@ -117,17 +114,17 @@ public class ProjectController {
     public String loadProject(@PathVariable int id, Authentication authentication, Model model) {
 //        ModelAndView modelAndView = new ModelAndView();
         Project project = projectService.getProjectById(id);
-        System.out.println("***currentProject***:"+project.toString());
+        System.out.println("***currentProject***:" + project.toString());
         //current user
         User principal = authenticationService.getPrincipal(authentication);
         //get owner of project
         User owner = project.getUser();
         Set<User> collaborators = project.getCollaborators();
-        System.out.println("***collaborators***: "+collaborators);
+        System.out.println("***collaborators***: " + collaborators);
         model.addAttribute("user", principal);
         model.addAttribute("project", project);
         model.addAttribute("collaborators", collaborators);
-        if(principal.equals(owner)){
+        if (principal.equals(owner)) {
             System.out.println("Current user is owner!");
             model.addAttribute("isOwner", true);
         }
@@ -156,7 +153,7 @@ public class ProjectController {
         projectService.updateType(theId);
     }
 
-    //Update project type in database
+    //Update delete new project from database if user doesn't want to save.
     @RequestMapping(value = "/deleteNewProject", method = RequestMethod.PUT)
     public @ResponseBody
     void deleteNewProject(@RequestBody int theId) {
@@ -184,7 +181,6 @@ public class ProjectController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename = map.json")
                 .body(projectService.getProjectById(id).getMapJSON());
     }
-
 
     @GetMapping(value = "/myWork/delete/{id}")
     public String delete(@PathVariable int id) {

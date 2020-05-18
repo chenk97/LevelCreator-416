@@ -67,14 +67,14 @@
                     <a class="nav-link" href="/myWork">My Work</a>
                 </li>
 
-                <li sec:authorize="isAuthenticated()"  class="nav-item">
-                    <a class="nav-link" href="/following">Following<span class="badge badge-pill badge-info mx-1">12</span></a>
-                </li>
+<!--                <li sec:authorize="isAuthenticated()"  class="nav-item">-->
+<!--                    <a class="nav-link" href="/following">Following<span class="badge badge-pill badge-info mx-1">12</span></a>-->
+<!--                </li>-->
             </ul>
 
-            <form class="form-inline mt-5 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <form class="form-inline mt-5 my-lg-0" id="searchBar" action="">
+                <input type="text" href="myWork" class="form-control" name="name" placeholder="Search Project"/>
+                <input type="submit" value="Search" class="btn btn-primary"/>
             </form>
 
             <ul class="navbar-nav ml-5">

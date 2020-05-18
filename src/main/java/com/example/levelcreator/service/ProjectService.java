@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,9 +77,23 @@ public class ProjectService {
         return projectRepo.findByUser(user);
     }
 
-    //get project base on type
-    public List<Project> getProjectByType(String type) {
-        return projectRepo.findByType(type);
+    //Get a project base on user and project name
+    public List<Project> getProjectByUserandName(Authentication authentication, String name) {
+        User user = authenticationService.getPrincipal(authentication);
+        if (StringUtils.isEmpty(name))
+            return projectRepo.findByUser(user);
+        else
+            return projectRepo.findByUserAndNameContaining(user, name);
+    }
+
+    //Get project for /home based on type and name of project if there is one.
+    public List<Project> getProjectByTypeAndName(String type, String name) {
+
+        if (StringUtils.isEmpty(name))
+            return projectRepo.findByType(type);
+        else
+            return projectRepo.findByTypeAndNameContaining(type, name);
+
     }
 
     //Update the type of a project
@@ -97,7 +112,7 @@ public class ProjectService {
         projectRepo.deleteById(id);
     }
 
-    public Set<User> getCollaborators(Project project){
+    public Set<User> getCollaborators(Project project) {
         Project proj = (Project) projectRepo.findById(project.getId()).get();
         return proj.getCollaborators();
     }

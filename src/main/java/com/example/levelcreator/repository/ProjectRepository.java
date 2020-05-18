@@ -16,7 +16,11 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
     public List<Project> findByUser(User user);
 
+    public List<Project> findByUserAndNameContaining(User user, String name);
+
     public List<Project> findByType(String type);
+
+    public List<Project> findByTypeAndNameContaining(String type, String name);
 
 
 }

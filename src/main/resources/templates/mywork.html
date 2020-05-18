@@ -14,6 +14,7 @@
 <body>
 
 <div th:insert="fragments.html :: nav"></div>
+
 <!--Create New Poject Button-->
 <div class="container m-2" style="max-width: 100%">
     <div class="row" th:fragment="list" xmlns:th="http://www.thymeleaf.org">
@@ -34,7 +35,7 @@
                     <div class="modal-body">
                         <!--                The Input Form-->
                         <!--/*@thymesVar id="project" type=""*/-->
-<!--                        th:onsubmit=""-->
+                        <!--                        th:onsubmit=""-->
                         <form action="addProject" method="POST">
                             <div class="form-group form-inline">
                                 <label>Orientation:</label>
@@ -84,47 +85,39 @@
         <!--<div>-->
         <!--    <p th:each = "p : ${project}" th:text = "${p.name}" </p>-->
         <!--</div>-->
+        <!--        <div id="testyProject">-->
         <div class="col-sm-3" th:each="project, stat: ${projects}" style="padding:2%;">
             <a th:href="@{'/workspace/'+ ${project.id}}">
-            <div class="card mb-3 projectCard" th:onclick="loadContent([[${project.id}]],[[${project.mapJSON}]])">
+                <div class="card mb-3 projectCard" th:onclick="loadContent([[${project.id}]],[[${project.mapJSON}]])">
 
-                <img class="card-img-top" th:src="${project.screenshot}"/>
+                    <img class="card-img-top" th:src="${project.screenshot}"/>
 
-                <div class="card-body">
-                    <!--                        Title Of Project-->
-                    <h5 class="card-title cardProjectTitle" th:title="${project.name}" th:text="${project.name}"/>
-                    <!--                        Last Edited Date-->
-                    <h6 class="text-muted cardProjectDate" th:title="'Last updated at '+ ${project.createdDate}"
-                        th:text="'Last updated at '+ ${project.createdDate.substring(0, 10)}"/>
-                    <!--                        Switch button toggle public or private-->
-                    <div class="custom-control custom-switch" th:onclick="togglePublic(event,[[${project.id}]])">
-                        <input type="checkbox" class="custom-control-input" th:id="'customSwitch' + ${project.id}"
-                               th:checked="${project.type} ? 'checked'">
-                        <label class="custom-control-label" th:for="'customSwitch'+ ${project.id}"><i
-                                class="fas fa-globe-americas"></i></label>
+                    <div class="card-body">
+                        <!--                        Title Of Project-->
+                        <h5 class="card-title cardProjectTitle" th:title="${project.name}" th:text="${project.name}"/>
+                        <!--                        Last Edited Date-->
+                        <h6 class="text-muted cardProjectDate" th:title="'Last updated at '+ ${project.createdDate}"
+                            th:text="'Last updated at '+ ${project.createdDate.substring(0, 10)}"/>
+                        <!--                        Switch button toggle public or private-->
+                        <div class="custom-control custom-switch" th:onclick="togglePublic(event,[[${project.id}]])">
+                            <input type="checkbox" class="custom-control-input" th:id="'customSwitch' + ${project.id}"
+                                   th:checked="${project.type} ? 'checked'">
+                            <label class="custom-control-label" th:for="'customSwitch'+ ${project.id}"><i
+                                    class="fas fa-globe-americas"></i></label>
+                        </div>
+
                     </div>
-
+                    <a th:href="@{/myWork/delete/{id}(id=${project.id})}" onclick="return confirm('Are you sure?')">Delete</a>
                 </div>
-                <a th:href="@{/myWork/delete/{id}(id=${project.id})}" onclick="return confirm('Are you sure?')">Delete</a>
-            </div>
             </a>
 
+            <!--            </div>-->
         </div>
+
     </div>
 </div>
 
 
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.2/fabric.min.js"></script>-->
-<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"-->
-<!--        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"-->
-<!--        crossorigin="anonymous"></script>-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"-->
-<!--        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"-->
-<!--        crossorigin="anonymous"></script>-->
-<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"-->
-<!--        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"-->
-<!--        crossorigin="anonymous"></script>-->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
@@ -139,6 +132,9 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.2/fabric.min.js"></script>
+<script>
+    document.getElementById("searchBar").setAttribute("action","/myWork")
+</script>
 
 <script>
     function togglePublic(event, theProjectID) {
