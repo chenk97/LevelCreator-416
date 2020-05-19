@@ -20,9 +20,8 @@ public class Comment {
     @Column(name = "content")
     private String content;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
-    private Date date;
+    private String date;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable=false)
@@ -43,7 +42,7 @@ public class Comment {
         super();
     }
 
-    public Comment(String content, User user, Date date, Project project) {
+    public Comment(String content, User user, String date, Project project) {
         super();
         this.content = content;
         this.user = user;
@@ -75,11 +74,11 @@ public class Comment {
         this.user = user;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return this.date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

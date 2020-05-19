@@ -28,8 +28,8 @@ public class CommentService {
         try {
             User user = authenticationService.getPrincipal(authentication);
             Date date = new Date();
-            //SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-            comment.setDate(date);
+            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+            comment.setDate(ft.format(date));
             comment.setUser(user);
             comment.setProject(project);
             commentRepository.save(comment);
