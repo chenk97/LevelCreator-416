@@ -310,7 +310,6 @@ export function loadLayer() {
     clearLayerPanel()
     //Get the object from local storage
     let map = JSON.parse(localStorage.getItem('map'));
-    console.log(map.scree)
     let mapLayers = map.layers
 
     for (let i = 0; i < mapLayers.length; i++) {

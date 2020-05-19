@@ -1,8 +1,8 @@
 package com.example.levelcreator.controller;
 
 
+import com.example.levelcreator.model.DataPair;
 import com.example.levelcreator.model.Project;
-import com.example.levelcreator.model.Response;
 import com.example.levelcreator.model.User;
 import com.example.levelcreator.service.AuthenticationService;
 import com.example.levelcreator.service.ProjectService;
@@ -65,17 +65,30 @@ public class ProjectController {
         ModelAndView modelAndView = new ModelAndView();
         List<Project> projects = new ArrayList<Project>();
         try {
-
-
             projects = projectService.getProjectByUserandName(authentication, name);
             Collections.sort(projects, new customComparator());
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         modelAndView.addObject("projects", projects);
         return modelAndView;
     }
+
+
+    @GetMapping("/teamWork")
+    public ModelAndView showTeamProject(Authentication authentication) {
+        ModelAndView modelAndView = new ModelAndView();
+        Set<Project> teamWorks = new HashSet<Project>();
+        try {
+            User user = authenticationService.getPrincipal(authentication);
+            teamWorks = user.getProjectList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        modelAndView.addObject("teamWorks", teamWorks);
+        return modelAndView;
+    }
+
 
     //    Display public project in home screen
     @GetMapping("/home")
@@ -100,11 +113,11 @@ public class ProjectController {
 
     @RequestMapping(value = "/addProject", method = RequestMethod.POST)
     @ResponseBody
-    public String addProject(@RequestBody Project newProject, Authentication authentication) {
+    public String addProject(@RequestBody Project newProject, Authentication authentication){
         System.out.println("**redirecting to workspace +++ POST**");
-        System.out.println("new proj" + newProject);
+        System.out.println("new project"+newProject);
         Project project = projectService.saveProjectNew(newProject, authentication);
-        System.out.println("saved proj" + project);
+        System.out.println("saved project"+project);
         String str = String.format("/workspace/%d", project.getId());
         return str;
     }
@@ -114,21 +127,52 @@ public class ProjectController {
     public String loadProject(@PathVariable int id, Authentication authentication, Model model) {
 //        ModelAndView modelAndView = new ModelAndView();
         Project project = projectService.getProjectById(id);
-        System.out.println("***currentProject***:" + project.toString());
+        System.out.println("***currentProject***:"+project.toString());
         //current user
         User principal = authenticationService.getPrincipal(authentication);
         //get owner of project
         User owner = project.getUser();
         Set<User> collaborators = project.getCollaborators();
-        System.out.println("***collaborators***: " + collaborators);
+        System.out.println("***collaborators***: "+collaborators);
         model.addAttribute("user", principal);
         model.addAttribute("project", project);
         model.addAttribute("collaborators", collaborators);
-        if (principal.equals(owner)) {
+        if(principal.equals(owner)){
             System.out.println("Current user is owner!");
             model.addAttribute("isOwner", true);
         }
         return "workspace";
+    }
+
+
+
+    @RequestMapping(value="/workspace/addCollaborator", method=RequestMethod.POST)
+    public String addCollaborator(@RequestBody DataPair dataPair, Model model) {
+        System.out.println("#####get value pair for add#####");
+        Project project = projectService.getProjectById(dataPair.getProjectId());
+        User collaborator = userService.getUserByUsername(dataPair.getUsername());
+        if(collaborator!=null){
+            userService.addCollaborativeWork(collaborator,project);
+        }else{
+            model.addAttribute("UserNotExist", true);
+        }
+        Set<User> collaborators = project.getCollaborators();
+        model.addAttribute("collaborators", collaborators);
+        return "fragments::collaborators";
+    }
+
+
+    @RequestMapping(value="/workspace/removeCollaborator", method=RequestMethod.POST)
+    public String removeCollaborator(@RequestBody DataPair dataPair, Model model) {
+        System.out.println("#####get value pair for delete#####");
+        Project project = projectService.getProjectById(dataPair.getProjectId());
+        User collaborator = userService.getUserByUsername(dataPair.getUsername());
+        collaborator.getProjectList().remove(project);
+        project.getCollaborators().remove(collaborator);
+        userService.save(collaborator);
+        Set<User> collaborators = project.getCollaborators();
+        model.addAttribute("collaborators", collaborators);
+        return "fragments::collaborators";
     }
 
 
@@ -160,16 +204,6 @@ public class ProjectController {
         projectService.deleteProject(theId);
     }
 
-///////////////////////////////////////////
-/*
-    @GetMapping("/workspace")
-    public ModelAndView getProject( int id) {
-        Project project = projectService.getProjectById(id);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("project", project);
-        return modelAndView;
-    }
-*/
 
     @GetMapping(value = "/download/{id}")
     public ResponseEntity download(@PathVariable int id) {
@@ -183,7 +217,14 @@ public class ProjectController {
     }
 
     @GetMapping(value = "/myWork/delete/{id}")
-    public String delete(@PathVariable int id) {
+    public String delete(@PathVariable int id, Authentication authentication) {
+        Project project = projectService.getProjectById(id);
+        //remove collaborator relationship
+        for(User collaborator: project.getCollaborators()){
+            collaborator.getProjectList().remove(project);
+            project.getCollaborators().remove(collaborator);
+            userService.save(collaborator);
+        }
         projectService.deleteProject(id);
         return "redirect:/myWork";
     }

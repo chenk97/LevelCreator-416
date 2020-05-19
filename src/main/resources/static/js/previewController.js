@@ -2,6 +2,7 @@ var myCanvas = document.getElementById("grid_canvas");
 var convertedImg = document.getElementById("previewImg");
 
 $('#previewModal').on('shown.bs.modal', function () {
+    gridCanvas.discardActiveObject();
     gridCanvas.setViewportTransform([1,0,0,1,0,0]);
     removeGrid()
     console.log(gridCanvas.getZoom())
@@ -49,6 +50,7 @@ function addGrid(){
 
 
 function saveImage(e) {
+    gridCanvas.discardActiveObject();
     gridCanvas.setViewportTransform([1,0,0,1,0,0]);
     removeGrid()
     let x = document.getElementById("grid_canvas")

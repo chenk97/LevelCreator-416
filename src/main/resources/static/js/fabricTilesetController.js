@@ -17,6 +17,7 @@ function addTileset(input){
     let map = JSON.parse(localStorage.getItem('map'));
     var canvas = addTileCanvas(newCanvasId());
     let newTileset = {
+        firstGid: map.gidCnt,
         id: newCanvasId(),
         image: null,
         canvasId : canvas.id,
@@ -40,7 +41,7 @@ function addTileset(input){
                     height: tileH*tileCountY + (tileCountY-1)* (tileH*(offset-1)) + 20,
                     selectable:false,
                 });
-                drawTiles(tiles, fabricCanvas);
+                drawTiles(tiles, fabricCanvas, map.gidCnt, true);
                 fakeCanvas = null;
                 $('#_fake_canvas').remove();
             };
@@ -67,6 +68,7 @@ function saveDrawnTileset() {
     let map = JSON.parse(localStorage.getItem('map'));
     let canvas = addTileCanvas(newCanvasId());
     let newTileset = {
+        firstGid: map.gidCnt,
         id: newCanvasId(),
         image: null,
         canvasId : canvas.id,
@@ -80,7 +82,7 @@ function saveDrawnTileset() {
             height: tileH*tileCountY + (tileCountY-1)* (tileH*(offset-1)) + 20,
             selectable:false,
         });
-        drawTiles(tiles, fabricCanvas);
+        drawTiles(tiles, fabricCanvas, map.gidCnt,true);
         fakeCanvas = null;
         $('#_fake_canvas').remove();
     };
@@ -160,11 +162,11 @@ function getTiles() {
 }
 
 
-function drawTiles(tiles, fabricCanvas) {
+function drawTiles(tiles, fabricCanvas,firstGid,isNew) {
     //loop through each tile in array
+    let gid = firstGid;
     let map = JSON.parse(localStorage.getItem('map'));
         for(var i = 0; i < tiles.length; i++){
-        let gid = map.gidCnt;
         var c = document.createElement('canvas');
         c.setAttribute('id', '_temp_canvas');
         var ctx = c.getContext('2d');
@@ -190,9 +192,12 @@ function drawTiles(tiles, fabricCanvas) {
         });
         c = null;
         $('#_temp_canvas').remove();
-        map.gidCnt++;
-        localStorage.setItem("map", JSON.stringify(map));
+        gid++;
     }
+    if(isNew){
+        map.gidCnt=gid;
+    }
+    localStorage.setItem("map", JSON.stringify(map));
 
     fabricCanvas.on('selection:created',function(e){
         //try group selection here
@@ -249,7 +254,7 @@ function addTileCanvas(id){
 
 function reloadTileset(){
     let map = JSON.parse(localStorage.getItem('map'));
-    map.gidCnt = 1;//reset gid counter
+    // map.gidCnt = 1;//reset gid counter
     localStorage.setItem("map", JSON.stringify(map));
     for(let i = 0; i < map.tilesets.length; i++ ){
         loadImage(i);
@@ -274,7 +279,7 @@ function loadImage(i){
                 height: tileH * tileCountY + (tileCountY - 1) * (tileH * (offset - 1)) + 20,
                 selectable: false,
             });
-            drawTiles(tiles, fabricCanvas);
+            drawTiles(tiles, fabricCanvas, map.tilesets[i].firstGid, false);
             fakeCanvas = null;
             $('#_fake_canvas').remove();
         }

@@ -1,5 +1,6 @@
 package com.example.levelcreator.service;
 
+import com.example.levelcreator.model.Project;
 import com.example.levelcreator.repository.UserRepository;
 import com.example.levelcreator.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,16 @@ public class UserService{
         return new Response(true);
     }
 
+    public void addCollaborativeWork(User user, Project project){
+        try {
+            user.getProjectList().add(project);
+            project.getCollaborators().add(user);
+            userRepo.save(user);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     public User findUserByUsername(String username){
         return userRepo.findByUsername(username);
@@ -85,6 +96,14 @@ public class UserService{
 
     public User findUserByEmail(String email){
         return userRepo.findByEmail(email);
+    }
+
+    public void save(User user){
+        try{
+            userRepo.save(user);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 

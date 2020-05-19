@@ -71,7 +71,7 @@ public class ProjectService {
         }
     }
 
-    //Get a project base on user
+    //Get a project base on  current user
     public List<Project> getProjectByUser(Authentication authentication) {
         User user = authenticationService.getPrincipal(authentication);
         return projectRepo.findByUser(user);
@@ -115,6 +115,15 @@ public class ProjectService {
     public Set<User> getCollaborators(Project project) {
         Project proj = (Project) projectRepo.findById(project.getId()).get();
         return proj.getCollaborators();
+    }
+
+    public void save(Project project){
+        try{
+            projectRepo.save(project);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 }

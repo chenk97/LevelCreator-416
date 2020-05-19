@@ -49,8 +49,7 @@ $(function() {
 
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.log('error while put');
-                window.location.href = '/myWork3';
+                console.log('error while generating');
             }
         })
     });

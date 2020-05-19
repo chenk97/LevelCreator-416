@@ -67,9 +67,9 @@
                     <a class="nav-link" href="/myWork">My Work</a>
                 </li>
 
-<!--                <li sec:authorize="isAuthenticated()"  class="nav-item">-->
-<!--                    <a class="nav-link" href="/following">Following<span class="badge badge-pill badge-info mx-1">12</span></a>-->
-<!--                </li>-->
+                <li sec:authorize="isAuthenticated()"  class="nav-item">
+                    <a class="nav-link" href="/teamWork">Team Work</a>
+                </li>
             </ul>
 
             <form class="form-inline mt-5 my-lg-0" id="searchBar" action="">
@@ -95,6 +95,31 @@
     </nav>
 </div>
 
+
+<div id="collaborators" th:fragment="collaborators">
+    <div th:if="${UserNotExist}" class="alert alert-danger text-center mx-4 py-1" role="alert">
+        <h6>User Not Exist.</h6>
+    </div>
+    <ul id="collaboratorList" class = "list-group" th:each = "collaborator, stat : ${collaborators}">
+        <li class="list-group-item d-flex justify-content-between align-items-center mx-4 px-3" style="padding:unset;">
+            <p th:text="${collaborators[__${stat.index}__].username}"/>
+            <button type="button" class="badge badge-secondary badge-pill" th:onclick="removeCollaborator([[${collaborators[__${stat.index}__].username}]])">-</button>
+        </li>
+    </ul>
+    <div class="form-inline p-2">
+        <div class="col-auto">
+            <input type="text" id="collaboratorName" placeholder="Username">
+        </div>
+        <div class="col-auto">
+            <div class="row">
+                <button type="button" id="addCollaboratorBtn" class="badge badge-secondary badge-pill ml-4" onclick="addCollaborator()">+</button>
+            </div>
+            <div class="row">
+                <button type="button" class="badge badge-secondary badge-pill" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
