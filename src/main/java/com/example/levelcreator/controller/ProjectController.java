@@ -1,9 +1,11 @@
 package com.example.levelcreator.controller;
 
 
+import com.example.levelcreator.model.Comment;
 import com.example.levelcreator.model.Project;
 import com.example.levelcreator.model.User;
 import com.example.levelcreator.service.AuthenticationService;
+import com.example.levelcreator.service.CommentService;
 import com.example.levelcreator.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.levelcreator.service.UserService;
@@ -33,6 +35,9 @@ public class ProjectController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private CommentService commentService;
 
     @RequestMapping("/myWork")
     public String myWork() {
@@ -152,13 +157,13 @@ public class ProjectController {
         return "redirect:/myWork";
     }
 
+/*
     @RequestMapping("/project")
     public String getProjectScreen() {
         return "project.html";
     }
 
-
-
+*/
     @RequestMapping("/project/{id}")
     public String getProject(@PathVariable int id) {
         Project proj = projectService.getProjectById(id);
@@ -172,8 +177,19 @@ public class ProjectController {
     public ModelAndView returnCurProj(@PathVariable int id){
         ModelAndView model = new ModelAndView("project");
         Project proj = projectService.getProjectById(id);
+        List<Comment> comments = new ArrayList<Comment>();
+        comments = commentService.getCommentsPerProj(proj);
+        model.addObject("comments", comments);
+        //Comment comment = new Comment();
         model.addObject("proj",proj);
+        //model.addObject("comment",comment);
         return model;
     }
+
+    @ModelAttribute("comment")
+    public Comment getComment(){
+        return new Comment();
+    }
+
 }
 

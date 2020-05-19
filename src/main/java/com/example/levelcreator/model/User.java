@@ -47,8 +47,8 @@ public class User {
     @ManyToMany(mappedBy="follows")
     private Set<User> followers;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Comment> commentList;
+    //@OneToMany(mappedBy = "user")
+    //private Set<Comment> commentList;
 
     public User(){
         super();
@@ -63,7 +63,7 @@ public class User {
         this.projectList = projectList;
         this.follows = follows;
         this.followers = followers;
-        this.commentList = commentList;
+        //this.commentList = commentList;
     }
 
     public Integer getId(){
@@ -89,6 +89,7 @@ public class User {
         this.username = username;
     }
 
+/*
     public Set<Comment> getCommentList() {
         return commentList;
     }
@@ -96,7 +97,7 @@ public class User {
     public void setCommentList(Set<Comment> commentList) {
         this.commentList = commentList;
     }
-
+*/
     public String getPassword(){
         return password;
     }

@@ -5,22 +5,55 @@
 
 <head th:insert="fragments.html :: headerfiles">
     <title>Project</title>
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
 </head>
 
 
 <body>
 
-<div th:insert="fragments.html :: nav"></div>
+    <div th:insert="fragments.html :: nav"></div>
     <div class = "container">
         <h1 th:text = "${proj.name}"></h1>
         <h4 th:text = "${proj.user.username}"></h4>
         <img th:src="${proj.screenshot}"/>
-        <div class ="downloadButton" th:onclick="exportMap([[${proj.mapJSON}]])"><i class="fas fa-download"></i></div>
-
     </div>
 
-</div>
+    <div class="row bootstrap snippets">
+        <div class="col-md-6 col-md-offset-2 col-sm-12">
+            <div class="comment-wrapper">
+                <div class="card">
+                    <div class="card-header">
+                        Comment panel
+                    </div>
+                    <div class="card-body">
+                        <form action="#" th:action="@{/saveComment/{id}(id=${proj.id})}" th:object ="${comment}" method="POST">
+                        <textarea class="form-control" placeholder="write a comment..." th:field="*{content}" rows="3"></textarea>
+                        <br>
+                        <button type="submit" class="btn btn-info pull-right">Post</button>
+                        </form>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <ul class="media-list">
+                            <li class="media" th:each="comment : ${comments}">
+                                <a href="#" class="pull-left">
+                                    <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
+                                </a>
+                                <div class="media-body">
+                                    <span class="text-muted pull-right">
+                                        <small class="text-muted">30 min ago</small>
+                                    </span>
+                                    <strong class="text-success">@MartinoMont</strong>
+                                    <p th:text="${comment.content}"></p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
 
 
     <!-- Optional JavaScript -->
