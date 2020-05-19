@@ -50,7 +50,7 @@
 <body>
 <div th:fragment="nav">
     <!-- this is header -->
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#BBF8FC">
+    <nav  class="navbar navbar-expand-lg navbar-light" style="background-color:#BBF8FC">
         <a class="navbar-brand" href="/levelcreator">LevelCreator</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,11 +64,11 @@
                 </li>
 
                 <li sec:authorize="isAuthenticated()" class="nav-item">
-                    <a class="nav-link" href="/myWork">My Work</a>
+                    <a id="link-myWork" class="nav-link" href="/myWork">My Work</a>
                 </li>
 
                 <li sec:authorize="isAuthenticated()"  class="nav-item">
-                    <a class="nav-link" href="/teamWork">Team Work</a>
+                    <a id="link-teamWork" class="nav-link" href="/teamWork">Team Work</a>
                 </li>
             </ul>
 
@@ -120,8 +120,5 @@
         </div>
     </div>
 </div>
-
-
-
 </body>
 </html>
