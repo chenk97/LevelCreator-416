@@ -48,7 +48,7 @@ public class Project {
     @ManyToMany(mappedBy = "projectList")
     private Set<User> collaborators;
 
-    @OneToMany(mappedBy = "project_id")
+    @OneToMany(mappedBy = "project")
     private Set<Comment> commentList;
 
     public Project(){

@@ -42,4 +42,14 @@ public class CommentService {
     public List<Comment> getCommentsPerProj(Project project){
         return commentRepository.getAllComments(project.getId());
     }
+
+    public Comment getCommentById(int id) {
+        return commentRepository.findById(id).get();
+    }
+
+    public void deleteComment(Integer id) {
+        commentRepository.deleteById(id);
+    }
+
+    public void deleteCommentsPerProj(Integer id){commentRepository.deleteAllComments(id);}
 }

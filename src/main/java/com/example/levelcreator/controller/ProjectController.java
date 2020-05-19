@@ -203,18 +203,20 @@ public class ProjectController {
     }
 
     //Update delete new project from database if user doesn't want to save.
-    @RequestMapping(value = "/deleteNewProject", method = RequestMethod.PUT)
+    @RequestMapping(value = "/deleteNewProject", method = RequestMethod.GET)
     public @ResponseBody
     void deleteNewProject(@RequestBody int theId) {
+
+        Project project = projectService.getProjectById(theId);
+        commentService.deleteCommentsPerProj(theId);
+        projectService.save(project);
         projectService.deleteProject(theId);
     }
 
     @GetMapping(value = "/myWork/delete/{id}")
     public String delete(@PathVariable int id, Authentication authentication) {
         Project project = projectService.getProjectById(id);
-        for(Comment comment: project.getCommentList()){
-            project.getCommentList().remove(comment);
-        }
+
         //remove collaborator relationship
         for(User collaborator: project.getCollaborators()){
             collaborator.getProjectList().remove(project);
