@@ -10,7 +10,7 @@ var lineY = [];
 var lineXN = [];
 var lineYN = [];
 var isoLines = [];
-var isoPoints =[];
+var isoPoints = [];
 var gridCanvas;
 var leftMostPt;
 var isoMapX = {};
@@ -20,31 +20,74 @@ var map;
 
 
 function checkForm(form) {
+    let projectOrientation = document.getElementById('orientation').value;
     // get all the inputs within the submitted form
     var inputs = form.getElementsByTagName('input');
     for (var i = 0; i < inputs.length; i++) {
         // only validate the inputs that have the required attribute
-        if(inputs[i].hasAttribute("required")){
-            if(inputs[i].value == ""){
+        if (inputs[i].hasAttribute("required")) {
+            if (inputs[i].value == "") {
                 // found an empty field that is required
                 alert("Please fill all required fields");
                 return false;
             }
         }
     }
+    //Check restrictions places on the sizes that a player can create for map
+    // Orthogonal is 1-100 and Isometric is
+    if (projectOrientation == "Orthogonal") {
+        for (var i = 0; i < inputs.length; i++) {
+            // only validate the inputs that have the required attribute
+            if (inputs[i].hasAttribute("required")) {
+                if (inputs[i].id == "mapWidth" || inputs[i].id == "mapHeight") {
+                    if (inputs[i].value > 100 || inputs[i].value < 1) {
+                        alert("Can only set Orthogonal Maps width/height in the range of 1-100.")
+                        return false
+                    }
+                }
+            }
+        }
+    } else {
+        for (var i = 0; i < inputs.length; i++) {
+            // only validate the inputs that have the required attribute
+            if (inputs[i].hasAttribute("required")) {
+                if (inputs[i].id == "mapWidth" || inputs[i].id == "mapHeight") {
+                    if (inputs[i].value > 50 || inputs[i].value < 1) {
+                        alert("Can only set Isometric Maps width/height in the range of 1-50.")
+                        return false
+                    }
+                }
+            }
+        }
+    }
+
+    // Checking if map tile width and tile height is in certain range of 1-32
+    for (var i = 0; i < inputs.length; i++) {
+        // only validate the inputs that have the required attribute
+        if (inputs[i].hasAttribute("required")) {
+            if (inputs[i].id == "tileWidth" || inputs[i].id == "tileHeight") {
+                if (inputs[i].value > 32 || inputs[i].value < 1) {
+                    alert("Can only set Map's tilewidth/tileheight in the range of 1-32.")
+                    return false
+                }
+            }
+        }
+    }
+
+
     return true;
 }
 
 
-$(function() {
+$(function () {
     /*  Submit form using Ajax */
-    $('#createMapBtn').click(function(e) {
+    $('#createMapBtn').click(function (e) {
 
         //Prevent default submission of form
         e.preventDefault();
 
         let form = document.getElementById('mapForm');
-        if(checkForm(form)){
+        if (checkForm(form)) {
             let map = newMap();
             let project = {
                 "name": map.name,
@@ -55,8 +98,8 @@ $(function() {
             $.post({
                 contentType: "application/json",
                 type: "POST",
-                url : 'addProject',
-                data : JSON.stringify(project),
+                url: 'addProject',
+                data: JSON.stringify(project),
                 success: function (response) {
                     console.log('done updating');
                     console.log(response);
@@ -71,14 +114,14 @@ $(function() {
                     console.log('error while generating');
                 }
             })
-        }else{
+        } else {
             return;
         }
     });
 });
 
 
-function newMap(){
+function newMap() {
     var mapOrientation = document.getElementById("orientation").value;
     var projectName = document.getElementById("projectName").value;
     var mapWidth = Number(document.getElementById("mapWidth").value);
@@ -87,9 +130,9 @@ function newMap(){
     var tileHeight = Number(document.getElementById("tileHeight").value);
 
     map = {
-        new:0,
+        new: 0,
         name: projectName,
-        id:"",
+        id: "",
         orientation: mapOrientation,
         width: mapWidth,
         height: mapHeight,
@@ -112,8 +155,7 @@ function newMap(){
                 y: 0,
             }
         ],
-        tilesets: [
-        ]
+        tilesets: []
     };
 
     return map;
@@ -162,7 +204,7 @@ function newMap(){
 // }
 
 
-function drawGrids(){
+function drawGrids() {
     let map = JSON.parse(localStorage.getItem('map'));
     let orientation = map.orientation;
     let tileW = map.tileWidth;
@@ -173,13 +215,13 @@ function drawGrids(){
     gridCanvas.preserveObjectStacking = true;
     gridCanvas.setWidth(map.width * map.tileWidth);
     gridCanvas.setHeight(map.height * map.tileHeight);
-    outerCanvisDiv.style.width=map.width * map.tileWidth +"px"
-    outerCanvisDiv.style.height=map.height * map.tileHeight+"px"
+    outerCanvisDiv.style.width = map.width * map.tileWidth + "px"
+    outerCanvisDiv.style.height = map.height * map.tileHeight + "px"
     // console.log(gridCanvas);
-    if (map.orientation === "Orthogonal"){
+    if (map.orientation === "Orthogonal") {
         boundBox = new fabric.Rect({
             width: map.width * map.tileWidth,
-            height: map.height *map.tileHeight,
+            height: map.height * map.tileHeight,
             fill: "transparent",
             stroke: "#c0c4c2",
             hasBorders: false,
@@ -198,12 +240,12 @@ function drawGrids(){
 
 
         //vertical lines
-        for(let i = 0; i < map.width; i++){
+        for (let i = 0; i < map.width; i++) {
             let l = boundBox.left + ((map.tileWidth) * i);
             let t = boundBox.top;
             let b = boundBox.top + boundBox.height;
 
-            lineY.push(new fabric.Line([l,t,l, b],{
+            lineY.push(new fabric.Line([l, t, l, b], {
                 stroke: "#c0c4c2",
                 hasBorders: false,
                 selectable: false,
@@ -217,17 +259,17 @@ function drawGrids(){
         }
 
         //add horizontal lines to canvas
-        lineY.forEach((line)=>{
+        lineY.forEach((line) => {
             gridCanvas.add(line);
         });
 
         //horizontal lines
-        for(let i = 0; i < map.height; i++){
+        for (let i = 0; i < map.height; i++) {
             let t = boundBox.top + ((map.tileHeight) * i);
             let l = boundBox.left;
             let r = boundBox.left + boundBox.width;
 
-            lineX.push(new fabric.Line([l,t,r,t],{
+            lineX.push(new fabric.Line([l, t, r, t], {
                 stroke: "#c0c4c2",
                 hasBorders: false,
                 selectable: false,
@@ -241,14 +283,14 @@ function drawGrids(){
         }
 
 //add horizontal lines to canvas
-        lineX.forEach((line)=>{
+        lineX.forEach((line) => {
             gridCanvas.add(line);
         });
 
-    }else if(map.orientation === "Isometric"){
+    } else if (map.orientation === "Isometric") {
         boundBox = new fabric.Rect({
             width: map.width * map.tileWidth,
-            height: map.height *map.tileHeight,
+            height: map.height * map.tileHeight,
             stroke: "#c0c4c2",
             fill: 'transparent',
             hasBorders: false,
@@ -264,17 +306,17 @@ function drawGrids(){
         gridCanvas.add(boundBox);
         gridCanvas.centerObject(boundBox);
 
-        for(i = 0; i < map.width; i++){
-            for(j = 0; j < map.height; j++){
-                var init_xPos = boundBox.left + (boundBox.width/2) + map.tileWidth/2;
+        for (i = 0; i < map.width; i++) {
+            for (j = 0; j < map.height; j++) {
+                var init_xPos = boundBox.left + (boundBox.width / 2) + map.tileWidth / 2;
                 var init_yPos = boundBox.top;
                 var x = (i - j) * map.tileWidth / 2 + init_xPos;
                 var y = (i + j) * map.tileHeight / 2 + init_yPos;
 
-                var left =  x - map.tileWidth/2;
-                var top =  y;
+                var left = x - map.tileWidth / 2;
+                var top = y;
 
-                let lefttop = new fabric.Line([left,top, x - map.tileWidth, y + map.tileHeight/2],{
+                let lefttop = new fabric.Line([left, top, x - map.tileWidth, y + map.tileHeight / 2], {
                     stroke: "#c0c4c2",
                     hasBorders: false,
                     selectable: false,
@@ -285,7 +327,7 @@ function drawGrids(){
                 });
 
 
-                let leftbottom = new fabric.Line([x - map.tileWidth,y + map.tileHeight/2, x - map.tileWidth/2, y + map.tileHeight],{
+                let leftbottom = new fabric.Line([x - map.tileWidth, y + map.tileHeight / 2, x - map.tileWidth / 2, y + map.tileHeight], {
                     stroke: "#c0c4c2",
                     hasBorders: false,
                     selectable: false,
@@ -296,7 +338,7 @@ function drawGrids(){
                 });
 
 
-                let rightbottom = new fabric.Line([x - map.tileWidth/2,y + map.tileHeight, x, y + map.tileHeight/2],{
+                let rightbottom = new fabric.Line([x - map.tileWidth / 2, y + map.tileHeight, x, y + map.tileHeight / 2], {
                     stroke: "#c0c4c2",
                     hasBorders: false,
                     selectable: false,
@@ -307,7 +349,7 @@ function drawGrids(){
                 });
 
 
-                let righttop = new fabric.Line([x, y + map.tileHeight/2, x - map.tileWidth/2, y ],{
+                let righttop = new fabric.Line([x, y + map.tileHeight / 2, x - map.tileWidth / 2, y], {
                     stroke: "#c0c4c2",
                     hasBorders: false,
                     selectable: false,
@@ -318,8 +360,8 @@ function drawGrids(){
                 });
 
 
-                let d = new fabric.Point(x - map.tileWidth/2, y);//top vertex
-                let e = new fabric.Point(x - map.tileWidth, y + map.tileHeight/2);
+                let d = new fabric.Point(x - map.tileWidth / 2, y);//top vertex
+                let e = new fabric.Point(x - map.tileWidth, y + map.tileHeight / 2);
 
                 isoLines.push(lefttop);
                 isoLines.push(leftbottom);
@@ -327,8 +369,8 @@ function drawGrids(){
                 isoLines.push(righttop);
 
                 isoPoints.push(d);
-                checkDupPush(isoMap,d);
-                checkDupPush(isoMap,e);
+                checkDupPush(isoMap, d);
+                checkDupPush(isoMap, e);
 
             }
         }
@@ -337,22 +379,22 @@ function drawGrids(){
             gridCanvas.add(line);
         });
 
-        leftMostPt = new fabric.Point(boundBox.left, boundBox.top + boundBox.height/2);
+        leftMostPt = new fabric.Point(boundBox.left, boundBox.top + boundBox.height / 2);
         isoPoints.push(leftMostPt);//most left point
 
         isoMap.forEach(point => {
-            if(!(point.x in isoMapX)){
+            if (!(point.x in isoMapX)) {
                 isoMapX[point.x] = [];
                 isoMapX[point.x].push(point.y);
-            }else{
+            } else {
                 isoMapX[point.x].push(point.y);
             }
         });
         isoMap.forEach(point => {
-            if(!(point.y in isoMapY)){
+            if (!(point.y in isoMapY)) {
                 isoMapY[point.y] = [];
                 isoMapY[point.y].push(point.x);
-            }else{
+            } else {
                 isoMapY[point.y].push(point.x);
             }
         });
@@ -360,26 +402,26 @@ function drawGrids(){
 
 }
 
-function checkDupPush(arr, newItem){
+function checkDupPush(arr, newItem) {
     let isDuplicated = false;
     arr.forEach(function (element) {
         if (element.eq(newItem)) {
             isDuplicated = true;
         }
     });
-    if(!isDuplicated){
+    if (!isDuplicated) {
         arr.push(newItem)
     }
 }
 
 
-function loadContent(theId, mapJSON){
+function loadContent(theId, mapJSON) {
     window.location = "/workspace";
     let id = parseInt(theId);
     let theMapJSON = JSON.parse(mapJSON);
     theMapJSON.id = id;
     theMapJSON.new = 1;
-    localStorage.setItem('map',JSON.stringify(theMapJSON));
+    localStorage.setItem('map', JSON.stringify(theMapJSON));
 }
 
 // function removeLargest(numbers) {
@@ -389,7 +431,7 @@ function loadContent(theId, mapJSON){
 // }
 
 /////////////// zoom and panning function start from here //////////////////////
-var zoomhandler = function(event) {
+var zoomhandler = function (event) {
     if (event.e.ctrlKey) {
 
         var delta = event.e.deltaY;
@@ -409,8 +451,8 @@ var zoomhandler = function(event) {
         //if zoom is less than 500%
         if (zoom < 5) {
             //keep the grid in the center of the canvas
-            gridCanvas.viewportTransform[4] =  (gridCanvas.width/2) - gridCanvas.width * zoom / 2;
-            gridCanvas.viewportTransform[5] = (gridCanvas.height/2) - gridCanvas.height * zoom / 2;
+            gridCanvas.viewportTransform[4] = (gridCanvas.width / 2) - gridCanvas.width * zoom / 2;
+            gridCanvas.viewportTransform[5] = (gridCanvas.height / 2) - gridCanvas.height * zoom / 2;
         } else {
             //panning left and right
             if (vpt[4] >= 0) {
@@ -432,22 +474,22 @@ var zoomhandler = function(event) {
 };
 
 
-function loadMap(){
+function loadMap() {
     let map = JSON.parse(localStorage.getItem("map"));
-    gridCanvas.loadFromJSON(map.canvas, (o)=>{
+    gridCanvas.loadFromJSON(map.canvas, (o) => {
         gridCanvas.renderAll.bind(gridCanvas);
         gridCanvas.add(boundBox);
-        if(map.orientation === "Orthogonal"){
-            lineX.forEach((line)=>{
+        if (map.orientation === "Orthogonal") {
+            lineX.forEach((line) => {
                 gridCanvas.add(line);
                 gridCanvas.sendToBack(line);
             });
-            lineY.forEach((line)=>{
+            lineY.forEach((line) => {
                 gridCanvas.add(line);
                 gridCanvas.sendToBack(line);
             });
-        }else if(map.orientation === "Isometric"){
-            isoLines.forEach((line)=>{
+        } else if (map.orientation === "Isometric") {
+            isoLines.forEach((line) => {
                 gridCanvas.add(line);
                 gridCanvas.sendToBack(line);
             });
@@ -466,7 +508,7 @@ drawGrids();
 loadMap();
 gridCanvas.on('mouse:wheel', zoomhandler);
 
-gridCanvas.on('mouse:down', function(event) {
+gridCanvas.on('mouse:down', function (event) {
     event.e.stopPropagation();
     if (event.e.altKey) {
         var evt = event.e;
@@ -477,7 +519,7 @@ gridCanvas.on('mouse:down', function(event) {
     }
 });
 
-gridCanvas.on('mouse:move', function(event) {
+gridCanvas.on('mouse:move', function (event) {
     if (this.isDragging) {
         var evt = event.e;
         this.viewportTransform[4] += evt.clientX - this.lastPosX;
@@ -487,15 +529,15 @@ gridCanvas.on('mouse:move', function(event) {
         this.lastPosY = evt.clientY;
     }
 });
-gridCanvas.on('mouse:up', function(event) {
+gridCanvas.on('mouse:up', function (event) {
     this.isDragging = false;
     this.selection = true;
 });
 
-function reloadTest(){
+function reloadTest() {
     console.log("reload test........");
     var json = '{"objects":[{"type":"rect","originX":"center","originY":"center","left":300,"top":150,"width":150,"height":150,"fill":"#29477F","overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":{"color":"rgba(94, 128, 191, 0.5)","blur":5,"offsetX":10,"offsetY":10},"visible":true,"clipTo":null,"rx":0,"ry":0,"x":0,"y":0},{"type":"circle","originX":"center","originY":"center","left":300,"top":400,"width":200,"height":200,"fill":"rgb(166,111,213)","overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":{"color":"#5b238A","blur":20,"offsetX":-20,"offsetY":-10},"visible":true,"clipTo":null,"radius":100}],"background":""}'
-    gridCanvas.loadFromJSON(json, gridCanvas.renderAll.bind(gridCanvas), function(o, object) {
+    gridCanvas.loadFromJSON(json, gridCanvas.renderAll.bind(gridCanvas), function (o, object) {
         fabric.log(o, object);
     });
 }
