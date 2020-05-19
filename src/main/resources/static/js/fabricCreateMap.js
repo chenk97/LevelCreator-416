@@ -40,8 +40,8 @@ function checkForm(form) {
             // only validate the inputs that have the required attribute
             if (inputs[i].hasAttribute("required")) {
                 if (inputs[i].id == "mapWidth" || inputs[i].id == "mapHeight") {
-                    if (inputs[i].value > 100 || inputs[i].value < 1) {
-                        alert("Can only set Orthogonal Maps width/height in the range of 1-100.")
+                    if (inputs[i].value > 50 || inputs[i].value < 1) {
+                        alert("Can only set Orthogonal Maps width/height in the range of 1-50.")
                         return false
                     }
                 }
@@ -66,7 +66,7 @@ function checkForm(form) {
         // only validate the inputs that have the required attribute
         if (inputs[i].hasAttribute("required")) {
             if (inputs[i].id == "tileWidth" || inputs[i].id == "tileHeight") {
-                if (inputs[i].value > 32 || inputs[i].value < 1) {
+                if (inputs[i].value > 64 || inputs[i].value < 1) {
                     alert("Can only set Map's tilewidth/tileheight in the range of 1-32.")
                     return false
                 }
