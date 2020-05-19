@@ -60,6 +60,19 @@ $("#goWork").on('click', function () {
 
 
 });
+$("#goTeamWork").on('click', function () {
+    if (saved == false) {
+        $("#exampleModal10").modal()
+        document.getElementById("exitButton").addEventListener("click", function () {
+            deleteLayer("/teamWork")
+        })
+    } else {
+        window.location = "/teamWork";
+    }
+
+
+});
+
 //Redirection for to go to profile from workspace
 $("#goToProfile").on('click', function () {
     if (saved == false) {
