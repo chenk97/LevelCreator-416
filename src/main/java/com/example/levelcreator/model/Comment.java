@@ -35,15 +35,20 @@ public class Comment {
     @OneToMany(mappedBy="replyTo")
     private List<Comment> replies = new ArrayList<Comment>();
 
+    @ManyToOne
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    private Project project;
+
     public Comment(){
         super();
     }
 
-    public Comment(String content, User user, Date date) {
+    public Comment(String content, User user, Date date, Project project) {
         super();
         this.content = content;
         this.user = user;
         this.date = date;
+        this.project = project;
     }
 
     public Integer getId() {
@@ -76,5 +81,13 @@ public class Comment {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 }

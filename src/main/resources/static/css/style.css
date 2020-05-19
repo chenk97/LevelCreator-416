@@ -240,3 +240,24 @@ body {
 /*    top:0;bottom:0;right:0;left:0;*/
 /*    margin:auto;*/
 /*}*/
+
+.delButton i{
+
+    float: right;
+}
+
+.comment-wrapper .card-body {
+    max-height:650px;
+    overflow:auto;
+}
+
+.comment-wrapper .media-list .media img {
+    width:64px;
+    height:64px;
+    border:2px solid #e5e7e8;
+}
+
+.comment-wrapper .media-list .media {
+    border-bottom:1px dashed #efefef;
+    margin-bottom:25px;
+}

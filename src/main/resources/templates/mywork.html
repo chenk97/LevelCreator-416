@@ -89,9 +89,7 @@
         <div class="col-sm-3" th:each="project, stat: ${projects}" style="padding:2%;">
             <a th:href="@{'/workspace/'+ ${project.id}}">
                 <div class="card mb-3 projectCard" th:onclick="loadContent([[${project.id}]],[[${project.mapJSON}]])">
-
                     <img class="card-img-top" th:src="${project.screenshot}"/>
-
                     <div class="card-body">
                         <!--                        Title Of Project-->
                         <h5 class="card-title cardProjectTitle" th:title="${project.name}" th:text="${project.name}"/>
@@ -105,9 +103,11 @@
                             <label class="custom-control-label" th:for="'customSwitch'+ ${project.id}"><i
                                     class="fas fa-globe-americas"></i></label>
                         </div>
-
+                        <div class = "delButton">
+                            <a th:href="@{/myWork/delete/{id}(id=${project.id})}" onclick="return confirm('Are you sure?')"><i class="far fa-trash-alt fa-lg"></i></a>
+                        </div>
                     </div>
-                    <a th:href="@{/myWork/delete/{id}(id=${project.id})}" onclick="return confirm('Are you sure?')">Delete</a>
+
                 </div>
             </a>
 
