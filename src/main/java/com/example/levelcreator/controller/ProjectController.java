@@ -212,6 +212,9 @@ public class ProjectController {
     @GetMapping(value = "/myWork/delete/{id}")
     public String delete(@PathVariable int id, Authentication authentication) {
         Project project = projectService.getProjectById(id);
+        for(Comment comment: project.getCommentList()){
+            project.getCommentList().remove(comment);
+        }
         //remove collaborator relationship
         for(User collaborator: project.getCollaborators()){
             collaborator.getProjectList().remove(project);

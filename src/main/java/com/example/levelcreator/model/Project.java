@@ -48,12 +48,15 @@ public class Project {
     @ManyToMany(mappedBy = "projectList")
     private Set<User> collaborators;
 
+    @OneToMany(mappedBy = "project_id")
+    private Set<Comment> commentList;
+
     public Project(){
         super();
     }
 
     public Project(Integer id, String name, String type, @NotBlank String screenshot, String createdDate, String mapJSON,
-                 User user, Set<User> collaborators) {
+                 User user, Set<User> collaborators, Set<Comment> commentList) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -64,6 +67,7 @@ public class Project {
         this.likes = 0;
         this.user = user;
         this.collaborators = collaborators;
+        this.commentList = commentList;
     }
 
     public Integer getId() {
@@ -145,6 +149,14 @@ public class Project {
 
     public void setCollaborators(Set<User> collaborators) {
         this.collaborators = collaborators;
+    }
+
+    public Set<Comment> getCommentList(){
+        return commentList;
+    }
+
+    public void setCommentList(Set<Comment> commentList){
+        this.commentList = commentList;
     }
 
     @Override
