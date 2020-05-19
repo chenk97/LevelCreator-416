@@ -110,7 +110,7 @@
                             </div>
 <!--                            Delete Button-->
                             <div>
-                                <i th:onclick="deleteProject(event,[[${project.id}]])" style="float: right"
+                                <i th:onclick="deleteProject([[${project.id}]])" style="float: right"
                                    class="far fa-trash-alt fa-lg"></i>
                             </div>
                         </div>
@@ -145,7 +145,7 @@
 </script>
 
 <script>
-    function deleteProject(event, theProjectID) {
+    function deleteProject(theProjectID) {
         event.stopPropagation();
         event.preventDefault()
 
