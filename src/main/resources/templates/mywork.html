@@ -151,9 +151,9 @@
 
         $.ajax({
             contentType: "application/json",
-            type: "PUT",
+            type: "GET",
             data: JSON.stringify(theProjectID),
-            url: "/deleteNewProject",
+            url: "/myWork/delete/"+theProjectID,
             success: function (data) {
                 console.log('Deleting Project Was Successful.');
                 window.location = "/myWork";
