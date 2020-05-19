@@ -51,23 +51,23 @@
                             </div>
                             <div class="form-group">
                                 <label for="mapWidth">Map Width:</label>
-                                <input type="number" step="1" min="1"  class="form-control" id="mapWidth"
+                                <input type="number" step="1" min="1" class="form-control" id="mapWidth"
                                        placeholder="Enter map width" required>
                             </div>
                             <div class="form-group">
                                 <label for="mapHeight">Map Height:</label>
-                                <input type="number" step="1" min="1"  class="form-control" id="mapHeight"
+                                <input type="number" step="1" min="1" class="form-control" id="mapHeight"
                                        placeholder="Enter map height" required>
                             </div>
                             <div class="form-group">
                                 <label for="tileWidth">Tile Width:</label>
-                                <input type="number" step="1" min="1" max="32" class="form-control" id="tileWidth"
+                                <input type="number" step="1" min="1" max="64" class="form-control" id="tileWidth"
                                        value="32"
                                        placeholder="Enter tile width" required>
                             </div>
                             <div class="form-group">
                                 <label for="tileHeight">Tile Height:</label>
-                                <input type="number" step="1" min="1" max="32" class="form-control" id="tileHeight"
+                                <input type="number" step="1" min="1" max="64" class="form-control" id="tileHeight"
                                        value="32"
                                        placeholder="Enter tile height" required>
                             </div>
@@ -96,15 +96,23 @@
                         <!--                        Last Edited Date-->
                         <h6 class="text-muted cardProjectDate" th:title="'Last updated at '+ ${project.createdDate}"
                             th:text="'Last updated at '+ ${project.createdDate.substring(0, 10)}"/>
-                        <!--                        Switch button toggle public or private-->
-                        <div class="custom-control custom-switch" th:onclick="togglePublic(event,[[${project.id}]])">
-                            <input type="checkbox" class="custom-control-input" th:id="'customSwitch' + ${project.id}"
-                                   th:checked="${project.type} ? 'checked'">
-                            <label class="custom-control-label" th:for="'customSwitch'+ ${project.id}"><i
-                                    class="fas fa-globe-americas"></i></label>
-                        </div>
-                        <div class = "delButton">
-                            <a th:href="@{/myWork/delete/{id}(id=${project.id})}" onclick="return confirm('Are you sure?')"><i class="far fa-trash-alt fa-lg"></i></a>
+
+                        <div>
+                            <!--                        Switch button toggle public or private-->
+                            <div class="custom-control custom-switch"
+                                 th:onclick="togglePublic(event,[[${project.id}]])" style="width: 50%;float: left">
+                                <input type="checkbox" class="custom-control-input"
+                                       th:id="'customSwitch' + ${project.id}"
+                                       th:checked="${project.type} ? 'checked'">
+                                <label class="custom-control-label" th:for="'customSwitch'+ ${project.id}"><i
+                                        class="fas fa-globe-americas"></i></label>
+
+                            </div>
+<!--                            Delete Button-->
+                            <div>
+                                <i th:onclick="deleteProject(event,[[${project.id}]])" style="float: right"
+                                   class="far fa-trash-alt fa-lg"></i>
+                            </div>
                         </div>
                     </div>
 
@@ -133,10 +141,33 @@
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.2/fabric.min.js"></script>
 <script>
-    document.getElementById("searchBar").setAttribute("action","/myWork")
+    document.getElementById("searchBar").setAttribute("action", "/myWork")
 </script>
 
 <script>
+    function deleteProject(event, theProjectID) {
+        event.stopPropagation();
+        event.preventDefault()
+
+        $.ajax({
+            contentType: "application/json",
+            type: "PUT",
+            data: JSON.stringify(theProjectID),
+            url: "/deleteNewProject",
+            success: function (data) {
+                console.log('Deleting Project Was Successful.');
+                window.location = "/myWork";
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log('error while deleting Project');
+            }
+        });
+    }
+</script>
+
+<script>
+
+
     function togglePublic(event, theProjectID) {
         event.stopImmediatePropagation();
 
@@ -159,7 +190,7 @@
 <script src="js/fabricCreateMap.js"></script>
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $("nav .active").removeClass("active");
         $("#link-myWork").addClass("active");
     });
