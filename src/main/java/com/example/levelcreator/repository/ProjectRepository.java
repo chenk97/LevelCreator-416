@@ -14,6 +14,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
     @Override
     List<Project> findAll();
 
+
     public List<Project> findByUser(User user);
 
     public List<Project> findByUserAndNameContaining(User user, String name);

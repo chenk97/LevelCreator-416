@@ -18,7 +18,7 @@
         <div class="col-sm-3" th:each="project, stat: ${projects}" style="padding:2%;">
             <a th:href="@{'/project/'+ ${project.id}}">
                 <div class="card mb-3 projectCard">
-                    <img class="card-img-top" th:src="${project.screenshot}"/>
+                    <img class="card-img-top screenshotImage" th:src="${project.screenshot}" />
                     <div class="card-body">
                         <h5 class="card-title cardProjectTitle" th:title="${project.name}" th:text="${project.name}"/>
                         <h6 class="text-muted" th:text="'By: '+ ${project.user.username}"/>

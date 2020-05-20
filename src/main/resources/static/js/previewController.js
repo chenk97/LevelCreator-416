@@ -5,7 +5,7 @@ $('#previewModal').on('shown.bs.modal', function () {
     gridCanvas.discardActiveObject();
     gridCanvas.setViewportTransform([1,0,0,1,0,0]);
     removeGrid()
-    console.log(gridCanvas.getZoom())
+
     var dataURI = myCanvas.toDataURL();
     convertedImg.src = dataURI;
     addGrid()

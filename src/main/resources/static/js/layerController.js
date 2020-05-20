@@ -387,6 +387,7 @@ document.getElementById("deselectLayer").addEventListener("click",function(){
     curLayerSelected = ""
     loadLayer()
     loadLayerProperty()
+    restackLayer();
 })
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

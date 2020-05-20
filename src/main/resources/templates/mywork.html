@@ -87,37 +87,69 @@
         <!--</div>-->
         <!--        <div id="testyProject">-->
         <div class="col-sm-3" th:each="project, stat: ${projects}" style="padding:2%;">
-            <a th:href="@{'/workspace/'+ ${project.id}}">
-                <div class="card mb-3 projectCard" th:onclick="loadContent([[${project.id}]],[[${project.mapJSON}]])">
-                    <img class="card-img-top" th:src="${project.screenshot}"/>
-                    <div class="card-body">
+            <div class="card mb-3 projectCard">
+                <a th:href="@{'/workspace/'+ ${project.id}}">
+
+                    <img class="card-img-top screenshotImage"  th:src="${project.screenshot}"
+                         th:onclick="loadContent([[${project.id}]],[[${project.mapJSON}]])"/>
+                </a>
+
+                <div class="card-body">
+                    <a th:href="@{'/workspace/'+ ${project.id}}">
                         <!--                        Title Of Project-->
-                        <h5 class="card-title cardProjectTitle" th:title="${project.name}" th:text="${project.name}"/>
-                        <!--                        Last Edited Date-->
-                        <h6 class="text-muted cardProjectDate" th:title="'Last updated at '+ ${project.createdDate}"
-                            th:text="'Last updated at '+ ${project.createdDate.substring(0, 10)}"/>
+                        <h5 class="card-title cardProjectTitle" th:title="${project.name}" th:text="${project.name}"
+                            th:onclick="loadContent([[${project.id}]],[[${project.mapJSON}]])"/>
+                    </a>
+                    <!--                        Last Edited Date-->
+                    <h6 class="text-muted cardProjectDate" th:title="'Last updated at '+ ${project.createdDate}"
+                        th:text="'Last updated at '+ ${project.createdDate.substring(0, 10)}"/>
 
+                    <div>
+                        <!--                        Switch button toggle public or private-->
+                        <div class="custom-control custom-switch"
+                             th:onclick="togglePublic(event,[[${project.id}]])" style="width: 50%;float: left">
+                            <input type="checkbox" class="custom-control-input"
+                                   th:id="'customSwitch' + ${project.id}"
+                                   th:checked="${project.type} ? 'checked'">
+                            <label class="custom-control-label" th:for="'customSwitch'+ ${project.id}"><i
+                                    class="fas fa-globe-americas"></i></label>
+
+                        </div>
+                        <!--                            Delete Button-->
                         <div>
-                            <!--                        Switch button toggle public or private-->
-                            <div class="custom-control custom-switch"
-                                 th:onclick="togglePublic(event,[[${project.id}]])" style="width: 50%;float: left">
-                                <input type="checkbox" class="custom-control-input"
-                                       th:id="'customSwitch' + ${project.id}"
-                                       th:checked="${project.type} ? 'checked'">
-                                <label class="custom-control-label" th:for="'customSwitch'+ ${project.id}"><i
-                                        class="fas fa-globe-americas"></i></label>
+                            <i style="float: right"
+                               class="far fa-trash-alt fa-lg" id="deleteTrashCan"></i>
 
-                            </div>
-<!--                            Delete Button-->
-                            <div>
-                                <i th:onclick="deleteProject([[${project.id}]])" style="float: right"
-                                   class="far fa-trash-alt fa-lg"></i>
+                            <div class="modal fade" id="deleteProj" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampldeleteProj" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampldeleteProj">Delete Project</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" style="padding:0px !important; margin: auto;">
+                                            Are you sure you want to delete?
+                                        </div>
+                                        <div class="modal-footer" style="padding:1rem !important;">
+                                            <button type="button" class="btn btn-primary"
+                                                    th:onclick="deleteProject([[${project.id}]])">Yes
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                No
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </a>
+
+            </div>
 
             <!--            </div>-->
         </div>
@@ -145,6 +177,14 @@
 </script>
 
 <script>
+    $("#deleteTrashCan").on('click', function () {
+        event.stopPropagation();
+        event.preventDefault()
+        $("#deleteProj").modal()
+    });
+</script>
+
+<script>
     function deleteProject(theProjectID) {
         event.stopPropagation();
         event.preventDefault()
@@ -153,7 +193,7 @@
             contentType: "application/json",
             type: "GET",
             data: JSON.stringify(theProjectID),
-            url: "/myWork/delete/"+theProjectID,
+            url: "/myWork/delete/" + theProjectID,
             success: function (data) {
                 console.log('Deleting Project Was Successful.');
                 window.location = "/myWork";

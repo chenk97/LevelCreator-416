@@ -207,10 +207,18 @@ public class ProjectController {
     @RequestMapping(value = "/deleteNewProject", method = RequestMethod.PUT)
     public @ResponseBody
     void deleteNewProject(@RequestBody int theId) {
-
-
         projectService.deleteProject(theId);
     }
+
+    @RequestMapping(value = "/getMyProject/{id}", method = RequestMethod.POST)
+    public @ResponseBody
+    Project getProjectByProject(@RequestBody int theId) {
+        System.out.println("HIIIIIIIIIIIIIIIIIIIIII!!!!!!!!!!!!!!!!!!!!!!!!!!!111");
+        Project theProject = projectService.getProjectById(theId);
+        System.out.println(theProject);
+        return theProject;
+    }
+
 
     @GetMapping(value = "/myWork/delete/{id}")
     public String delete(@PathVariable int id) {
