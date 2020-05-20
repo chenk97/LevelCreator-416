@@ -416,7 +416,7 @@ function checkDupPush(arr, newItem) {
 
 
 function loadContent(theId, mapJSON) {
-    window.location = "/workspace";
+    // window.location = "/workspace";
     let id = parseInt(theId);
     let theMapJSON = JSON.parse(mapJSON);
     theMapJSON.id = id;
@@ -476,25 +476,47 @@ var zoomhandler = function (event) {
 
 function loadMap() {
     let map = JSON.parse(localStorage.getItem("map"));
-    gridCanvas.loadFromJSON(map.canvas, (o) => {
-        gridCanvas.renderAll.bind(gridCanvas);
-        gridCanvas.add(boundBox);
-        if (map.orientation === "Orthogonal") {
-            lineX.forEach((line) => {
-                gridCanvas.add(line);
-                gridCanvas.sendToBack(line);
+    console.log(map)
+    let mapJson
+    $.ajax({
+        contentType: "application/json",
+        type: "POST",
+        data: JSON.stringify(map.id),
+        url: "/getMyProject/"+ map.id,
+        success: function (data) {
+            var theData = data.mapJSON;
+
+            let theParsedData  =jQuery.parseJSON(theData)
+
+            gridCanvas.loadFromJSON(theParsedData.canvas, (o) => {
+
+                gridCanvas.renderAll.bind(gridCanvas);
+                gridCanvas.add(boundBox);
+                if (map.orientation === "Orthogonal") {
+                    lineX.forEach((line) => {
+                        gridCanvas.add(line);
+                        gridCanvas.sendToBack(line);
+                    });
+                    lineY.forEach((line) => {
+                        gridCanvas.add(line);
+                        gridCanvas.sendToBack(line);
+                    });
+                } else if (map.orientation === "Isometric") {
+                    isoLines.forEach((line) => {
+                        gridCanvas.add(line);
+                        gridCanvas.sendToBack(line);
+                    });
+                }
             });
-            lineY.forEach((line) => {
-                gridCanvas.add(line);
-                gridCanvas.sendToBack(line);
-            });
-        } else if (map.orientation === "Isometric") {
-            isoLines.forEach((line) => {
-                gridCanvas.add(line);
-                gridCanvas.sendToBack(line);
-            });
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR)
+            console.log(textStatus)
+            console.log(errorThrown)
+            console.log('Error');
         }
     });
+
     // gridCanvas.loadFromJSON(map.canvas, gridCanvas.renderAll.bind(gridCanvas), function(o, object) {
     //     fabric.log(o, object);
     // });
