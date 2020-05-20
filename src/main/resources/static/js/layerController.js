@@ -1,5 +1,5 @@
 //Global variable to be used to indicate the currently selected layers id
-import {addTransactions} from "./redoAndUndo.js";
+
 import {makeLayerVisible} from "./fabricLayerController.js";
 import {makeLayerInvisible} from "./fabricLayerController.js";
 import {lockLayer} from "./fabricLayerController.js";
@@ -341,9 +341,7 @@ export function loadLayer() {
         //Checks if a new layers has been added or if the project was loaded for the first time
         //If so we set the first layers to be the current selected one
         if (justAddedNewLayer == true || firstLoad == true) {
-            if (firstLoad == true) {
-                addTransactions("layer")
-            }
+
             setCurrentSelectedLayer(mapLayers[0].id)
             justAddedNewLayer = false
             firstLoad = false
@@ -353,18 +351,15 @@ export function loadLayer() {
 
 document.getElementById("addTileLayer").addEventListener("click", function () {
     newTileLayer()
-    addTransactions("layer")
     loadLayer()
 })
 document.getElementById("addObjectLayer").addEventListener("click", function () {
     newObjectLayer()
-    addTransactions("layer")
     loadLayer()
 })
 
 document.getElementById("deleteLayer").addEventListener("click", function(){
     deleteLayer()
-    addTransactions("layer")
     loadLayer()
     removeLayer(curLayerSelected)
     curLayerSelected = ""
