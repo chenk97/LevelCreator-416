@@ -92,6 +92,7 @@ $(function () {
                     "name": map.name,
                     "screenshot": dataUri,
                     "mapJSON": JSON.stringify(map),
+                    "canvasJSON": null,
                 }
 
                 $.post({
@@ -140,7 +141,7 @@ function newMap() {
         tileHeight: tileHeight,
         nextLayerid: 2,
         gidCnt: 1,
-        canvas: null,
+        // canvas: null,
         layers: [
             {
                 type: "tile",
@@ -475,6 +476,7 @@ var zoomhandler = function (event) {
 
 
 function loadMap() {
+    //get!
     let map = JSON.parse(localStorage.getItem("map"));
     gridCanvas.loadFromJSON(map.canvas, (o) => {
         gridCanvas.renderAll.bind(gridCanvas);

@@ -18,14 +18,15 @@ function saveWork() {
     var projectJson = JSON.parse(localStorage.getItem('map'));
     let theProjectName = projectJson.name
     let theProjectID = projectJson.id
-    projectJson.canvas = JSON.stringify(gridCanvas.toJSON());
+    // projectJson.canvas = JSON.stringify(gridCanvas.toJSON());
     let stringifyProject = JSON.stringify(projectJson)
 
     project = {
         "id": theProjectID,
         "name": theProjectName,
         "screenshot": getProjectScreenshot(),
-        "mapJSON": stringifyProject
+        "mapJSON": stringifyProject,
+        "canvasJSON":JSON.stringify(gridCanvas.toJSON()),
     }
     $.ajax({
         contentType: "application/json",

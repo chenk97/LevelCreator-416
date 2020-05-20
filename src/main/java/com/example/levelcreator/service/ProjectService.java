@@ -58,8 +58,8 @@ public class ProjectService {
 
             Project proj = (Project) projectRepo.findById(project.getId()).get();
             proj.setMapJSON(project.getMapJSON());
+            proj.setCanvasJSON(project.getCanvasJSON());
             proj.setScreenshot(project.getScreenshot());
-
             Date date = new Date();
             SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             proj.setCreatedDate(ft.format(date));

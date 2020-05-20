@@ -34,6 +34,11 @@ public class Project {
     private String mapJSON;
 
 
+    @Lob
+    @Column(name = "canvasJson")
+    private String canvasJSON;
+
+
     @ManyToOne
     @JoinColumn(name = "owner", nullable = false)
     private User user;
@@ -53,13 +58,14 @@ public class Project {
     }
 
     public Project(Integer id, String name, String type, @NotBlank String screenshot, String createdDate, String mapJSON,
-                 User user, Set<User> collaborators, Set<Comment> commentList) {
+                 String canvasJSON, User user, Set<User> collaborators, Set<Comment> commentList) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.screenshot = screenshot;
         this.createdDate = createdDate;
         this.mapJSON = mapJSON;
+        this.canvasJSON = canvasJSON;
         this.user = user;
         this.collaborators = collaborators;
         this.commentList = commentList;
@@ -113,6 +119,13 @@ public class Project {
         this.mapJSON = mapJSON;
     }
 
+    public String getCanvasJSON() {
+        return canvasJSON;
+    }
+
+    public void setCanvasJSON(String canvasJSON) {
+        this.canvasJSON = canvasJSON;
+    }
 
     public User getUser() {
         return user;
@@ -121,14 +134,6 @@ public class Project {
     public void setUser(User user) {
         this.user = user;
     }
-
-//    public Map getMap() {
-//        return map;
-//    }
-//
-//    public void setMap(Map map) {
-//        this.map = map;
-//    }
 
     public Set<User> getCollaborators() {
         return collaborators;
@@ -155,8 +160,10 @@ public class Project {
                 ", screenshot='" + screenshot + '\'' +
                 ", createdDate='" + createdDate + '\'' +
                 ", mapJSON='" + mapJSON + '\'' +
+                ", canvasJSON='" + canvasJSON + '\'' +
                 ", user=" + user +
                 ", collaborators=" + collaborators +
+                ", commentList=" + commentList +
                 '}';
     }
 }
