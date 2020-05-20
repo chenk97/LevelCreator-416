@@ -49,7 +49,8 @@ function addGrid(){
 }
 
 
-function saveImage(e) {
+function saveImage() {
+    event.preventDefault();
     gridCanvas.discardActiveObject();
     gridCanvas.setViewportTransform([1,0,0,1,0,0]);
     removeGrid()
