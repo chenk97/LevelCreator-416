@@ -20,12 +20,20 @@
     </div>
     <div class ="row">
         <div class="col">
-            <h4 th:text = "${proj.user.username}"></h4>
+
+            <i class="fas fa-user"></i>
+            <h4 th:text = "${proj.user.username}" id="user_icon"></h4>
+
         </div>
     </div>
     <div class ="row">
         <div class="col">
-            <img th:src="${proj.screenshot}"/>
+            <img th:src="${proj.screenshot}" id="proj_sc"/>
+        </div>
+    </div>
+    <div class ="row">
+        <div class="col">
+            <a th:href="@{/download/{id}(id=${proj.id})}">Download</a>
         </div>
     </div>
     <div class="row">
@@ -33,7 +41,7 @@
             <div class="comment-wrapper">
                 <div class="card">
                     <div class="card-header">
-                        Comment panel
+                        Comments
                     </div>
                     <div class="card-body">
                         <form action="#" th:action="@{/saveComment/{id}(id=${proj.id})}" th:object ="${comment}" method="POST">
@@ -49,11 +57,12 @@
                                     <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
                                 </a>
                                 <div class="media-body">
+                                    <strong class="text-success" th:text="${comment.user.username}"></strong>
                                     <span class="text-muted pull-right">
-                                        <small class="text-muted"><p th:text="${comment.date}"></p></small>
+                                        <small class="text-muted" th:text="${comment.date}"></small>
                                     </span>
-                                    <strong class="text-success"><p th:text="${comment.user.username}"></p></strong>
                                     <p th:text="${comment.content}"></p>
+                                    <a th:href="@{/delComment/{id}(id=${comment.id})}" onclick="return confirm('Are you sure?')"><i class="far fa-trash-alt fa-lg"></i></a>
                                 </div>
                             </li>
                         </ul>

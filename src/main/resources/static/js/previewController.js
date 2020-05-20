@@ -63,7 +63,7 @@ function saveImage(e) {
     a.click()
     addGrid()
 }
-
+/*
 function exportMap(){
     var mapJson = localStorage.getItem('map');
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(mapJson));
@@ -72,9 +72,9 @@ function exportMap(){
     a.href = 'data:' + dataStr;
     a.download = 'map.json';
     a.click()
-}
+}*/
 
 document.getElementById("save").addEventListener("click", saveImage, false);
-document.getElementById("download").addEventListener("click", exportMap);
+//document.getElementById("download").addEventListener("click", exportMap);
 
 

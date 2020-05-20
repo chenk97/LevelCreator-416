@@ -139,6 +139,7 @@ public class ProjectController {
         User owner = project.getUser();
         Set<User> collaborators = project.getCollaborators();
         System.out.println("***collaborators***: "+collaborators);
+        model.addAttribute("theProject",project);
         model.addAttribute("user", principal);
         model.addAttribute("project", project);
         model.addAttribute("collaborators", collaborators);
@@ -203,7 +204,7 @@ public class ProjectController {
     }
 
     //Update delete new project from database if user doesn't want to save.
-    @RequestMapping(value = "/deleteNewProject", method = RequestMethod.GET)
+    @RequestMapping(value = "/deleteNewProject", method = RequestMethod.PUT)
     public @ResponseBody
     void deleteNewProject(@RequestBody int theId) {
 

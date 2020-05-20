@@ -42,7 +42,7 @@ public class CommentController {
         commentService.deleteComment(id);
         return "redirect:/project/{id}";
     }
-/*
+
     @GetMapping(value = "/download/{id}")
     public ResponseEntity download(@PathVariable int id) {
         Project proj = projectService.getProjectById(id);
@@ -50,7 +50,7 @@ public class CommentController {
                 .contentType(MediaType.parseMediaType("application/json"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename = map.json")
                 .body(proj.getMapJSON());
-    }*/
+    }
 }
 
 

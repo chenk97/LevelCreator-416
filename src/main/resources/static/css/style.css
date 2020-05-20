@@ -261,3 +261,14 @@ body {
     border-bottom:1px dashed #efefef;
     margin-bottom:25px;
 }
+
+#proj_sc {
+    padding: 20px;
+    border: 1px solid black;
+}
+
+#user_icon {
+    position: relative;
+    top: -27px;
+    left: 20px;
+}
