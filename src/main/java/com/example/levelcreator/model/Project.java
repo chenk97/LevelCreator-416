@@ -34,9 +34,6 @@ public class Project {
     private String mapJSON;
 
 
-    @Column
-    private int likes;
-
     @ManyToOne
     @JoinColumn(name = "owner", nullable = false)
     private User user;
@@ -63,8 +60,6 @@ public class Project {
         this.screenshot = screenshot;
         this.createdDate = createdDate;
         this.mapJSON = mapJSON;
-
-        this.likes = 0;
         this.user = user;
         this.collaborators = collaborators;
         this.commentList = commentList;
@@ -127,14 +122,6 @@ public class Project {
         this.user = user;
     }
 
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
-
 //    public Map getMap() {
 //        return map;
 //    }
@@ -168,7 +155,6 @@ public class Project {
                 ", screenshot='" + screenshot + '\'' +
                 ", createdDate='" + createdDate + '\'' +
                 ", mapJSON='" + mapJSON + '\'' +
-                ", likes=" + likes +
                 ", user=" + user +
                 ", collaborators=" + collaborators +
                 '}';

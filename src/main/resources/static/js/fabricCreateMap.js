@@ -11,7 +11,7 @@ var lineXN = [];
 var lineYN = [];
 var isoLines = [];
 var isoPoints = [];
-var gridCanvas;
+var gridCanvas = new fabric.Canvas('grid_canvas');
 var leftMostPt;
 var isoMapX = {};
 var isoMapY = {};
@@ -209,7 +209,7 @@ function drawGrids() {
     let orientation = map.orientation;
     let tileW = map.tileWidth;
     let tileH = map.tileHeight;
-    gridCanvas = new fabric.Canvas('grid_canvas');
+    // gridCanvas = new fabric.Canvas('grid_canvas');
     // console.log(JSON.stringify(gridCanvas.toJSON()));
     // gridCanvas._historyInit();
     gridCanvas.preserveObjectStacking = true;
@@ -416,7 +416,7 @@ function checkDupPush(arr, newItem) {
 
 
 function loadContent(theId, mapJSON) {
-    window.location = "/workspace";
+    // window.location = "/workspace";
     let id = parseInt(theId);
     let theMapJSON = JSON.parse(mapJSON);
     theMapJSON.id = id;
@@ -561,5 +561,8 @@ function getDataUri(url, callback) {
     image.src = url;
 }
 
+// $(document).ready(function () {
+//     drawGrids();
+// });
 
 // document.getElementById("undoBtn").addEventListener("click", reloadTest);

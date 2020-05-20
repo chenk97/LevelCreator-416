@@ -27,12 +27,12 @@ public class Comment {
     @JoinColumn(name = "user_id", nullable=false)
     private User user;
 
-    @ManyToOne(optional=true, fetch=FetchType.LAZY)
-    @JoinColumn(name="REPLYTO_ID")
-    private Comment replyTo;
-
-    @OneToMany(mappedBy="replyTo")
-    private List<Comment> replies = new ArrayList<Comment>();
+//    @ManyToOne(optional=true, fetch=FetchType.LAZY)
+//    @JoinColumn(name="REPLYTO_ID")
+//    private Comment replyTo;
+//
+//    @OneToMany(mappedBy="replyTo")
+//    private List<Comment> replies = new ArrayList<Comment>();
 
     @ManyToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id")

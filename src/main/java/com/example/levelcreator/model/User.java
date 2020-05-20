@@ -37,15 +37,15 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "project_id"))
     private Set<Project> projectList;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_follow",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "follow_id"))
-    private Set<User> follows;
-
-    @ManyToMany(mappedBy="follows")
-    private Set<User> followers;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "user_follow",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "follow_id"))
+//    private Set<User> follows;
+//
+//    @ManyToMany(mappedBy="follows")
+//    private Set<User> followers;
 
     @OneToMany(mappedBy = "user")
     private Set<Comment> commentList;
@@ -55,14 +55,14 @@ public class User {
     }
 
     public User(Integer id, String username, String email, String password,
-                Set<Project> projectList, Set<User> follows, Set<User> followers, Set<Comment> commentList) {
+                Set<Project> projectList, Set<Comment> commentList) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.projectList = projectList;
-        this.follows = follows;
-        this.followers = followers;
+//        this.follows = follows;
+//        this.followers = followers;
         this.commentList = commentList;
     }
 
@@ -114,21 +114,21 @@ public class User {
 //    }
 
 
-    public Set<User> getFollows() {
-        return follows;
-    }
-
-    public void setFollows(Set<User> follows) {
-        this.follows = follows;
-    }
-
-    public Set<User> getFollowers() {
-        return followers;
-    }
-
-    public void setFollowers(Set<User> followers) {
-        this.followers = followers;
-    }
+//    public Set<User> getFollows() {
+//        return follows;
+//    }
+//
+//    public void setFollows(Set<User> follows) {
+//        this.follows = follows;
+//    }
+//
+//    public Set<User> getFollowers() {
+//        return followers;
+//    }
+//
+//    public void setFollowers(Set<User> followers) {
+//        this.followers = followers;
+//    }
 
     public Set<Project> getProjectList() {
         return projectList;

@@ -15,12 +15,12 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
     @Override
     List<Comment> findAll();
 
-    @Query(value = "SELECT * FROM Comment comment WHERE project_id =:projectId", nativeQuery = true)
+    @Query(value = "SELECT * FROM comment WHERE project_id =:projectId", nativeQuery = true)
     List<Comment> getAllComments(@Param("projectId") int id);
 
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM Comment WHERE project_id =:projectId", nativeQuery = true)
+    @Query(value = "DELETE FROM comment WHERE project_id =:projectId", nativeQuery = true)
     void deleteAllComments(@Param ("projectId") int id);
 
 
