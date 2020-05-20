@@ -243,17 +243,18 @@ public class ProjectController {
     }
 
     @GetMapping("/project/{id}")
-    public ModelAndView returnCurProj(@PathVariable int id){
+    public ModelAndView returnCurProj(@PathVariable int id, Authentication authentication){
+        User principal = authenticationService.getPrincipal(authentication);
         ModelAndView model = new ModelAndView("project");
         Project proj = projectService.getProjectById(id);
         List<Comment> comments = new ArrayList<Comment>();
         comments = commentService.getCommentsPerProj(proj);
+        model.addObject("user",principal);
         model.addObject("comments", comments);
-        //Comment comment = new Comment();
         model.addObject("proj",proj);
-        //model.addObject("comment",comment);
         return model;
     }
+
 
     @ModelAttribute("comment")
     public Comment getComment(){

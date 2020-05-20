@@ -260,6 +260,10 @@ body {
     float: right;
 }
 
+.comment-wrapper{
+    width: 900px;
+}
+
 .comment-wrapper .card-body {
     max-height:650px;
     overflow:auto;
@@ -289,4 +293,26 @@ body {
 
 .screenshotImage{
     height: 300px;
+}
+
+#commentsContainer{
+    padding-top: 50px;
+}
+
+#commentUser{
+    padding-top: 10px;
+}
+
+#postButton{
+    float:right;
+    width: 20%;
+}
+
+#delButton{
+    float: right;
+    margin-right: 50px;
+}
+
+#commentText{
+    resize: none;
 }
