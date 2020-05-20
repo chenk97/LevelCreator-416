@@ -477,6 +477,8 @@ var zoomhandler = function (event) {
 
 function loadMap() {
     let map = JSON.parse(localStorage.getItem("map"));
+    $('#progress').show();
+    $('body').css('pointer-events', 'none');
     $.ajax({
         contentType: "application/json",
         type: "POST",
@@ -504,6 +506,8 @@ function loadMap() {
                     });
                 }
             });
+            $('#progress').hide();
+            $('body').css('pointer-events', 'all');
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR)

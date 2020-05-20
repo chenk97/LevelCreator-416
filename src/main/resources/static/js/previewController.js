@@ -55,9 +55,7 @@ function saveImage() {
     gridCanvas.setViewportTransform([1,0,0,1,0,0]);
     removeGrid()
     let x = document.getElementById("grid_canvas")
-
     let image = x.toDataURL()
-
     var a = document.createElement('a');
     a.href = image;
     a.download = 'map.png';

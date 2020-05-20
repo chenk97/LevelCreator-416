@@ -134,7 +134,6 @@ gridCanvas.on({
                 }
             });
         }
-        // refreshData();
     }
 });
 
@@ -299,8 +298,6 @@ gridCanvas.on({
                 }else{return;}
             }
         }
-        //refresh canvas data after change
-        // refreshData();
     }
 });
 
@@ -394,7 +391,6 @@ function eraseTile(){
     });
     gridCanvas.discardActiveObject();
     gridCanvas.renderAll();
-    refreshData();
 }
 
 //
@@ -640,12 +636,12 @@ function Paste() {
 
 
 
-export function refreshData(){
-    //moved object loss their url
-    let map = JSON.parse(localStorage.getItem("map"));
-    map.canvas = JSON.stringify(gridCanvas.toJSON());
-    localStorage.setItem("map", JSON.stringify(map));
-}
+// export function refreshData(){
+//     //moved object loss their url
+//     let map = JSON.parse(localStorage.getItem("map"));
+//     map.canvas = JSON.stringify(gridCanvas.toJSON());
+//     localStorage.setItem("map", JSON.stringify(map));
+// }
 
 
 function closestPointP(arr, closestToY, closestToX){

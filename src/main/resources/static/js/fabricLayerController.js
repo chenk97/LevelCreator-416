@@ -1,5 +1,4 @@
 import {curLayerSelected} from "./layerController.js";
-import {refreshData} from "./fabricTileStamp.js";
 import {checkMapType} from "./fabricTileStamp.js";
 
 export function moveMapLayerUp() {
@@ -10,7 +9,6 @@ export function moveMapLayerUp() {
         }
     });
     gridCanvas.renderAll();
-    // refreshData();
 }
 
 
@@ -22,7 +20,6 @@ export function moveMapLayerDown() {
         }
     });
     gridCanvas.renderAll();
-    // refreshData();
 }
 
 
@@ -77,7 +74,6 @@ export function removeLayer(layerId) {
     });
     gridCanvas.discardActiveObject();
     gridCanvas.renderAll();
-    // refreshData();
 }
 
 
