@@ -208,16 +208,15 @@ public class ProjectController {
     public @ResponseBody
     void deleteNewProject(@RequestBody int theId) {
 
-        Project project = projectService.getProjectById(theId);
-        commentService.deleteCommentsPerProj(theId);
-        projectService.save(project);
+
         projectService.deleteProject(theId);
     }
 
     @GetMapping(value = "/myWork/delete/{id}")
     public String delete(@PathVariable int id, Authentication authentication) {
         Project project = projectService.getProjectById(id);
-
+        commentService.deleteCommentsPerProj(id);
+        projectService.save(project);
         //remove collaborator relationship
         for(User collaborator: project.getCollaborators()){
             collaborator.getProjectList().remove(project);
