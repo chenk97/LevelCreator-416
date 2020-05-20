@@ -476,22 +476,16 @@ var zoomhandler = function (event) {
 
 
 function loadMap() {
-    //get!
     let map = JSON.parse(localStorage.getItem("map"));
-    console.log(map)
-    let mapJson
     $.ajax({
         contentType: "application/json",
         type: "POST",
         data: JSON.stringify(map.id),
         url: "/getMyProject/"+ map.id,
         success: function (data) {
-            var theData = data.mapJSON;
-
+            let theData = data.canvasJSON;
             let theParsedData  =jQuery.parseJSON(theData)
-
-            gridCanvas.loadFromJSON(theParsedData.canvas, (o) => {
-
+            gridCanvas.loadFromJSON(theParsedData, (o) => {
                 gridCanvas.renderAll.bind(gridCanvas);
                 gridCanvas.add(boundBox);
                 if (map.orientation === "Orthogonal") {
