@@ -213,7 +213,7 @@ public class ProjectController {
     }
 
     @GetMapping(value = "/myWork/delete/{id}")
-    public String delete(@PathVariable int id, Authentication authentication) {
+    public String delete(@PathVariable int id) {
         Project project = projectService.getProjectById(id);
         commentService.deleteCommentsPerProj(id);
         projectService.save(project);

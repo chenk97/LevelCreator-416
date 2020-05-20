@@ -153,7 +153,7 @@
             contentType: "application/json",
             type: "GET",
             data: JSON.stringify(theProjectID),
-            url: "/myWork/delete/" + theProjectID,
+            url: "/myWork/delete/"+theProjectID,
             success: function (data) {
                 console.log('Deleting Project Was Successful.');
                 window.location = "/myWork";
