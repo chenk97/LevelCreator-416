@@ -118,9 +118,9 @@
                         <!--                            Delete Button-->
                         <div>
                             <i style="float: right"
-                               class="far fa-trash-alt fa-lg" id="deleteTrashCan"></i>
+                               class="far fa-trash-alt fa-lg" id="deleteTrashCan" th:data-toggle="modal" th:data-target="'#deleteProj' + ${project.id}"></i>
 
-                            <div class="modal fade" id="deleteProj" tabindex="-1" role="dialog"
+                            <div class="modal fade"  th:id="'deleteProj' + ${project.id}" tabindex="-1" role="dialog"
                                  aria-labelledby="exampldeleteProj" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -176,13 +176,13 @@
     document.getElementById("searchBar").setAttribute("action", "/myWork")
 </script>
 
-<script>
-    $("#deleteTrashCan").on('click', function () {
-        event.stopPropagation();
-        event.preventDefault()
-        $("#deleteProj").modal()
-    });
-</script>
+<!--<script>-->
+<!--    $("#deleteTrashCan").on('click', function () {-->
+<!--        event.stopPropagation();-->
+<!--        event.preventDefault()-->
+<!--        $("#deleteProj").modal()-->
+<!--    });-->
+<!--</script>-->
 
 <script>
     function deleteProject(theProjectID) {
