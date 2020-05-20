@@ -12,14 +12,14 @@
 
 <div th:insert="fragments.html :: nav"></div>
 
-<div class="container">
+<div class="container" id="commentsContainer">
     <div class="row">
         <div class="col-lg-6">
             <h1 th:text = "${proj.name}"></h1>
         </div>
     </div>
-    <div class ="row">
-        <div class="col">
+    <div class ="row" id="commentUser">
+        <div class="col-lg-6">
 
             <i class="fas fa-user"></i>
             <h4 th:text = "${proj.user.username}" id="user_icon"></h4>
@@ -27,13 +27,15 @@
         </div>
     </div>
     <div class ="row">
-        <div class="col">
-            <img th:src="${proj.screenshot}" id="proj_sc" />
+        <div class="col-lg-6">
+            <img th:src="${proj.screenshot}" id="proj_sc"/>
         </div>
     </div>
     <div class ="row">
         <div class="col">
-            <a th:href="@{/download/{id}(id=${proj.id})}">Download</a>
+            <a th:href="@{/download/{id}(id=${proj.id})}"><button type="button" class="btn btn-primary" id="downloadButton">Download
+                &nbsp;
+                <i class="fas fa-download"></i></button></a>
         </div>
     </div>
     <div class="row">
@@ -45,9 +47,9 @@
                     </div>
                     <div class="card-body">
                         <form action="#" th:action="@{/saveComment/{id}(id=${proj.id})}" th:object ="${comment}" method="POST">
-                            <textarea class="form-control" placeholder="write a comment..." th:field="*{content}" rows="3"></textarea>
+                            <textarea class="form-control" placeholder="Write a comment..." th:field="*{content}" rows="3" id="commentText"></textarea>
                             <br>
-                            <button type="submit" class="btn btn-info pull-right">Post</button>
+                            <button type="submit" class="btn btn-primary" id ="postButton">Post</button>
                         </form>
                         <div class="clearfix"></div>
                         <hr>
@@ -56,13 +58,20 @@
                                 <a href="#" class="pull-left">
                                     <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
                                 </a>
+                                &nbsp;
+                                &nbsp;
                                 <div class="media-body">
                                     <strong class="text-success" th:text="${comment.user.username}"></strong>
+                                    &nbsp;
+                                    &nbsp;
                                     <span class="text-muted pull-right">
                                         <small class="text-muted" th:text="${comment.date}"></small>
                                     </span>
+                                    <span th:if="${comment.user.username == user.username}">
+                                        <a th:href="@{/delComment/{id}(id=${comment.id})}" onclick="return confirm('Are you sure?')" id="delButton"><i class="fas fa-times"></i></a>
+                                    </span>
                                     <p th:text="${comment.content}"></p>
-                                    <a th:href="@{/delComment/{id}(id=${comment.id})}" onclick="return confirm('Are you sure?')"><i class="far fa-trash-alt fa-lg"></i></a>
+
                                 </div>
                             </li>
                         </ul>

@@ -27,20 +27,25 @@ public class CommentController {
     @Autowired
     private ProjectService projectService;
 
-
     @PostMapping("/saveComment/{id}")
     public String saveComment(@PathVariable int id, Comment comment, Authentication authentication) {
         Project project = projectService.getProjectById(id);
-        project.getCommentList().add(comment);
+        //project.getCommentList().add(comment);
         commentService.saveComment(comment,authentication,project);
+        //projectService.save(project);
         return "redirect:/project/{id}";
     }
 
     @GetMapping(value = "/delComment/{id}")
     public String delete(@PathVariable int id) {
+        //Project project = projectService.getProjectById(id);
         Comment comment  = commentService.getCommentById(id);
+        Project project = comment.getProject();
+        int theID = project.getId();
+        //project.getCommentList().remove(comment);
         commentService.deleteComment(id);
-        return "redirect:/project/{id}";
+        //projectService.save(project);
+        return "redirect:/project/"+ theID;
     }
 
     @GetMapping(value = "/download/{id}")
