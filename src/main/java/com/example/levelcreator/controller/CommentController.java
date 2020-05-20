@@ -10,12 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Decoder;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.io.ByteArrayInputStream;
-import java.util.Base64;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 
 @Controller
@@ -44,34 +40,16 @@ public class CommentController {
     }
 
     @GetMapping(value = "/download/{id}")
-    public ResponseEntity download(@PathVariable int id) {
+    public ResponseEntity<byte[]> download(@PathVariable int id) throws IOException {
         Project proj = projectService.getProjectById(id);
-        byte[] imageBytes = decodeToImage(proj.getScreenshot());
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-//        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
-//        return responseEntity;
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_PNG)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename = map.png")
-                .body(imageBytes);
-    }
-
-    public static byte[] decodeToImage(String imageString) {
-        System.out.println("*******imagestring*******"+imageString);
-        BufferedImage image = null;
-        byte[] imageByte = null;
-        try {
-            BASE64Decoder decoder = new BASE64Decoder();
-            imageByte = decoder.decodeBuffer(imageString);
-            System.out.println("*******imagebyte*******"+imageByte);
-//            ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-//            image = ImageIO.read(bis);
-//            bis.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return imageByte;
+        BASE64Decoder decoder = new BASE64Decoder();
+        byte[] imageBytes = decoder.decodeBuffer(proj.getScreenshot().replace("data:image/png;base64,",""));
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(imageBytes.length);
+        baos.write(imageBytes, 0, imageBytes.length);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "image/png");
+        headers.set("Content-Disposition", "attachment; filename = map.png");
+        return new ResponseEntity<byte[]>(baos.toByteArray(), headers, HttpStatus.OK);
     }
 }
 

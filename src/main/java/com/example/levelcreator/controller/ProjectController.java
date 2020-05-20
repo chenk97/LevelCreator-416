@@ -132,7 +132,7 @@ public class ProjectController {
     public String loadProject(@PathVariable int id, Authentication authentication, Model model) {
 //        ModelAndView modelAndView = new ModelAndView();
         Project project = projectService.getProjectById(id);
-        System.out.println("***currentProject***:"+project.toString());
+        System.out.println("***currentProject***:"+project.getName());
         //current user
         User principal = authenticationService.getPrincipal(authentication);
         //get owner of project

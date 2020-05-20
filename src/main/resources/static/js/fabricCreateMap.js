@@ -506,14 +506,17 @@ function loadMap() {
                     });
                 }
             });
-            $('#progress').hide();
-            $('body').css('pointer-events', 'all');
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR)
             console.log(textStatus)
             console.log(errorThrown)
             console.log('Error');
+        },
+        complete: function(data) {
+            console.log("SEMPRE FUNFA!");
+            $('#progress').hide();
+            $('body').css('pointer-events', 'all');
         }
     });
 
