@@ -9,7 +9,7 @@ import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-//import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Decoder;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -44,18 +44,18 @@ public class CommentController {
         return "redirect:/project/"+ theID;
     }
 
-//    @GetMapping(value = "/download/{id}")
-//    public ResponseEntity<byte[]> download(@PathVariable int id) throws IOException {
-//        Project proj = projectService.getProjectById(id);
-//        BASE64Decoder decoder = new BASE64Decoder();
-//        byte[] imageBytes = decoder.decodeBuffer(proj.getScreenshot().replace("data:image/png;base64,",""));
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream(imageBytes.length);
-//        baos.write(imageBytes, 0, imageBytes.length);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.set("Content-Type", "image/png");
-//        headers.set("Content-Disposition", "attachment; filename = map.png");
-//        return new ResponseEntity<byte[]>(baos.toByteArray(), headers, HttpStatus.OK);
-//    }
+    @GetMapping(value = "/download/{id}")
+    public ResponseEntity<byte[]> download(@PathVariable int id) throws IOException {
+        Project proj = projectService.getProjectById(id);
+        BASE64Decoder decoder = new BASE64Decoder();
+        byte[] imageBytes = decoder.decodeBuffer(proj.getScreenshot().replace("data:image/png;base64,",""));
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(imageBytes.length);
+        baos.write(imageBytes, 0, imageBytes.length);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "image/png");
+        headers.set("Content-Disposition", "attachment; filename = map.png");
+        return new ResponseEntity<byte[]>(baos.toByteArray(), headers, HttpStatus.OK);
+    }
 }
 
 
