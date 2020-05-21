@@ -88,7 +88,7 @@
                     <a sec:authorize ="!isAuthenticated()" class="nav-link" href="/registration">Join us</a>
                 </li>
                 <li class="nav-item">
-                    <a sec:authorize ="!isAuthenticated()" class="nav-link" href="/login">Has an Account</a>
+                    <a sec:authorize ="!isAuthenticated()" class="nav-link" href="/login">Login</a>
                 </li>
             </ul>
         </div>
@@ -98,7 +98,7 @@
 
 <div id="collaborators" th:fragment="collaborators">
     <div th:if="${UserNotExist}" class="alert alert-danger text-center mx-4 py-1" role="alert">
-        <h6>User Not Exist.</h6>
+        <h6>User Does Not Exist.</h6>
     </div>
     <ul id="collaboratorList" class = "list-group" th:each = "collaborator, stat : ${collaborators}">
         <li class="list-group-item d-flex justify-content-between align-items-center mx-4 px-3" style="padding:unset;">

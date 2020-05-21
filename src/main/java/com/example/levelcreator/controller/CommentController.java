@@ -41,7 +41,7 @@ public class CommentController {
         //project.getCommentList().remove(comment);
         commentService.deleteComment(id);
         //projectService.save(project);
-        return "redirect:/project/"+ theID;
+            return "redirect:/project/"+ theID;
     }
 
     @GetMapping(value = "/download/{id}")

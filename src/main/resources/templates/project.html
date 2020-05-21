@@ -8,9 +8,9 @@
 </head>
 
 
-<body>
+<body style="margin-bottom: 200px;">
 
-<div th:insert="fragments.html :: nav"></div>
+<div th:insert="commentsNav.html :: commentsnav"></div>
 
 <div class="container" id="commentsContainer">
     <div class="row">
@@ -55,20 +55,47 @@
                         <hr>
                         <ul class="media-list">
                             <li class="media" th:each="comment : ${comments}">
-                                <a href="#" class="pull-left">
-                                    <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
-                                </a>
+                                <div>
+                                    <i class="fa fa-user-circle fa-4x"></i>
+                                </div>
                                 &nbsp;
                                 &nbsp;
                                 <div class="media-body">
-                                    <strong class="text-success" th:text="${comment.user.username}"></strong>
+                                    <strong class="text-success" style="font-size: 1.5em;" th:text="${comment.user.username}"></strong>
                                     &nbsp;
                                     &nbsp;
                                     <span class="text-muted pull-right">
                                         <small class="text-muted" th:text="${comment.date}"></small>
                                     </span>
                                     <span th:if="${comment.user.username == user.username}">
-                                        <a th:href="@{/delComment/{id}(id=${comment.id})}" onclick="return confirm('Are you sure?')" id="delButton"><i class="fas fa-times"></i></a>
+                                       <!-- <a th:href="@{/delComment/{id}(id=${comment.id})}" onclick="return confirm('Are you sure?')" id="delButton"><i class="fas fa-times"></i></a>-->
+                                        <a href="#"><i class="fas fa-times" id="delButton" th:data-toggle="modal" th:data-target="'#delComm' + ${comment.id}"></i></a>
+
+                                        <div class="modal fade"  th:id="'delComm' + ${comment.id}" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampledeleteComm" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampledeleteComm">Delete Comment</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body" style="padding:0px !important; margin: auto;">
+                                                        Are you sure you want to delete this comment?
+                                                    </div>
+                                                    <div class="modal-footer" style="padding:1rem !important;">
+                                                        <button type="button" class="btn btn-primary"
+                                                                th:onclick="deleteComment([[${comment.id}]],[[${proj.id}]])">Yes
+                                                        </button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                            No
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </span>
                                     <p th:text="${comment.content}"></p>
 
@@ -90,6 +117,30 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+
+<script>
+    function deleteComment(commentID, projectID) {
+        event.stopPropagation();
+        event.preventDefault()
+
+        $.ajax({
+            contentType: "application/json",
+            type: "GET",
+            data: JSON.stringify(commentID),
+            url: "/delComment/" + commentID,
+            success: function (data) {
+                console.log('Deleting Comment Was Successful.');
+                window.location = "/project/" + projectID;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log('error while deleting Project');
+            }
+        });
+    }
+</script>
 
 </body>
 </html>
