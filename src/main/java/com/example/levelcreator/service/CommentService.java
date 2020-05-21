@@ -28,17 +28,21 @@ public class CommentService {
         try {
             User user = authenticationService.getPrincipal(authentication);
             Date date = new Date();
+            Comment newComment = new Comment();
             SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-            comment.setDate(ft.format(date));
-            comment.setUser(user);
-            comment.setProject(project);
-            commentRepository.save(comment);
-            return comment;
+            newComment.setDate(ft.format(date));
+            newComment.setUser(user);
+            newComment.setProject(project);
+            newComment.setContent(comment.getContent());
+
+            commentRepository.save(newComment);
+            return newComment;
         }catch(Exception e){
             e.printStackTrace();
             return null;
         }
     }
+
     public List<Comment> getCommentsPerProj(Project project){
         return commentRepository.getAllComments(project.getId());
     }
