@@ -8,8 +8,6 @@ import com.example.levelcreator.model.User;
 import com.example.levelcreator.service.AuthenticationService;
 import com.example.levelcreator.service.CommentService;
 import com.example.levelcreator.service.ProjectService;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.levelcreator.service.UserService;
 import org.springframework.http.HttpHeaders;
@@ -263,12 +261,6 @@ public class ProjectController {
     @GetMapping(value = "/downloadJson/{id}")
     public ResponseEntity download(@PathVariable int id) {
         Project proj = projectService.getProjectById(id);
-//        try {
-//            JSONObject map = new JSONObject(proj.getMapJSON());
-//            JSONObject canavs = new JSONObject(proj.getCanvasJSON());
-//        }catch (JSONException err){
-//            err.printStackTrace();
-//        }
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename = map.json")
