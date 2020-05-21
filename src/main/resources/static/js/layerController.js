@@ -387,6 +387,12 @@ document.getElementById("deselectLayer").addEventListener("click",function(){
     loadLayer()
     loadLayerProperty()
     restackLayer();
+    gridCanvas.forEachObject(obj=>{
+        obj.set({
+            selectable:false,
+            hasControl:false,
+        })
+    })
 })
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
