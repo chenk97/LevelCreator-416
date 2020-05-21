@@ -216,8 +216,11 @@ function drawGrids() {
     gridCanvas.preserveObjectStacking = true;
     gridCanvas.setWidth(map.width * map.tileWidth);
     gridCanvas.setHeight(map.height * map.tileHeight);
-    outerCanvisDiv.style.width = map.width * map.tileWidth + "px"
-    outerCanvisDiv.style.height = map.height * map.tileHeight + "px"
+    if(outerCanvisDiv != null){
+        outerCanvisDiv.style.width = map.width * map.tileWidth + "px"
+        outerCanvisDiv.style.height = map.height * map.tileHeight + "px"
+    }
+
     // console.log(gridCanvas);
     if (map.orientation === "Orthogonal") {
         boundBox = new fabric.Rect({
