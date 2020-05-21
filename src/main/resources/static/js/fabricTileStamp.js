@@ -285,6 +285,11 @@ gridCanvas.on({
                     }
                 }else{return;}
             }else if(checkLayerType() === "object" && !checkLockStatus(curLayerSelected)){
+                gridCanvas.forEachObject(obj=>{
+                    if(obj.layer !== curLayerSelected){
+                        obj.set({selectable:false});
+                    }
+                });
                 let top = cursorY-tileH/2;
                 let left = cursorX-tileW/2;
                 if(clonedObject){
