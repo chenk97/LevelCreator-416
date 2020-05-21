@@ -506,6 +506,13 @@ function loadMap() {
                 }
             });
 
+            gridCanvas.forEachObject(obj=>{
+               obj.set({
+                   selectable:false,
+                   hasControl:false,
+               });
+            });
+
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR)
