@@ -23,11 +23,17 @@ gridCanvas.on('mouse:move', function () {
 
 
 gridCanvas.on('selection:created',function(e){
-    //disable group scaling
-    if(e.target.type === "activeSelection"){
+    if(checkLayerType() === "tile"){
         e.target.set({
-            lockScalingX: true,
-            lockScalingY: true,
+            hasControls: false,
+        });
+    }
+});
+
+
+gridCanvas.on('selection:updated', function(e){
+    if(checkLayerType() === "tile"){
+        e.target.set({
             hasControls: false,
         });
     }

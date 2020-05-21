@@ -238,7 +238,7 @@ public class ProjectController {
     @RequestMapping("/project/{id}")
     public String getProject(@PathVariable int id) {
         Project proj = projectService.getProjectById(id);
-        System.out.println("currentProject:"+proj.toString());
+        System.out.println("currentProject:"+proj.getName());
         return "project";
     }
 
