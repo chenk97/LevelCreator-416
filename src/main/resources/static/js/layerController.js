@@ -622,5 +622,8 @@ document.getElementById("openAddPropertyModal").addEventListener("click", resetN
 loadLayer()
 
 $(function () {
-    $('#deselectLayer').click();
+    let map = JSON.parse(localStorage.getItem('map'));
+    if(map.new === 1){
+        $('#deselectLayer').click();
+    }
 });
