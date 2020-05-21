@@ -260,5 +260,15 @@ public class ProjectController {
     public Comment getComment(){
         return new Comment();
     }
+
+
+    @GetMapping(value = "/downloadJson/{id}")
+    public ResponseEntity download(@PathVariable int id) {
+        Project proj = projectService.getProjectById(id);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename = map.json")
+                .body(proj.getMapJSON());
+    }
 }
 
