@@ -505,14 +505,6 @@ function loadMap() {
                     });
                 }
             });
-
-            gridCanvas.forEachObject(obj=>{
-               obj.set({
-                   selectable:false,
-                   hasControl:false,
-               });
-            });
-
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR)
@@ -524,6 +516,12 @@ function loadMap() {
             console.log("SEMPRE FUNFA!");
             $('#progress').hide();
             $('body').css('pointer-events', 'all');
+            gridCanvas.forEachObject(obj=>{
+                obj.set({
+                    selectable:false,
+                    hasControl:false,
+                });
+            });
         }
     });
 
