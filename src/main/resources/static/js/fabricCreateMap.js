@@ -11,7 +11,7 @@ var lineXN = [];
 var lineYN = [];
 var isoLines = [];
 var isoPoints = [];
-var gridCanvas = new fabric.Canvas('grid_canvas');
+// var gridCanvas = new fabric.Canvas('grid_canvas');
 var leftMostPt;
 var isoMapX = {};
 var isoMapY = {};
@@ -92,7 +92,7 @@ $(function () {
                     "name": map.name,
                     "screenshot": dataUri,
                     "mapJSON": JSON.stringify(map),
-                    "canvasJSON": null,
+                    "canvasJSON": '{"version":"3.6.2","objects":[]}',
                 }
 
                 $.post({
@@ -210,7 +210,7 @@ function drawGrids() {
     let orientation = map.orientation;
     let tileW = map.tileWidth;
     let tileH = map.tileHeight;
-    // gridCanvas = new fabric.Canvas('grid_canvas');
+    gridCanvas = new fabric.Canvas('grid_canvas');
     // console.log(JSON.stringify(gridCanvas.toJSON()));
     // gridCanvas._historyInit();
     gridCanvas.preserveObjectStacking = true;
@@ -506,6 +506,7 @@ function loadMap() {
                     });
                 }
             });
+
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR)

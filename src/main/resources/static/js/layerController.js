@@ -383,7 +383,6 @@ document.getElementById("downBtn").addEventListener("click", function () {
 })
 
 document.getElementById("deselectLayer").addEventListener("click",function(){
-
     curLayerSelected = ""
     loadLayer()
     loadLayerProperty()
@@ -622,3 +621,6 @@ document.getElementById("openAddPropertyModal").addEventListener("click", resetN
 
 loadLayer()
 
+$(function () {
+    $('#deselectLayer').click();
+});
