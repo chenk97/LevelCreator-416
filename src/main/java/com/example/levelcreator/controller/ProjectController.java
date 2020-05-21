@@ -207,12 +207,11 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/getMyProject/{id}", method = RequestMethod.POST)
-    public @ResponseBody
-    Project getProjectByProject(@RequestBody int theId) {
+    @ResponseBody
+    public String getProjectByProject(@RequestBody int theId) {
         System.out.println("HIIIIIIIIIIIIIIIIIIIIII!!!!!!!!!!!!!!!!!!!!!!!!!!!111");
         Project theProject = projectService.getProjectById(theId);
-        System.out.println(theProject);
-        return theProject;
+        return theProject.getCanvasJSON();
     }
 
 

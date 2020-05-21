@@ -485,8 +485,7 @@ function loadMap() {
         data: JSON.stringify(map.id),
         url: "/getMyProject/"+ map.id,
         success: function (data) {
-            let theData = data.canvasJSON;
-            let theParsedData  =jQuery.parseJSON(theData)
+            let theParsedData  =jQuery.parseJSON(data)
             gridCanvas.loadFromJSON(theParsedData, (o) => {
                 gridCanvas.renderAll.bind(gridCanvas);
                 gridCanvas.add(boundBox);
