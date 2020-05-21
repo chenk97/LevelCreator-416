@@ -34,14 +34,17 @@ function saveWork() {
         data: JSON.stringify(project),
         url: "/updateProject",
         success: function (data) {
-            $('#progress').hide();
-            $('body').css('pointer-events', 'all');
             console.log('done updating');
             saved = true;
             // window.location = "/myWork";
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log('error while put');
+        },
+        complete: function(data) {
+            console.log("SEMPRE FUNFA!");
+            $('#progress').hide();
+            $('body').css('pointer-events', 'all');
         }
     });
 }
