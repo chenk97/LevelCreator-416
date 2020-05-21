@@ -43,10 +43,6 @@ public class ProjectController {
     @Autowired
     private CommentService commentService;
 
-//    @RequestMapping("/myWork")
-//    public String myWork() {
-//        return "mywork.html";
-//    }
 
     //Order projects by date newest to oldest
     public class customComparator implements Comparator<Project> {
